@@ -1,0 +1,35 @@
+// All of your custom SCSS variables go first
+$primary: #E2711D;
+$secondary: #EAE1D0;
+$light: #f1f1f1;
+$dark: #280004;
+//then bootstrap & bootstrap-vue should be added after 
+//so that they inherit the custom SCSS variables
+@import 'bootstrap/scss/bootstrap.scss';
+@import 'bootstrap-vue/src/index.scss';
+
+body {
+  font-family: 'Brygada+1918';
+  background-color: $secondary;
+}
+
+.carousel {
+  height: 200px;
+  width: 90%;
+}
+
+.carousel-item img {
+  height: 200px;
+  min-width: 100%;
+}
+
+@include media-breakpoint-up(md) {
+  .carousel {
+    height: 700px;
+  }
+
+  .carousel-item img {
+    height: 700px;
+  }
+
+}
