@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
     props: ["image"],
     data: function () {
@@ -47,17 +48,12 @@ export default {
         };
     },
     methods: {
+        ...mapActions(["removeImage"]),
         async deleteImage() {
             if (confirm("Are you sure you want to delete this image?")) {
                 document.body.style.cursor = "wait";
-                let id = this.image.id;
-                let self = this;
-                await this.$axios
-                    .delete(`/upload/files/${this.image.id}`)
-                    .then((res) => {
-                        self.$emit("deleteImage", id);
-                        document.body.style.cursor = "default";
-                    });
+                await this.removeImage(this.image.id);
+                document.body.style.cursor = "default";
             }
         },
     },

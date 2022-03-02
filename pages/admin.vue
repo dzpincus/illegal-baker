@@ -51,7 +51,6 @@
                     </b-pagination>
                     <b-card-group columns>
                         <ImageCard
-                            @deleteImage="deleteImage"
                             :key="image.id"
                             v-for="image in allImages"
                             :image="image"
@@ -103,62 +102,22 @@ export default {
         ...mapGetters(["allImages"]),
     },
     methods: {
-        ...mapActions(["addImage", "removeImage"]),
-        async getImages() {
-            await this.$axios
-                .get("/upload/files?populate[0]=image")
-                .then((res) => {
-                    let data = [];
-                    res.data.forEach((element) => {
-                        data.push(this.makeImage(element));
-                    });
-                    this.$store.commit("setImages", data);
-                    this.totalCount = data.length;
-                });
-        },
-        makeImage: function (data) {
-            let image = {
-                id: data.id,
-                name: data.name,
-            };
-            let formats = data.formats;
-            let urls = this.parseImageFormats(formats);
-            Object.assign(image, urls);
-            return image;
-        },
-        parseImageFormats: function (formats) {
-            let urlFormats = {};
-            ["medium", "small", "thumbnail"].forEach((format) => {
-                if (formats.hasOwnProperty(format)) {
-                    urlFormats[format] = formats[format].url;
-                }
-            });
-            return urlFormats;
-        },
+        ...mapActions(["addImage", "getImages"]),
         async submitFile() {
             document.body.style.cursor = "wait";
-
-            const formData = new FormData();
-            formData.append("files", this.fileForm.newImage);
-
-            let res = await this.$axios
-                .post("/upload", formData)
-                .then((res) => {
+            await this.addImage(this.fileForm.newImage).then((res) => {
+                if (res) {
+                    document.body.style.cursor = "default";
                     this.fileForm = {
                         newImage: null,
                         newImageName: "",
                         message: "File uploaded successfully",
                     };
-                    document.body.style.cursor = "default";
-                    this.addImage(this.makeImage(res.data[0]));
-                })
-                .catch((e) => {
+                } else {
                     this.fileForm.message = "Error uploading file, try again";
                     document.body.style.cursor = "default";
-                });
-        },
-        deleteImage: function (imageId) {
-            this.$store.commit("removeImage", imageId);
+                }
+            });
         },
     },
 };
