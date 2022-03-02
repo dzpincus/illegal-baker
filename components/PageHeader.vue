@@ -16,7 +16,6 @@
             <h2>
                 <i>The Illegal Baker</i>
             </h2>
-            <h1>t<NuxtLink to="/admin">Test</NuxtLink></h1>
         </div>
     </header>
 </template>

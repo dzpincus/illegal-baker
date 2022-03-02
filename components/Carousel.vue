@@ -42,14 +42,13 @@ export default {
         };
     },
     async fetch() {
-        this.$axios.setToken(
-            "4c7be7d391df5318a4f8c20bbf2233c3ed36035425f9ff03412a95d58db06b35540ba8fd87971d5af52295343ad86e95dc10ae76a06982c367247b4755d12970f0ab6c754a0b747a12eb3605922b36acbb1fdb458f9e0cf1985c7efe5ee2d6c06ba5d59a92ed55b2c5c4584afded535de8ced32d67662708b821fa277307177f",
-            "bearer"
-        );
-
-        const response = await this.$axios.$get(
-            "http://localhost:1337/api/foods?populate[0]=photo"
-        );
+        const axiosIntance = this.$axios.create({
+            baseURL: process.env.baseURL,
+            headers: {
+                Authorization: `Bearer ${process.env.strapiAppToken}`,
+            },
+        });
+        const response = await axiosIntance.$get("/foods?populate[0]=photo");
         if (response.data) {
             for (var i = 0; i < response.data.length; i++) {
                 this.photoUrls.push(

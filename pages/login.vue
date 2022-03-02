@@ -1,39 +1,48 @@
 <template>
-    <form method="post" @submit.prevent="login">
-        <div class="field">
-            <label class="label">Email</label>
-            <div class="control">
-                <input
-                    v-model="email"
-                    type="email"
-                    class="input"
-                    name="email"
-                />
-            </div>
-        </div>
-        <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-                <input
-                    v-model="password"
-                    type="password"
-                    class="input"
-                    name="password"
-                />
-            </div>
-        </div>
-        <div class="control">
-            <button type="submit" class="button is-dark">Log In</button>
-            <template v-if="loggedInUser">
-                <NuxtLink to="/admin">{{ $auth.state }}</NuxtLink>
-            </template>
-        </div>
-    </form>
+    <div class="d-flex justify-content-center align-items-center pt-5">
+        <b-card
+            title="Admin Login"
+            class="border border-rounded border-primary p-4 shadow-sm"
+        >
+            <b-form @submit.prevent="login">
+                <b-form-group
+                    id="input-group-1"
+                    label="Email address:"
+                    label-for="input-1"
+                >
+                    <b-form-input
+                        id="input-1"
+                        v-model="email"
+                        type="email"
+                        placeholder="Enter email"
+                        required
+                    ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                    id="input-group-1"
+                    label="Password:"
+                    label-for="input-1"
+                >
+                    <b-form-input
+                        id="input-1"
+                        v-model="password"
+                        type="password"
+                        placeholder="Enter password"
+                        required
+                    ></b-form-input>
+                </b-form-group>
+                <b-button type="submit" variant="primary" class="float-right"
+                    >Submit</b-button
+                >
+            </b-form>
+        </b-card>
+    </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 export default {
+    layout: "main",
     computed: {
         ...mapGetters(["loggedInUser"]),
     },
@@ -55,11 +64,6 @@ export default {
                         password: this.password,
                     },
                 });
-                debugger;
-                // this.$auth.setUserToken(response.jwt);
-                // await this.$auth.setUser(response.data.user);
-                // await this.$auth.setUserToken(response.data.jwt);
-
                 this.$router.push("/admin");
             } catch (e) {
                 this.error = "Error loggin in";

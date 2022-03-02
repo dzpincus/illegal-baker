@@ -1,14 +1,20 @@
 export const state = () => ({
-  counter: 0
+  allImages: [],
 })
 
 export const mutations = {
-  increment(state) {
-    state.counter++
+  setImages: (state, images) => (state.allImages = images),
+  setImage: (state, image) => (state.allImages.push(image)),
+  removeImage: (state, imageId) => {
+    const pos = state.allImages.findIndex((el) => el.id === imageId);
+    if (pos >= 0) {
+      state.allImages.splice(pos, 1);
+    }
   }
 }
 
 export const getters = {
+  allImages: (state) => state.allImages,
   isAuthenticated(state) {
     return state.auth.loggedIn;
   },

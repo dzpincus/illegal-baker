@@ -1,7 +1,7 @@
 require("dotenv").config();
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  // target: 'server',
+  target: 'server',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -25,11 +25,6 @@ export default {
     '~/assets/style.scss'
   ],
 
-
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -39,7 +34,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next'],
+  modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome',],
   auth: {
     strategies: {
       local: {
@@ -66,10 +61,18 @@ export default {
         }
       }
    },
+  axios: {
+    baseURL: process.env.API_AUTH_URL
+  },
   bootstrapVue: {
     bootstrapCSS: false,
     bootstrapVueCSS: false
   },
+  fontawesome:  {
+      icons: {
+        solid: [ 'faFloppyDisk', 'faPencil', 'faUpload', 'faTrash', 'faPlus'],
+      }
+    },
   googleFonts: {
     families: {
       'Brygada+1918': true
@@ -83,5 +86,19 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend (config, ctx) {
+      config.node = {
+          fs: "empty",
+          child_process: "empty"
+      };
+  }
+  },
+
+  env: {
+    baseUrl: process.env.API_AUTH_URL,
+    strapiAppToken: process.env.STRAPI_APP_TOKEN
+  },
+  publicRuntimeConfig: {
+    baseUrl: process.env.API_AUTH_URL
   }
 }
