@@ -9,9 +9,20 @@
                 placeholder="Upload a new image"
                 drop-placeholder="Drop file here..."
             ></b-form-file>
+            <b-form-input
+                v-if="fileForm.newImage"
+                class="pt-2"
+                v-model="fileForm.newImageName"
+                placeholder="New image name"
+            ></b-form-input>
             <b-form-group id="input-group-1" label-for="photo-input">
                 <div class="pt-3 d-flex align-items-center">
-                    <b-button type="submit" variant="primary">Upload </b-button>
+                    <b-button
+                        :disabled="!fileForm.newImage || !fileForm.newImageName"
+                        type="submit"
+                        variant="primary"
+                        >Upload
+                    </b-button>
                     <p
                         v-if="fileForm.message"
                         class="m-0 pl-4"
@@ -66,6 +77,7 @@ export default {
         return {
             fileForm: {
                 newImage: null,
+                newImageName: "",
                 message: "",
             },
             pageSize: 25,
@@ -89,7 +101,19 @@ export default {
         },
         async submitFile() {
             document.body.style.cursor = "wait";
-            await this.addImage(this.fileForm.newImage).then((res) => {
+
+            const formData = new FormData();
+            formData.append(
+                "files.image",
+                this.fileForm.newImage,
+                this.fileForm.newImageName
+            );
+            formData.append(
+                "data",
+                JSON.stringify({ name: this.fileForm.newImageName })
+            );
+
+            await this.addImage(this.fileForm).then((res) => {
                 if (res) {
                     document.body.style.cursor = "default";
                     this.fileForm = {

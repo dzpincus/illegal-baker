@@ -73,7 +73,6 @@
         >
             <b-card-body>
                 <b-card-text>
-                    {{ menuSection.attributes.name }}
                     {{ menuItems }}
                 </b-card-text>
             </b-card-body>

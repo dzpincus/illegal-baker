@@ -52,7 +52,7 @@ export default {
         async deleteImage() {
             if (confirm("Are you sure you want to delete this image?")) {
                 document.body.style.cursor = "wait";
-                await this.removeImage(this.image.id);
+                await this.removeImage(this.image);
                 document.body.style.cursor = "default";
             }
         },

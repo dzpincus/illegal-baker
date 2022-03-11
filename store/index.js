@@ -17,7 +17,7 @@ export const mutations = {
       (state.menuSections = menuSections),
   addMenuSection: (state, menuSection) =>
       state.menuSections.push(menuSection),
-    setMenuItems: (state, menuItems) =>
+  setMenuItems: (state, menuItems) =>
       (state.menuItems = menuItems),
   addMenuItem: (state, menuItem) =>
       state. menuItem.push(menuItem),
@@ -39,31 +39,44 @@ export const getters = {
 export const actions =  {
   async getImages({ commit }) {
       return await this.$axios
-          .get("/upload/files?populate[0]=image")
+          .get("/images?populate[0]=image")
           .then((res) => {
               let data = [];
-              res.data.forEach((element) => {
+              res.data.data.forEach((element) => {
                   data.push(makeImage(element));
               });
               commit("setImages", data);
           });
   },
-  async addImage({ commit }, imageFile) {
-      const formData = new FormData();
-      formData.append("files", imageFile);
-      let res = await this.$axios
-          .post("/upload", formData)
-          .then((res) => {
-              commit("addImage", makeImage(res.data[0]));
-              return true;
-          })
-          .catch((e) => {
-              return false;
-          });
+  async addImage({ commit }, fileForm) {
+    const formData = new FormData();
+    formData.append("files.image", fileForm.newImage, fileForm.newImageName);
+    formData.append(
+        "data",
+        JSON.stringify({ name: fileForm.newImageName })
+    );
+    let res = await this.$axios
+                .post("/images", formData)
+                .then((res) => {
+                    this.$axios
+                        .get(`/images/${res.data.data.id}?populate[0]=image`)
+                        .then((newImageRes) => {
+                            commit(
+                                "addImage",
+                                makeImage(newImageRes.data.data)
+                            );
+                        });
+                    return true;
+                })
+                .catch((e) => {
+                    return false;
+                });
+    return res
   },
-  async removeImage({ commit }, imageId) {
-      await this.$axios.delete(`/upload/files/${imageId}`);
-      commit("removeImage", imageId);
+  async removeImage({ commit }, image) {
+      await this.$axios.delete(`/upload/files/${image.imageId}`);
+      await this.$axios.delete(`/images/${image.id}`);
+      commit("removeImage", image.id);
   },
   async getMenuSections({ commit }) {
       return await this.$axios.get("/menu-sections").then((res) => {
@@ -84,7 +97,7 @@ export const actions =  {
           });
   },
   async getMenuItems({ commit }) {
-        return await this.$axios.get("/menu-items?populate[0]=menu_section").then((res) => {
+        return await this.$axios.get("/menu-items?populate=%2A").then((res) => {
         commit("setMenuItems", res.data.data);
     });
   },
@@ -104,11 +117,14 @@ export const actions =  {
 };
 
 function makeImage(data) {
+    // id is image object id
+    // imageId is image file id in meida library (only needed for full deletion)
   let image = {
       id: data.id,
-      name: data.name,
+      name: data.attributes.name,
+      imageId: data.attributes.image.data.id
   };
-  let formats = data.formats;
+  let formats = data.attributes.image.data.attributes.formats;
   let urls = parseImageFormats(formats);
   Object.assign(image, urls);
   return image;
