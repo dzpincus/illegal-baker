@@ -7,7 +7,7 @@
                 d-flex
                 flex-column
                 align-items-center
-                border-bottom border-dark border-3
+                shadow-sm
             "
         >
             <div style="height: 100px">

@@ -1,5 +1,5 @@
 <template>
-    <b-card class="my-4 mr-4 p-0">
+    <b-card class="my-4 mr-4 p-0" @click="$emit('clicked')">
         <template #header>
             <div class="d-flex justify-content-between align-items-center">
                 <span>
@@ -10,7 +10,7 @@
                         v-b-tooltip.hover
                         title="Delete Image"
                         class="isClickable"
-                        @click.prevent="deleteImage"
+                        @click.stop="deleteImage"
                     >
                         <font-awesome-icon icon="trash" />
                     </a>
