@@ -103,9 +103,6 @@ export default {
         collapseClick() {
             this.$root.$emit("bv::toggle::collapse", this.collapseId);
         },
-        addClick() {
-            // this.clicked = true;
-        },
     },
 };
 </script>

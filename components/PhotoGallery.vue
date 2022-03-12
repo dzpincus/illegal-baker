@@ -44,11 +44,13 @@
                 :total-rows="totalCount"
             >
             </b-pagination>
+              <h1>{{Object.values(allImages).length}}</h1>
+            
             <b-card-group columns>
                 <ImageCard
                     @clicked="selectImage(image)"
                     :key="image.id"
-                    v-for="image in allImages"
+                    v-for="image in Object.values(allImages)"
                     :class="{
                         isClickable: selecting,
                         selected: Boolean(
@@ -116,6 +118,7 @@ export default {
             await this.addImage(this.fileForm).then((res) => {
                 if (res) {
                     document.body.style.cursor = "default";
+
                     this.fileForm = {
                         newImage: null,
                         newImageName: "",

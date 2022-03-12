@@ -1,7 +1,6 @@
 <template>
     <div>
         <h2>Menu Sections</h2>
-        <b-button @click="test"></b-button>
         <b-button variant="dark" v-b-modal.add-section-modal>
             Add New Section
             <font-awesome-icon class="pl-2" icon="plus" />
@@ -36,12 +35,7 @@
         </b-modal>
 
         <div class="accordion pt-3" role="tablist">
-            <MenuSection
-                v-for="menuSection in menuSections"
-                :menu-section="menuSection"
-                :key="menuSection.id"
-                :menu-items="menuItemsBySection[menuSection.id]"
-            />
+            
         </div>
     </div>
 </template>
@@ -62,13 +56,6 @@ export default {
             await this.$store.dispatch("addMenuSection", this.newSectionName);
             this.newSectionName = "";
             let x = 1;
-        },
-        async test() {
-            await this.$axios
-                .get("/menu-items?populate[image][populate][0]=image")
-                .then((res) => {
-                    debugger;
-                });
         },
         divideMenuItems: function () {
             let sections = {};
