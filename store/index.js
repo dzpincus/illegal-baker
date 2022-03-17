@@ -15,10 +15,22 @@ export const mutations = {
     (state.menuSections = menuSections),
   setMenuSection: (state, menuSection) =>
     Vue.set(state.menuSections, menuSection.id, menuSection),
+  setMenuSectionData: (state, payload) => {
+    for (const [key, value] of Object.entries(payload.data)) {
+      Vue.set(state.menuSections[payload.id], key, value)
+    }
+  },
   setMenuItems: (state, menuItems) =>
     (state.menuItems = menuItems),
   setMenuItem: (state, menuItem) =>
     Vue.set(state.menuItems, menuItem.id, menuItem),
+  setMenuItemData: (state, payload) => {
+    for (const [key, value] of Object.entries(payload.data)) {
+      Vue.set(state.menuItems[payload.id], key, value)
+    }
+  },
+  removeMenuItem: (state, menuItemId) => Vue.delete(state.menuItems, menuItemId),
+
 };
 
 export const getters = {
@@ -127,12 +139,26 @@ export const actions = {
         return false;
       });
   },
-  async updateMenuSection({ commit }, {id, data}) {
+  async updateMenuSection({
+    commit
+  }, {
+    id,
+    data
+  }) {
+    commit("setMenuSectionData", {
+      id,
+      data
+    });
+
     const formData = new FormData();
-    debugger;
     formData.append("data", JSON.stringify(data));
     await this.$axios.put(`/menu-sections/${id}`, formData).then((res) => {
-        commit("setMenuSection", makeMenuSection(res.data.data));
+      commit("setMenuSectionData", {
+        id,
+        data
+      });
+
+      commit("setMenuSection", makeMenuSection(res.data.data));
     })
   },
 
@@ -175,12 +201,19 @@ export const actions = {
     const formData = new FormData();
     formData.append("data", JSON.stringify(data));
     await this.$axios.put(`/menu-items/${id}`, formData).then((res) => {
-      this.$axios.get(`/menu-items/${res.data.data.id}?populate=%2A`).then((updatedItemRes) => {
-        commit("setMenuItem", makeMenuItem(updatedItemRes.data.data));
-
-      });
+      commit("setMenuItemData", {
+        id,
+        data
+      })
     })
-  }
+  },
+  async removeMenuItem({
+    commit
+  }, menuItem) {
+    debugger;
+    await this.$axios.delete(`/menu-items/${menuItem.id}`);
+    commit("removeMenuItem", menuItem.id);
+  },
 };
 
 function makeImage(data) {

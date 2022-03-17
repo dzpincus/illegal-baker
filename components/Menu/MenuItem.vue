@@ -70,6 +70,7 @@
                     v-b-tooltip.hover
                     title="Delete"
                     v-if="isHovered"
+                    @click="$emit('delete')"
                 >
                     <font-awesome-icon icon="trash"></font-awesome-icon>
                 </a>

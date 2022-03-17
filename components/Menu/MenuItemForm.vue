@@ -32,21 +32,30 @@
                             />
 
                             <template #overlay>
-                                <a
-                                    class="stretched-link isClickable"
-                                    @click="
-                                        $root.$emit(
-                                            'bv::show::modal',
-                                            `photo-gallery-modal-${menuSection.id}`
-                                        )
+                                <div
+                                    class="
+                                        h-100
+                                        d-flex
+                                        align-items-center
+                                        justify-content-center
                                     "
                                 >
-                                    <font-awesome-icon
-                                        icon="camera"
-                                        size="4x"
-                                        class="w-100"
-                                    />
-                                </a>
+                                    <a
+                                        class="stretched-link isClickable"
+                                        @click="
+                                            $root.$emit(
+                                                'bv::show::modal',
+                                                `photo-gallery-modal-${menuSection.id}`
+                                            )
+                                        "
+                                    >
+                                        <font-awesome-icon
+                                            icon="camera"
+                                            size="4x"
+                                            class="w-100"
+                                        />
+                                    </a>
+                                </div>
                             </template>
                         </b-overlay>
                     </div>
@@ -276,7 +285,6 @@ export default {
                         data: data,
                     }).finally(() => {
                         document.body.style.cursor = "default";
-                        this.resetFormData();
                         this.$root.$emit(
                             "bv::hide::modal",
                             `add-item-modal-${this.menuSection.id}`
@@ -285,7 +293,6 @@ export default {
                 } else {
                     await this.addMenuItem(data).finally(() => {
                         document.body.style.cursor = "default";
-                        this.resetFormData();
                         this.$root.$emit(
                             "bv::hide::modal",
                             `add-item-modal-${this.menuSection.id}`

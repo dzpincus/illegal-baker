@@ -2,7 +2,7 @@ require("dotenv").config();
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
-  mode: 'spa',
+  // mode: 'spa',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -85,7 +85,7 @@ export default {
   },
   fontawesome: {
     icons: {
-      solid: ['faFloppyDisk', 'faPencil', 'faUpload', 'faTrash', 'faPlus', 'faLeaf', 'faSeedling', 'faCamera', 'faCircle', 'faBreadSlice', 'faSlash', "faCircleInfo", "faEye", "faEyeSlash"],
+      solid: ['faFloppyDisk', 'faPencil', 'faUpload', 'faTrash', 'faPlus', 'faLeaf', 'faSeedling', 'faCamera', 'faCircle', 'faBreadSlice', 'faSlash', "faCircleInfo", "faEye", "faEyeSlash", "faX"],
     }
   },
   googleFonts: {

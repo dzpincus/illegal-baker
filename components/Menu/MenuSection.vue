@@ -33,6 +33,15 @@
                             icon="floppy-disk"
                         ></font-awesome-icon>
                     </span>
+                    <span
+                        @click.stop="editing = false"
+                        class="isClickable ml-2"
+                        v-b-tooltip.hover
+                        offset="5"
+                        title="Cancel"
+                    >
+                        <font-awesome-icon icon="x" />
+                    </span>
                 </div>
                 <h3 v-else>{{ menuSection.name }}</h3>
                 <div v-if="hover || visible">
@@ -81,6 +90,7 @@
                     <MenuItem
                         v-b-hover="itemHoverHandler"
                         @edit="editMenuItem(menuItem)"
+                        @delete="deleteMenuItem(menuItem)"
                         v-for="menuItem in sortedMenuItems"
                         class="mt-3 mt-md-0"
                         :key="menuItem.id"
@@ -105,9 +115,11 @@ export default {
             get: function () {
                 if (this.menuItems) {
                     let orderedMenuItems = [];
-                    // Add ordered elements to lits
+                    // Add ordered elements to list
                     this.menuSection.order.forEach((orderId) => {
-                        orderedMenuItems.push(this.menuItems[orderId]);
+                        if (orderId in this.menuItems) {
+                            orderedMenuItems.push(this.menuItems[orderId]);
+                        }
                     });
                     // Add any unordered (newly added) elements to end of list
                     if (orderedMenuItems.length != this.menuItems.length) {
@@ -173,7 +185,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["updateMenuSection"]),
+        ...mapActions(["updateMenuSection", "removeMenuItem"]),
         edit() {
             this.editing = true;
             this.$nextTick(() => {
@@ -220,6 +232,13 @@ export default {
         editMenuItem(menuItem) {
             this.menuItemToEdit = menuItem;
             this.openMenuItemForm();
+        },
+        async deleteMenuItem(menuItem) {
+            if (confirm("Are you sure you want to delete this menu item?")) {
+                document.body.style.cursor = "wait";
+                await this.removeMenuItem(menuItem);
+                document.body.style.cursor = "default";
+            }
         },
         sectionHoverHandler(isHovered) {
             this.hover = isHovered;
