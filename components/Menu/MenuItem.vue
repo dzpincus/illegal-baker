@@ -1,0 +1,120 @@
+<template>
+    <b-card class="col-12 col-md-auto h-100 p-0 mr-3" body-class="p-0">
+        <div>
+            <CloudinaryImage
+                class="text-center"
+                :image="image"
+                :thumbnail-only="true"
+                style="position: relative"
+            />
+            <div
+                class="d-flex justify-content-between w-100"
+                style="position: absolute; bottom: 75px; opacity: 60%"
+            >
+                <span
+                    class="isClickable"
+                    v-b-tooltip.hover.html="visibleTooltipData"
+                    @click="toggleVisibility"
+                >
+                    <font-awesome-icon
+                        v-if="menuItem.visible"
+                        size="2x"
+                        icon="eye"
+                    ></font-awesome-icon>
+                    <font-awesome-icon
+                        v-else
+                        size="2x"
+                        icon="eye-slash"
+                    ></font-awesome-icon>
+                </span>
+                <div>
+                    <template v-for="tag in tags">
+                        <span
+                            v-if="menuItem[tag.value]"
+                            :key="`${tag.value}-${menuItem.id}`"
+                        >
+                            <font-awesome-layers
+                                v-b-tooltip.hover
+                                :title="tag.title"
+                                class="fa-2x mr-2"
+                                full-width
+                            >
+                                <font-awesome-icon icon="circle" />
+                                <font-awesome-icon
+                                    class="text-white"
+                                    transform="shrink-6"
+                                    :icon="tag.icon"
+                                ></font-awesome-icon>
+                            </font-awesome-layers>
+                        </span>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <template #footer>
+            <div v-b-hover="hoverHandler">
+                <span>{{ menuItem.name }}</span>
+                <a
+                    class="float-right isClickable"
+                    v-b-tooltip.hover
+                    title="Edit"
+                    v-if="isHovered"
+                    @click="$emit('edit')"
+                >
+                    <font-awesome-icon icon="pencil"></font-awesome-icon>
+                </a>
+                <br />
+                <span>${{ menuItem.price }}</span>
+                <a
+                    class="float-right isClickable"
+                    v-b-tooltip.hover
+                    title="Delete"
+                    v-if="isHovered"
+                >
+                    <font-awesome-icon icon="trash"></font-awesome-icon>
+                </a>
+            </div>
+        </template>
+    </b-card>
+</template>
+
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+    props: ["menuItem", "tags"],
+    data: function () {
+        return { isHovered: false };
+    },
+    computed: {
+        ...mapGetters(["allImages"]),
+        image: function () {
+            return this.allImages[this.menuItem.image];
+        },
+        visibleTooltipData: function () {
+            let v = this.menuItem.visible ? "Visible" : "Not Visible";
+            return {
+                title: `${v}</br>(Click to toggle)`,
+            };
+        },
+    },
+    methods: {
+        ...mapActions["updateMenuItem"],
+        hoverHandler(isHovered) {
+            this.isHovered = isHovered;
+        },
+        async toggleVisibility() {
+            document.body.style.cursor = "wait";
+            let data = { visible: !this.menuItem.visible };
+            await this.$store
+                .dispatch("updateMenuItem", {
+                    id: this.menuItem.id,
+                    data: data,
+                })
+                .finally(() => {
+                    document.body.style.cursor = "default";
+                });
+        },
+    },
+};
+</script>

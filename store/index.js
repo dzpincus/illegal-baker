@@ -7,16 +7,17 @@ export const state = () => ({
 });
 
 export const mutations = {
-  setImages: (state, images) => (state.allImages = images),
+  addImages: (state, images) => (state.allImages = images),
   addImage: (state, image) => Vue.set(state.allImages, image.id, image),
+  updateImageData: (state, image) => Object.assign(state.allImages[image.id], image),
   removeImage: (state, imageId) => Vue.delete(state.allImages, imageId),
   setMenuSections: (state, menuSections) =>
     (state.menuSections = menuSections),
-  addMenuSection: (state, menuSection) =>
+  setMenuSection: (state, menuSection) =>
     Vue.set(state.menuSections, menuSection.id, menuSection),
   setMenuItems: (state, menuItems) =>
     (state.menuItems = menuItems),
-  addMenuItem: (state, menuItem) =>
+  setMenuItem: (state, menuItem) =>
     Vue.set(state.menuItems, menuItem.id, menuItem),
 };
 
@@ -45,7 +46,7 @@ export const actions = {
           let image = makeImage(element);
           data[image.id] = image
         });
-        commit("setImages", data);
+        commit("addImages", data);
       });
   },
   async addImage({
@@ -77,6 +78,19 @@ export const actions = {
       });
     return res
   },
+  async updateImage({
+    commit,
+  }, {
+    id,
+    data
+  }) {
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(data));
+    await this.$axios.put(`/images/${id}`, formData).then((res) => {
+      let image = makeImage(res.data.data);
+      commit("updateImageData", image);
+    })
+  },
   async removeImage({
     commit
   }, image) {
@@ -93,7 +107,7 @@ export const actions = {
         let menuSection = makeMenuSection(element);
         data[menuSection.id] = menuSection
       });
-      commit("setMenuSections", res.data.data);
+      commit("setMenuSections", data);
     });
   },
   async addMenuSection({
@@ -106,13 +120,22 @@ export const actions = {
     return await this.$axios
       .post("/menu-sections", formData)
       .then((res) => {
-        commit("addMenuSection", makeMenuSection(res.data.data));
+        commit("setMenuSection", makeMenuSection(res.data.data));
         return true;
       })
       .catch((e) => {
         return false;
       });
   },
+  async updateMenuSection({ commit }, {id, data}) {
+    const formData = new FormData();
+    debugger;
+    formData.append("data", JSON.stringify(data));
+    await this.$axios.put(`/menu-sections/${id}`, formData).then((res) => {
+        commit("setMenuSection", makeMenuSection(res.data.data));
+    })
+  },
+
   async getMenuItems({
     commit
   }) {
@@ -122,26 +145,42 @@ export const actions = {
         let menuItem = makeMenuItem(element);
         data[menuItem.id] = menuItem
       });
-      commit("setMenuItems", res.data.data);
+      commit("setMenuItems", data);
     });
   },
   async addMenuItem({
     commit
-  }, itemName) {
+  }, data) {
     const formData = new FormData();
-    formData.append("data", JSON.stringify({
-      name: itemName
-    }));
+    formData.append("data", JSON.stringify(data));
     return await this.$axios
       .post("/menu-items", formData)
       .then((res) => {
-        commit("addMenuItem", makeMenuItem(res.data.data));
+        this.$axios.get(`/menu-items/${res.data.data.id}?populate=%2A`).then((newItemRes) => {
+          commit("setMenuItem", makeMenuItem(newItemRes.data.data));
+
+        });
         return true;
       })
       .catch((e) => {
         return false;
       });
   },
+  async updateMenuItem({
+    commit,
+  }, {
+    id,
+    data
+  }) {
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(data));
+    await this.$axios.put(`/menu-items/${id}`, formData).then((res) => {
+      this.$axios.get(`/menu-items/${res.data.data.id}?populate=%2A`).then((updatedItemRes) => {
+        commit("setMenuItem", makeMenuItem(updatedItemRes.data.data));
+
+      });
+    })
+  }
 };
 
 function makeImage(data) {
@@ -149,11 +188,16 @@ function makeImage(data) {
   // imageId is image file id in meida library (only needed for full deletion)
   let image = {
     id: data.id,
-    name: data.attributes.name,
-    imageId: data.attributes.image.data.id
   };
-  let formats = data.attributes.image.data.attributes.formats;
-  let urls = parseImageFormats(formats);
+  if (data.attributes.name) {
+    image["name"] = data.attributes.name
+  }
+
+  if (data.attributes.image) {
+    image["imageId"] = data.attributes.image.data.id
+    let formats = data.attributes.image.data.attributes.formats;
+    var urls = parseImageFormats(formats);
+  }
   Object.assign(image, urls);
   return image;
 }
@@ -161,20 +205,34 @@ function makeImage(data) {
 function makeMenuSection(data) {
   return {
     id: data.id,
-    name: data.attributes.name
+    name: data.attributes.name,
+    visible: data.attributes.visible,
+    order: data.attributes.order ?? []
   }
 }
 
 function makeMenuItem(data) {
   let menuItem = {
-    id: data.id,
-    name: data.attributes.name,
-    menuSection: data.attributes.menu_section.data.id,
+    id: data.id
   }
-  let imageData = data.attributes.image.data;
-  if (imageData) {
-    menuItem[image] = imageData.id
+  let attributes = ["name", "price", "vegan", "vegetarian", "glutenFree", "visible", "options", "order"];
+  attributes.forEach((attribute) => {
+    if (data.attributes[attribute]) {
+      menuItem[attribute] = data.attributes[attribute];
+    }
+  });
+
+  if (!menuItem["order"]) {
+    menuItem["order"] = Number.MAX_SAFE_INTEGER;
   }
+
+  let relationships = ["image", "menu_section"];
+  relationships.forEach((relationship) => {
+    let rel = data.attributes[relationship];
+    if (rel && rel.data) {
+      menuItem[snakeToCamel(relationship)] = rel.data.id
+    }
+  });
   return menuItem;
 }
 
@@ -186,4 +244,19 @@ function parseImageFormats(formats) {
     }
   });
   return urlFormats;
+}
+
+function snakeToCamel(snakeString) {
+  let split = snakeString.split('_');
+  if (split.length > 1) {
+    let camel = split[0]
+    for (var i = 1; i < split.length; i++) {
+      let word = split[i];
+      word = word[0].toUpperCase() + word.substring(1);
+      camel += word;
+    }
+    return camel;
+  } else {
+    return snakeString;
+  }
 }

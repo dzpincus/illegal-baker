@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-form @submit.prevent="submitFile" class="w-25">
+        <b-form @submit.prevent="submitFile" class="w-100 w-md-25">
             <b-form-file
                 class="mb-3"
                 accept=".jpg, .png, .jpeg"
@@ -44,8 +44,6 @@
                 :total-rows="totalCount"
             >
             </b-pagination>
-              <h1>{{Object.values(allImages).length}}</h1>
-            
             <b-card-group columns>
                 <ImageCard
                     @clicked="selectImage(image)"
@@ -74,7 +72,7 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-    props: ["selecting"],
+    props: ["selecting", "value"],
     data: function () {
         return {
             fileForm: {
@@ -99,6 +97,7 @@ export default {
         selectImage: function (image) {
             if (this.selecting) {
                 this.selectedImage = image;
+                this.$emit("input", image);
             }
         },
         async submitFile() {

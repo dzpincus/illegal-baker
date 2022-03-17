@@ -10,7 +10,7 @@
             pills
             vertical
             justified
-            nav-class="border-right border-0 p-0 w-100 text-center"
+            nav-class="border-right border-0 p-0 w-100 text-center d-none d-md-block"
         >
             <b-tab title-link-class="text-light px-5" title="Photo Gallery">
                 <PhotoGallery :selecting="false" />

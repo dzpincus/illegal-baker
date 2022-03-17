@@ -35,19 +35,24 @@
         </b-modal>
 
         <div class="accordion pt-3" role="tablist">
-            
+            <MenuSection
+                v-for="menuSection in sortedMenuSections"
+                :menu-section="menuSection"
+                :key="menuSection.id"
+                :menu-items="menuItemsBySection[menuSection.id]"
+            />
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
     data: function () {
         return {
             newSectionName: "",
-            menuItemsBySection: null,
+            menuItemsBySection: {},
         };
     },
     methods: {
@@ -55,27 +60,40 @@ export default {
         async handleSubmitNewSection() {
             await this.$store.dispatch("addMenuSection", this.newSectionName);
             this.newSectionName = "";
-            let x = 1;
         },
         divideMenuItems: function () {
             let sections = {};
-            for (const menuItem of this.menuItems) {
-                let sectionId = menuItem.attributes.menu_section.data.id;
-                if (sections[sectionId]) {
-                    sections[sectionId].push(menuItem);
-                } else {
-                    sections[sectionId] = [menuItem];
+            if (this.menuItems) {
+                for (const menuItem of Object.values(this.menuItems)) {
+                    let sectionId = menuItem.menuSection;
+                    if (!sections[sectionId]) {
+                        sections[sectionId] = {};
+                    }
+                    sections[sectionId][menuItem.id] = menuItem;
                 }
+                this.menuItemsBySection = sections;
             }
-            this.menuItemsBySection = sections;
         },
     },
     computed: {
-        ...mapGetters(["menuSections", "menuItems"]),
+        ...mapState(["menuItems", "menuSections"]),
+        sortedMenuSections: function () {
+            if (this.menuSections) {
+                let copy = Object.values(
+                    JSON.parse(JSON.stringify(this.menuSections))
+                );
+                copy.sort((a, b) => (a.name > b.name ? 1 : -1));
+                return copy;
+            }
+            return [];
+        },
     },
     watch: {
-        menuItems: function () {
-            this.divideMenuItems();
+        menuItems: {
+            handler: function () {
+                this.divideMenuItems();
+            },
+            deep: true,
         },
     },
     async fetch() {
