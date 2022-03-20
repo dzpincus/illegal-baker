@@ -4,6 +4,7 @@ export const state = () => ({
   allImages: {},
   menuSections: {},
   menuItems: {},
+  homepage: {}
 });
 
 export const mutations = {
@@ -30,13 +31,14 @@ export const mutations = {
     }
   },
   removeMenuItem: (state, menuItemId) => Vue.delete(state.menuItems, menuItemId),
-
+  setHomepage: (state, homepage) => Vue.set(state, "homepage", homepage),
 };
 
 export const getters = {
   allImages: (state) => state.allImages,
   menuSections: (state) => state.menuSections,
   menuItems: (state) => state.menuItems,
+  homepage: (state) => state.homepage,
   isAuthenticated(state) {
     return state.auth.loggedIn;
   },
@@ -210,10 +212,35 @@ export const actions = {
   async removeMenuItem({
     commit
   }, menuItem) {
-    debugger;
     await this.$axios.delete(`/menu-items/${menuItem.id}`);
     commit("removeMenuItem", menuItem.id);
   },
+  async getHomepage({
+    commit
+  }) {
+    await this.$axios.get('/homepage?populate=%2A').then((res) => {
+      let attributes = res.data.data.attributes;
+      let images = [];
+      attributes.images.data.forEach(image => {
+        images.push(image.id);
+      })
+      commit("setHomepage", {announcement: attributes.announcement, mainImage: attributes.main_image.data.id, images: images})
+    })
+  },
+  async setHomepage({commit}, data) {
+    let convertedData = {}
+    for (const attribute in data) {
+      convertedData[camelToSnake(attribute)] = data[attribute]
+    }
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(convertedData));
+
+    await this.$axios.put('/homepage', formData).then(() => {
+      commit("setHomepage", {});
+
+      commit("setHomepage", data);
+    })
+  }
 };
 
 function makeImage(data) {
@@ -292,4 +319,15 @@ function snakeToCamel(snakeString) {
   } else {
     return snakeString;
   }
+}
+
+function camelToSnake(camelString) {
+  return camelString.split('').map((character) => {
+      if (character == character.toUpperCase()) {
+          return '_' + character.toLowerCase();
+      } else {
+          return character;
+      }
+  })
+  .join('');
 }

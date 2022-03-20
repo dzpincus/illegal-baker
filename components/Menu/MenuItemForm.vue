@@ -32,14 +32,7 @@
                             />
 
                             <template #overlay>
-                                <div
-                                    class="
-                                        h-100
-                                        d-flex
-                                        align-items-center
-                                        justify-content-center
-                                    "
-                                >
+                                <div class="h-100 flex-center">
                                     <a
                                         class="stretched-link isClickable"
                                         @click="
@@ -157,7 +150,7 @@
             size="xl"
             header-class="d-none"
         >
-            <PhotoGallery :selecting="true" v-model="formData.image" />
+            <PhotoGallery selecting="single" v-model="formData.image" />
 
             <template #modal-footer="{ close, ok }">
                 <b-button variant="light" @click="close()">Cancel</b-button>

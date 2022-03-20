@@ -2,7 +2,7 @@ require("dotenv").config();
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
-  // mode: 'spa',
+  mode: 'spa',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -31,7 +31,10 @@ export default {
       rel: 'icon',
       type: 'image/x-icon',
       href: '/favicon.ico'
-    }]
+    }],
+    script: [
+      { src: 'https://js.stripe.com/v3' }
+    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -47,7 +50,7 @@ export default {
     '@nuxtjs/google-fonts'
   ],
 
-  plugins: ['~/plugins/vuedraggable.js'],
+  plugins: ['~/plugins/vuedraggable.js', '~/plugins/vue-stripe-elements-plus.js'],
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome', ],
   auth: {

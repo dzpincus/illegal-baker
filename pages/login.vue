@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center align-items-center pt-5">
+    <div class="flex-center pt-5">
         <b-card
             title="Admin Login"
             class="border border-rounded border-primary p-4 shadow-sm"

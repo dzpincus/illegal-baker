@@ -1,23 +1,33 @@
 <template>
-    <header>
-        <div
-            class="
-                headerPanel
-                w-100
-                d-flex
-                flex-column
-                align-items-center
-                shadow-sm
-            "
-        >
-            <div style="height: 100px">
-                <img class="img-fluid h-100" src="~/assets/amy.png" />
-            </div>
-            <h2>
-                <i>The Illegal Baker</i>
-            </h2>
-        </div>
-    </header>
+    <b-navbar
+        ref="navbar"
+        class="m-0"
+        toggleable="md"
+        type="dark"
+        variant="dark"
+        style="height: auto"
+    >
+        <b-navbar-brand>
+            <NuxtLink to="/">
+                <img :src="wordsImage" class="nav-image-height" />
+            </NuxtLink>
+        </b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav class="ml-auto">
+                <b-nav-item
+                    v-for="page in pages"
+                    :key="page.path"
+                    :active="$nuxt.$route.path === page.path"
+                    class="ml-3"
+                    :to="page.path"
+                    ><h3>{{ page.title }}</h3>
+                </b-nav-item>
+            </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
 </template>
 
 <style>
@@ -27,7 +37,22 @@
 </style>
 
 <script>
+import wordsImg from "assets/illegal_baker_words.svg";
+
 export default {
     name: "pageHeader",
+
+    data: function () {
+        let pages = [
+            { title: "Home", path: "/" },
+            { title: "About", path: "/about" },
+            { title: "Gallery", path: "/gallery" },
+            { title: "Order Online", path: "/order" },
+        ];
+        if (this.$store.state.auth.loggedIn) {
+            pages.push({ title: "Admin", path: "/admin" });
+        }
+        return { wordsImage: wordsImg, pages: pages };
+    },
 };
 </script>

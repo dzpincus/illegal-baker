@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-form @submit.prevent="submitFile" class="w-100 w-md-25">
+        <b-form @submit.prevent="submitFile" class="w-100 w-md-25 pt-md-0 pt-5">
             <b-form-file
                 class="mb-3"
                 accept=".jpg, .png, .jpeg"
@@ -50,10 +50,8 @@
                     :key="image.id"
                     v-for="image in Object.values(allImages)"
                     :class="{
-                        isClickable: selecting,
-                        selected: Boolean(
-                            selectedImage && selectedImage.id == image.id
-                        ),
+                        isClickable: Boolean(selecting),
+                        selected: isSelected(image),
                     }"
                     :image="image"
                 />
@@ -83,7 +81,7 @@ export default {
             pageSize: 25,
             totalCount: 0,
             currentPage: 1,
-            selectedImage: null,
+            selected: this.value,
         };
     },
     async fetch() {
@@ -95,9 +93,30 @@ export default {
     methods: {
         ...mapActions(["addImage", "getImages"]),
         selectImage: function (image) {
-            if (this.selecting) {
-                this.selectedImage = image;
-                this.$emit("input", image);
+            if (this.selecting === "single") {
+                this.selected = image;
+            } else if (this.selecting == "multiple") {
+                if (this.selected.find((i) => i.id === image.id)) {
+                    this.selected = this.selected.filter(
+                        (i) => i.id !== image.id
+                    );
+                } else {
+                    this.selected.push(image);
+                }
+            }
+            this.$emit("input", this.selected);
+        },
+        isSelected: function (image) {
+            if (!this.selected) {
+                return false;
+            }
+            if (this.selecting === "single") {
+                return this.selected.id == image.id;
+            } else if (this.selecting == "multiple") {
+                if (this.selected == null) {
+                    this.selected = [];
+                }
+                return Boolean(this.selected.find((i) => i.id === image.id));
             }
         },
         async submitFile() {

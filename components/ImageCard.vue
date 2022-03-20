@@ -1,5 +1,5 @@
 <template>
-    <b-card class="my-4 mr-4 p-0" @click="$emit('clicked')">
+    <b-card class="my-4 mr-4 p-0" @click="$emit('clicked')" body-class="px-0">
         <template #header>
             <div class="d-flex justify-content-between align-items-center">
                 <b-input v-if="editing" v-model="newName"> </b-input>
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </template>
-        <b-card-body class="d-flex align-items-center justify-content-center">
+        <b-card-body class="flex-center p-0">
             <div class="mh-100">
                 <CloudinaryImage :image="image" />
             </div>

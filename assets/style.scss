@@ -61,7 +61,6 @@ $form-validation-states: map-remove($form-validation-states, 'valid');
 @import 'bootstrap-vue/src/index.scss';
 
 
-
 body {
   font-family: 'Brygada+1918';
   background-color: $secondary;
@@ -114,4 +113,36 @@ $directions: ('bottom', 'top', 'left', 'right');
 
     }
   }
+}
+
+.nav-image-height {
+  height: 45px;
+
+  @include media-breakpoint-up(md) {
+    height: 65px;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .w-md-25 {
+    width: 25% !important;
+  }
+
+  .w-md-50 {
+    width: 50% !important;
+  }
+
+  .w-md-75 {
+    width: 75% !important;
+  }
+
+  .w-md-100 {
+    width: 100% !important;
+  }
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
