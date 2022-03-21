@@ -224,7 +224,7 @@ export const actions = {
       attributes.images.data.forEach(image => {
         images.push(image.id);
       })
-      commit("setHomepage", {announcement: attributes.announcement, mainImage: attributes.main_image.data.id, images: images})
+      commit("setHomepage", {announcement: attributes.announcement, mainImage: attributes.main_image.data.id, images: images, colors: attributes.colors})
     })
   },
   async setHomepage({commit}, data) {
@@ -256,7 +256,14 @@ function makeImage(data) {
   if (data.attributes.image) {
     image["imageId"] = data.attributes.image.data.id
     let formats = data.attributes.image.data.attributes.formats;
-    var urls = parseImageFormats(formats);
+    var urls = {};
+    if (formats) {
+      urls = parseImageFormats(formats);
+    } else {
+      urls = {
+        thumbnail: data.attributes.image.data.attributes.url
+      }
+    }
   }
   Object.assign(image, urls);
   return image;

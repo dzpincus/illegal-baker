@@ -69,7 +69,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-
+import * as Vibrant from "node-vibrant";
 export default {
     data: function () {
         return {
@@ -78,38 +78,53 @@ export default {
             images: [],
         };
     },
-    async fetch() {
-        await this.$store.dispatch("getHomepage");
-    },
     computed: {
         ...mapGetters(["allImages", "homepage"]),
     },
     watch: {
-        homepage: function () {
-            this.announcement = this.homepage?.announcement;
-            if (this.homepage?.mainImage) {
-                this.mainImage = this.allImages[this.homepage.mainImage];
-            }
-            this.image = this.homepage?.image;
-            if (this.homepage?.images) {
-                this.images = [];
-                this.homepage.images.forEach((imageId) => {
-                    if (this.allImages[imageId]) {
-                        this.images.push(this.allImages[imageId]);
-                    }
-                });
-            }
+        homepage: {
+            immediate: true,
+            handler: function () {
+                this.announcement = this.homepage?.announcement;
+                if (this.homepage?.mainImage) {
+                    this.mainImage = this.allImages[this.homepage.mainImage];
+                }
+                this.image = this.homepage?.image;
+                if (this.homepage?.images) {
+                    this.images = [];
+                    this.homepage.images.forEach((imageId) => {
+                        if (this.allImages[imageId]) {
+                            this.images.push(this.allImages[imageId]);
+                        }
+                    });
+                }
+            },
         },
     },
     methods: {
         ...mapActions(["setHomepage"]),
         async submit() {
+            document.body.style.cursor = "wait";
+            var colors = {};
+            await Vibrant.from(this.mainImage.thumbnail).getPalette(
+                (err, palette) => {
+                    if (palette) {
+                        for (const p in palette) {
+                            colors[p] = palette[p].hex;
+                        }
+                    }
+                }
+            );
+
             let data = {
                 announcement: this.announcement,
                 mainImage: this.mainImage?.id,
                 images: this.images.map((i) => i.id),
+                colors: colors,
             };
-            await this.setHomepage(data).then(() => {});
+            await this.setHomepage(data).finally(() => {
+                document.body.style.cursor = "default";
+            });
         },
     },
 };

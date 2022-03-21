@@ -9,7 +9,10 @@
     >
         <b-navbar-brand>
             <NuxtLink to="/">
-                <img :src="wordsImage" class="nav-image-height" />
+                <img
+                    src="~/assets/images/illegal_baker_words.svg"
+                    class="nav-image-height"
+                />
             </NuxtLink>
         </b-navbar-brand>
 
@@ -37,8 +40,6 @@
 </style>
 
 <script>
-import wordsImg from "assets/illegal_baker_words.svg";
-
 export default {
     name: "pageHeader",
 
@@ -52,7 +53,7 @@ export default {
         if (this.$store.state.auth.loggedIn) {
             pages.push({ title: "Admin", path: "/admin" });
         }
-        return { wordsImage: wordsImg, pages: pages };
+        return { pages: pages };
     },
 };
 </script>

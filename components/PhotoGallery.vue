@@ -84,9 +84,6 @@ export default {
             selected: this.value,
         };
     },
-    async fetch() {
-        await this.getImages();
-    },
     computed: {
         ...mapGetters(["allImages"]),
     },

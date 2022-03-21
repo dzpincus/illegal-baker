@@ -2,7 +2,7 @@ require("dotenv").config();
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
-  mode: 'spa',
+  // mode: 'spa',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -33,7 +33,7 @@ export default {
       href: '/favicon.ico'
     }],
     script: [
-      { src: 'https://js.stripe.com/v3' }
+      { src: 'https://js.stripe.com/v3' },
     ]
   },
 

@@ -55,6 +55,9 @@ export default {
             menuItemsBySection: {},
         };
     },
+    mounted() {
+        this.divideMenuItems();
+    },
     methods: {
         ...mapActions[("getMenuSections", "addMenuSection", "getMenuItems")],
         async handleSubmitNewSection() {
@@ -95,11 +98,6 @@ export default {
             },
             deep: true,
         },
-    },
-    async fetch() {
-        await this.$store.dispatch("getMenuSections");
-        await this.$store.dispatch("getMenuItems");
-        this.divideMenuItems();
     },
 };
 </script>
