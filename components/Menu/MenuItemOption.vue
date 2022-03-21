@@ -83,7 +83,7 @@
                 <b-button
                     class="mt-3"
                     variant="light"
-                    @click="value.choices.push({})"
+                    @click.prevent="addChoice"
                 >
                     <font-awesome-icon icon="plus" />
                     Add choice to option
@@ -94,8 +94,20 @@
 </template>
 
 <script>
+import Vue from "vue";
 export default {
     props: ["value"],
+    methods: {
+        addChoice() {
+            let choices = this.value?.choices;
+            if (!choices) {
+                choices = [];
+            }
+
+            choices.push({ name: "", price: "" });
+            Vue.set(this.value, "choices", choices);
+        },
+    },
     watch: {
         value: {
             handler: function () {

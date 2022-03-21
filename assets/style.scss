@@ -146,3 +146,13 @@ $directions: ('bottom', 'top', 'left', 'right');
   align-items: center;
   justify-content: center;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .7s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}

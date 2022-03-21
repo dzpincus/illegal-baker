@@ -203,7 +203,10 @@ export default {
             immediate: true,
             handler: function (newVal, oldVal) {
                 if (this.menuItem) {
-                    Object.assign(this.formData, this.menuItem);
+                    Object.assign(
+                        this.formData,
+                        JSON.parse(JSON.stringify(this.menuItem))
+                    );
                     if (this.formData.image) {
                         this.formData.image =
                             this.allImages[this.formData.image];

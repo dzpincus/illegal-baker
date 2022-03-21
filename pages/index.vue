@@ -11,10 +11,15 @@
             >
                 <div
                     v-if="announcement && !hideAnnouncement"
-                    class="text-light flex-center flex-column rounded"
+                    class="text-dark flex-center flex-column rounded"
                     style="max-width: 50%; max-height: 50%; opacity: 0.9"
-                    :style="{ backgroundColor: homepage.colors['DarkMuted'] }"
                     v-b-hover="announcementHover"
+                    :style="{
+                        height: this.halfHeight,
+                        backgroundImage: gradient(
+                            homepage.colors['LightVibrant']
+                        ),
+                    }"
                 >
                     <div class="p-5">
                         <h1 class="d-none d-md-block">{{ announcement }}</h1>
@@ -33,7 +38,7 @@
                         class="col-6 flex-center"
                         :style="{
                             height: halfHeight,
-                            backgroundColor: homepage.colors['Muted'],
+                            backgroundImage: gradient(homepage.colors['Muted']),
                         }"
                     >
                         <img
@@ -103,7 +108,9 @@
                         class="col-6 text-light flex-center"
                         :style="{
                             height: halfHeight,
-                            backgroundColor: homepage.colors['DarkVibrant'],
+                            backgroundImage: gradient(
+                                homepage.colors['DarkMuted']
+                            ),
                         }"
                     >
                         <h2>Order Today!</h2>
@@ -193,7 +200,34 @@ export default {
                     }
                 });
             }
-            this.$emit("updateNavColor", this.homepage.colors["LightVibrant"]);
+        },
+        colorLuminance(hex, lum) {
+            // let lum = 0.07; // -0.1
+            // validate hex string
+            hex = String(hex).replace(/[^0-9a-f]/gi, "");
+            if (hex.length < 6) {
+                hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+            }
+
+            // convert to decimal and change luminosity
+            let rgb = "#",
+                c,
+                i;
+            for (i = 0; i < 3; i++) {
+                c = parseInt(hex.substr(i * 2, 2), 16);
+                c = Math.round(
+                    Math.min(Math.max(0, c + c * lum), 255)
+                ).toString(16);
+                rgb += ("00" + c).substr(c.length);
+            }
+
+            return rgb;
+        },
+
+        gradient: function (color) {
+            let firstGradient = this.colorLuminance(color, 0.8);
+            let secondGradient = this.colorLuminance(color, -0.5);
+            return `linear-gradient(145deg, ${firstGradient}, ${secondGradient})`;
         },
     },
     watch: {
@@ -214,6 +248,7 @@ export default {
             }
         },
     },
+
     async fetch() {
         await this.$store.dispatch("getImages");
         await this.$store.dispatch("getHomepage");

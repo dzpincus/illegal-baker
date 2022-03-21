@@ -2,7 +2,7 @@ require("dotenv").config();
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
-  // mode: 'spa',
+  mode: 'spa',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
