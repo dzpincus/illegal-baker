@@ -100,7 +100,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions["updateMenuItem"],
+        ...mapActions["updateAdminMenuItem"],
         hoverHandler(isHovered) {
             this.isHovered = isHovered;
         },
@@ -108,7 +108,7 @@ export default {
             document.body.style.cursor = "wait";
             let data = { visible: !this.menuItem.visible };
             await this.$store
-                .dispatch("updateMenuItem", {
+                .dispatch("updateAdminMenuItem", {
                     id: this.menuItem.id,
                     data: data,
                 })

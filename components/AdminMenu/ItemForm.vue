@@ -62,6 +62,7 @@
                         </b-form-group>
                         <b-form-group label="Price" label-for="price-input">
                             <b-form-input
+                                :disabled="disablePriceField"
                                 id="price-input"
                                 v-model="formData.price"
                                 type="number"
@@ -127,12 +128,14 @@
                     </div>
                 </div>
                 <div class="w-100 mt-3" v-if="formData.options">
-                    <MenuItemOption
+                    <AdminMenuItemOptions
                         class="mt-3"
                         v-model="formData.options[index]"
                         v-for="(option, index) in formData.options"
                         @deleteOption="deleteOption(index)"
                         :key="`option-${index}`"
+                        :option-set-index="optionSetIndex"
+                        :index="index"
                     />
                 </div>
             </b-form>
@@ -175,6 +178,7 @@ export default {
         return {
             imageOverlayShow: false,
             validated: false,
+            disablePriceField: false,
             formData: {
                 name: "",
                 price: "",
@@ -197,6 +201,13 @@ export default {
                 return "Add new menu item";
             }
         },
+        optionSetIndex: function () {
+            for (let [index, option] of this.formData.options.entries()) {
+                if (option.priceModel == "set") {
+                    return index;
+                }
+            }
+        },
     },
     watch: {
         menuItem: {
@@ -217,9 +228,27 @@ export default {
             },
             deep: true,
         },
+        "formData.options": function () {
+            if (this.optionSetIndex != null) {
+                var minPrice = null;
+                let choices =
+                    this.formData.options[this.optionSetIndex].choices;
+                if (choices) {
+                    choices.forEach((choice) => {
+                        if (!minPrice || choice.price < minPrice) {
+                            minPrice = choice.price;
+                        }
+                    });
+                }
+                this.disablePriceField = true;
+                this.formData.price = minPrice;
+            } else {
+                this.disablePriceField = false;
+            }
+        },
     },
     methods: {
-        ...mapActions(["addMenuItem", "updateMenuItem"]),
+        ...mapActions(["addAdminMenuItem", "updateAdminMenuItem"]),
         toggleTag(tag) {
             Vue.set(
                 this.formData,
@@ -234,6 +263,7 @@ export default {
         },
         resetFormData() {
             this.validated = false;
+            this.disablePriceField = false;
             this.formData = {
                 name: "",
                 price: "",
@@ -273,10 +303,10 @@ export default {
                 }
                 data["options"] = this.formData.options;
                 let action = Boolean(this.menuItem)
-                    ? "updateMenuItem"
-                    : "addMenuItem";
+                    ? "updateAdminMenuItem"
+                    : "addAdminMenuItem";
                 if (this.menuItem) {
-                    await this.updateMenuItem({
+                    await this.updateAdminMenuItem({
                         id: this.menuItem.id,
                         data: data,
                     }).finally(() => {
@@ -287,7 +317,7 @@ export default {
                         );
                     });
                 } else {
-                    await this.addMenuItem(data).finally(() => {
+                    await this.addAdminMenuItem(data).finally(() => {
                         document.body.style.cursor = "default";
                         this.$root.$emit(
                             "bv::hide::modal",

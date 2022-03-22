@@ -23,28 +23,43 @@
                         value="one"
                     >
                         Customer Selects One
-                        <span
-                            v-b-tooltip.hover
-                            title="Item price dictated by choice"
-                        >
+                    </b-form-radio>
+                    <b-form-radio
+                        v-model="value.optionType"
+                        :name="`type-radio-${_uid}`"
+                        value="multiple"
+                        @change="selectMultiple"
+                        >Customer Selects Multiple
+                    </b-form-radio>
+                </b-form-group>
+                <b-form-group label="Price Model">
+                    <b-form-radio
+                        v-model="value.priceModel"
+                        :name="`price-model-radio-${_uid}`"
+                        :disabled="
+                            optionSetIndex != null && optionSetIndex != index
+                        "
+                        value="set"
+                        @change="selectSet"
+                    >
+                        Selection sets price
+                        <span v-b-tooltip.hover :title="setTooltip">
                             <font-awesome-icon
                                 icon="info-circle"
                             ></font-awesome-icon>
                         </span>
                     </b-form-radio>
                     <b-form-radio
-                        v-model="value.optionType"
-                        :name="`type-radio-${_uid}`"
-                        value="multiple"
-                        >Customer Selects Multiple
-                        <span
-                            v-b-tooltip.hover.top
-                            title="Price of choice added to base price"
-                        >
-                            <font-awesome-icon
-                                icon="info-circle"
-                            ></font-awesome-icon>
-                        </span>
+                        v-model="value.priceModel"
+                        :name="`price-model-radio-${_uid}`"
+                        value="add"
+                        >Selection adds to price
+                    </b-form-radio>
+                    <b-form-radio
+                        v-model="value.priceModel"
+                        :name="`price-model-radio-${_uid}`"
+                        value="none"
+                        >Selection has no added or modified price
                     </b-form-radio>
                 </b-form-group>
             </div>
@@ -62,6 +77,7 @@
                         required
                     ></b-form-input>
                     <b-form-input
+                        v-if="value.priceModel != 'none'"
                         class="col-3 ml-3"
                         size="sm"
                         v-model="choice.price"
@@ -96,21 +112,50 @@
 <script>
 import Vue from "vue";
 export default {
-    props: ["value"],
+    props: ["value", "index", "optionSetIndex"],
+    computed: {
+        setTooltip() {
+            if (
+                this.optionSetIndex != null &&
+                this.optionSetIndex != this.index
+            ) {
+                return "Only one option can have this option";
+            } else {
+                return 'Only compatible with "Customer Selects One" Option Type';
+            }
+        },
+    },
     methods: {
+        selectSet() {
+            if (this.value.optionType == "multiple") {
+                this.value.optionType = "one";
+            }
+            this.value.priceModel = "set";
+        },
+        selectMultiple() {
+            if (this.value.priceModel == "set") {
+                this.value.priceModel = "add";
+            }
+            this.value.optionType = "multiple";
+        },
         addChoice() {
             let choices = this.value?.choices;
             if (!choices) {
                 choices = [];
             }
 
-            choices.push({ name: "", price: "" });
+            choices.push({
+                name: "",
+                price: "",
+                optionType: "one",
+                priceModel: "set",
+            });
             Vue.set(this.value, "choices", choices);
         },
     },
     watch: {
         value: {
-            handler: function () {
+            handler: function (newValue, oldValue) {
                 this.$emit("input", this.value);
             },
             deep: true,

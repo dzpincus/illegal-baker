@@ -10,6 +10,8 @@ $warning: #C3C1C2;
   top: 0;
 }
 
+$nav-tabs-link-hover-border-color: $primary;
+
 
 // Manually import all boostrap files instead of boostrap.scss to manually modify variables before mixins are called
 
@@ -156,3 +158,18 @@ $directions: ('bottom', 'top', 'left', 'right');
 .fade-leave-to {
   opacity: 0;
 }
+
+.active-border {
+  border-bottom: 1px solid $primary !important;
+  border-top: none !important;
+  border-right: none !important;
+  border-left: none !important;
+}
+
+// .nav-tabs {
+//   .nav-link {
+//     @include hover-focus() {
+//       border-color: $primary
+//     }
+//   }
+// }

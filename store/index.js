@@ -12,25 +12,25 @@ export const mutations = {
   addImage: (state, image) => Vue.set(state.allImages, image.id, image),
   updateImageData: (state, image) => Object.assign(state.allImages[image.id], image),
   removeImage: (state, imageId) => Vue.delete(state.allImages, imageId),
-  setMenuSections: (state, menuSections) =>
+  setAdminMenuSections: (state, menuSections) =>
     (state.menuSections = menuSections),
-  setMenuSection: (state, menuSection) =>
+  setAdminMenuSection: (state, menuSection) =>
     Vue.set(state.menuSections, menuSection.id, menuSection),
-  setMenuSectionData: (state, payload) => {
+  setAdminMenuSectionData: (state, payload) => {
     for (const [key, value] of Object.entries(payload.data)) {
       Vue.set(state.menuSections[payload.id], key, value)
     }
   },
-  setMenuItems: (state, menuItems) =>
+  setAdminMenuItems: (state, menuItems) =>
     (state.menuItems = menuItems),
-  setMenuItem: (state, menuItem) =>
+  setAdminMenuItem: (state, menuItem) =>
     Vue.set(state.menuItems, menuItem.id, menuItem),
-  setMenuItemData: (state, payload) => {
+  setAdminMenuItemData: (state, payload) => {
     for (const [key, value] of Object.entries(payload.data)) {
       Vue.set(state.menuItems[payload.id], key, value)
     }
   },
-  removeMenuItem: (state, menuItemId) => Vue.delete(state.menuItems, menuItemId),
+  removeAdminMenuItem: (state, menuItemId) => Vue.delete(state.menuItems, menuItemId),
   setHomepage: (state, homepage) => Vue.set(state, "homepage", homepage),
 };
 
@@ -112,19 +112,19 @@ export const actions = {
     await this.$axios.delete(`/images/${image.id}`);
     commit("removeImage", image.id);
   },
-  async getMenuSections({
+  async getAdminMenuSections({
     commit
   }) {
     return await this.$axios.get("/menu-sections").then((res) => {
       let data = {}
       res.data.data.forEach((element) => {
-        let menuSection = makeMenuSection(element);
+        let menuSection = makeAdminMenuSection(element);
         data[menuSection.id] = menuSection
       });
-      commit("setMenuSections", data);
+      commit("setAdminMenuSections", data);
     });
   },
-  async addMenuSection({
+  async addAdminMenuSection({
     commit
   }, sectionName) {
     const formData = new FormData();
@@ -134,20 +134,20 @@ export const actions = {
     return await this.$axios
       .post("/menu-sections", formData)
       .then((res) => {
-        commit("setMenuSection", makeMenuSection(res.data.data));
+        commit("setAdminMenuSection", makeAdminMenuSection(res.data.data));
         return true;
       })
       .catch((e) => {
         return false;
       });
   },
-  async updateMenuSection({
+  async updateAdminMenuSection({
     commit
   }, {
     id,
     data
   }) {
-    commit("setMenuSectionData", {
+    commit("setAdminMenuSectionData", {
       id,
       data
     });
@@ -155,28 +155,28 @@ export const actions = {
     const formData = new FormData();
     formData.append("data", JSON.stringify(data));
     await this.$axios.put(`/menu-sections/${id}`, formData).then((res) => {
-      commit("setMenuSectionData", {
+      commit("setAdminMenuSectionData", {
         id,
         data
       });
 
-      commit("setMenuSection", makeMenuSection(res.data.data));
+      commit("setAdminMenuSection", makeAdminMenuSection(res.data.data));
     })
   },
 
-  async getMenuItems({
+  async getAdminMenuItems({
     commit
   }) {
     return await this.$axios.get("/menu-items?populate=%2A").then((res) => {
       let data = {}
       res.data.data.forEach((element) => {
-        let menuItem = makeMenuItem(element);
+        let menuItem = makeAdminMenuItem(element);
         data[menuItem.id] = menuItem
       });
-      commit("setMenuItems", data);
+      commit("setAdminMenuItems", data);
     });
   },
-  async addMenuItem({
+  async addAdminMenuItem({
     commit
   }, data) {
     const formData = new FormData();
@@ -185,7 +185,7 @@ export const actions = {
       .post("/menu-items", formData)
       .then((res) => {
         this.$axios.get(`/menu-items/${res.data.data.id}?populate=%2A`).then((newItemRes) => {
-          commit("setMenuItem", makeMenuItem(newItemRes.data.data));
+          commit("setAdminMenuItem", makeAdminMenuItem(newItemRes.data.data));
 
         });
         return true;
@@ -194,7 +194,7 @@ export const actions = {
         return false;
       });
   },
-  async updateMenuItem({
+  async updateAdminMenuItem({
     commit,
   }, {
     id,
@@ -203,17 +203,17 @@ export const actions = {
     const formData = new FormData();
     formData.append("data", JSON.stringify(data));
     await this.$axios.put(`/menu-items/${id}`, formData).then((res) => {
-      commit("setMenuItemData", {
+      commit("setAdminMenuItemData", {
         id,
         data
       })
     })
   },
-  async removeMenuItem({
+  async removeAdminMenuItem({
     commit
   }, menuItem) {
     await this.$axios.delete(`/menu-items/${menuItem.id}`);
-    commit("removeMenuItem", menuItem.id);
+    commit("removeAdminMenuItem", menuItem.id);
   },
   async getHomepage({
     commit
@@ -269,7 +269,7 @@ function makeImage(data) {
   return image;
 }
 
-function makeMenuSection(data) {
+function makeAdminMenuSection(data) {
   return {
     id: data.id,
     name: data.attributes.name,
@@ -278,7 +278,7 @@ function makeMenuSection(data) {
   }
 }
 
-function makeMenuItem(data) {
+function makeAdminMenuItem(data) {
   let menuItem = {
     id: data.id
   }

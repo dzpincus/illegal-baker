@@ -5,7 +5,7 @@
             role="tab"
             v-b-hover="sectionHoverHandler"
         >
-            <MenuItemForm
+            <AdminMenuItemForm
                 :menu-item="menuItemToEdit"
                 :menu-section="menuSection"
                 :tags="tags"
@@ -70,7 +70,7 @@
                         <font-awesome-icon icon="pencil"></font-awesome-icon>
                     </span>
                     <b-button
-                        @click.stop="addNewMenuItem"
+                        @click.stop="addNewAdminMenuItem"
                         size="lg"
                         class="ml-2"
                         variant="dark"
@@ -86,12 +86,12 @@
             v-model="visible"
         >
             <b-card-body>
-                <v-draggable class="row" v-model="sortedMenuItems">
-                    <MenuItem
+                <v-draggable class="row" v-model="sortedAdminMenuItems">
+                    <AdminMenuItem
                         v-b-hover="itemHoverHandler"
-                        @edit="editMenuItem(menuItem)"
-                        @delete="deleteMenuItem(menuItem)"
-                        v-for="menuItem in sortedMenuItems"
+                        @edit="editAdminMenuItem(menuItem)"
+                        @delete="deleteAdminMenuItem(menuItem)"
+                        v-for="menuItem in sortedAdminMenuItems"
                         class="mt-3 mt-md-0"
                         :key="menuItem.id"
                         :menu-item="menuItem"
@@ -111,27 +111,27 @@ import { mapActions } from "vuex";
 export default {
     props: ["menuSection", "menuItems"],
     computed: {
-        sortedMenuItems: {
+        sortedAdminMenuItems: {
             get: function () {
                 if (this.menuItems) {
-                    let orderedMenuItems = [];
+                    let orderedAdminMenuItems = [];
                     // Add ordered elements to list
                     this.menuSection.order.forEach((orderId) => {
                         if (orderId in this.menuItems) {
-                            orderedMenuItems.push(this.menuItems[orderId]);
+                            orderedAdminMenuItems.push(this.menuItems[orderId]);
                         }
                     });
                     // Add any unordered (newly added) elements to end of list
-                    if (orderedMenuItems.length != this.menuItems.length) {
+                    if (orderedAdminMenuItems.length != this.menuItems.length) {
                         Object.values(this.menuItems).forEach((item) => {
                             if (
                                 this.menuSection.order.indexOf(item.id) === -1
                             ) {
-                                orderedMenuItems.push(item);
+                                orderedAdminMenuItems.push(item);
                             }
                         });
                     }
-                    return orderedMenuItems;
+                    return orderedAdminMenuItems;
                 }
                 return [];
             },
@@ -185,7 +185,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["updateMenuSection", "removeMenuItem"]),
+        ...mapActions(["updateAdminMenuSection", "removeAdminMenuItem"]),
         edit() {
             this.editing = true;
             this.$nextTick(() => {
@@ -195,7 +195,7 @@ export default {
         async saveSectionName() {
             if (this.newSectionName != this.menuSection.name) {
                 let data = { name: this.newSectionName };
-                await this.updateMenuSection({
+                await this.updateAdminMenuSection({
                     id: this.menuSection.id,
                     data: data,
                 });
@@ -206,7 +206,7 @@ export default {
         async toggleVisibility() {
             let newValue = !this.menuSection.visible;
             let data = { visible: newValue };
-            await this.updateMenuSection({
+            await this.updateAdminMenuSection({
                 id: this.menuSection.id,
                 data: data,
             });
@@ -214,29 +214,29 @@ export default {
         async setOrder(newOrder) {
             let data = { order: newOrder };
 
-            await this.updateMenuSection({
+            await this.updateAdminMenuSection({
                 id: this.menuSection.id,
                 data: data,
             });
         },
-        openMenuItemForm() {
+        openAdminMenuItemForm() {
             this.$root.$emit(
                 "bv::show::modal",
                 `add-item-modal-${this.menuSection.id}`
             );
         },
-        addNewMenuItem() {
+        addNewAdminMenuItem() {
             this.menuItemToEdit = null;
-            this.openMenuItemForm();
+            this.openAdminMenuItemForm();
         },
-        editMenuItem(menuItem) {
+        editAdminMenuItem(menuItem) {
             this.menuItemToEdit = menuItem;
-            this.openMenuItemForm();
+            this.openAdminMenuItemForm();
         },
-        async deleteMenuItem(menuItem) {
+        async deleteAdminMenuItem(menuItem) {
             if (confirm("Are you sure you want to delete this menu item?")) {
                 document.body.style.cursor = "wait";
-                await this.removeMenuItem(menuItem);
+                await this.removeAdminMenuItem(menuItem);
                 document.body.style.cursor = "default";
             }
         },

@@ -29,7 +29,7 @@
                 </b-dropdown>
             </div>
             <b-tab title-link-class="text-light px-5" title="Menu" active>
-                <MenuCreation />
+                <AdminMenuCreation />
             </b-tab>
             <b-tab title-link-class="text-light px-5" title="Photo Gallery">
                 <PhotoGallery />
@@ -61,8 +61,8 @@ export default {
     async fetch() {
         await this.$store.dispatch("getImages");
         await this.$store.dispatch("getHomepage");
-        await this.$store.dispatch("getMenuSections");
-        await this.$store.dispatch("getMenuItems");
+        await this.$store.dispatch("getAdminMenuSections");
+        await this.$store.dispatch("getAdminMenuItems");
     },
 };
 </script>

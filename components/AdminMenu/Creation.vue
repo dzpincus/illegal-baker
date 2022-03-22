@@ -35,8 +35,8 @@
         </b-modal>
 
         <div class="accordion pt-3" role="tablist">
-            <MenuSection
-                v-for="menuSection in sortedMenuSections"
+            <AdminMenuSection
+                v-for="menuSection in sortedAdminMenuSections"
                 :menu-section="menuSection"
                 :key="menuSection.id"
                 :menu-items="menuItemsBySection[menuSection.id]"
@@ -56,15 +56,20 @@ export default {
         };
     },
     mounted() {
-        this.divideMenuItems();
+        this.divideAdminMenuItems();
     },
     methods: {
-        ...mapActions[("getMenuSections", "addMenuSection", "getMenuItems")],
+        ...mapActions[
+            ("getAdminMenuSections", "addAdminMenuSection", "getAdminMenuItems")
+        ],
         async handleSubmitNewSection() {
-            await this.$store.dispatch("addMenuSection", this.newSectionName);
+            await this.$store.dispatch(
+                "addAdminMenuSection",
+                this.newSectionName
+            );
             this.newSectionName = "";
         },
-        divideMenuItems: function () {
+        divideAdminMenuItems: function () {
             let sections = {};
             if (this.menuItems) {
                 for (const menuItem of Object.values(this.menuItems)) {
@@ -80,7 +85,7 @@ export default {
     },
     computed: {
         ...mapState(["menuItems", "menuSections"]),
-        sortedMenuSections: function () {
+        sortedAdminMenuSections: function () {
             if (this.menuSections) {
                 let copy = Object.values(
                     JSON.parse(JSON.stringify(this.menuSections))
@@ -94,7 +99,7 @@ export default {
     watch: {
         menuItems: {
             handler: function () {
-                this.divideMenuItems();
+                this.divideAdminMenuItems();
             },
             deep: true,
         },

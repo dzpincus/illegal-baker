@@ -11,7 +11,7 @@
             >
                 <div
                     v-if="announcement && !hideAnnouncement"
-                    class="text-dark flex-center flex-column rounded"
+                    class="text-dark flex-center rounded"
                     style="max-width: 50%; max-height: 50%; opacity: 0.9"
                     v-b-hover="announcementHover"
                     :style="{
@@ -21,9 +21,15 @@
                         ),
                     }"
                 >
-                    <div class="p-5">
-                        <h1 class="d-none d-md-block">{{ announcement }}</h1>
-                        <h6 class="d-block d-md-none">{{ announcement }}</h6>
+                    <div
+                        class="text-center px-3"
+                        v-resize-text="{
+                            ratio: 1.3,
+                            maxFontSize: '25px',
+                            delay: 200,
+                        }"
+                    >
+                        {{ announcement }}
                     </div>
                 </div>
             </div>
@@ -247,11 +253,6 @@ export default {
                 return `${(this.windowHeight - navHeight) / 2}px`;
             }
         },
-    },
-
-    async fetch() {
-        await this.$store.dispatch("getImages");
-        await this.$store.dispatch("getHomepage");
     },
 };
 </script>
