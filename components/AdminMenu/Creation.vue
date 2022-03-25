@@ -46,17 +46,13 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     data: function () {
         return {
             newSectionName: "",
-            menuItemsBySection: {},
         };
-    },
-    mounted() {
-        this.divideAdminMenuItems();
     },
     methods: {
         ...mapActions[
@@ -69,22 +65,9 @@ export default {
             );
             this.newSectionName = "";
         },
-        divideAdminMenuItems: function () {
-            let sections = {};
-            if (this.menuItems) {
-                for (const menuItem of Object.values(this.menuItems)) {
-                    let sectionId = menuItem.menuSection;
-                    if (!sections[sectionId]) {
-                        sections[sectionId] = {};
-                    }
-                    sections[sectionId][menuItem.id] = menuItem;
-                }
-                this.menuItemsBySection = sections;
-            }
-        },
     },
     computed: {
-        ...mapState(["menuItems", "menuSections"]),
+        ...mapGetters(["menuItems", "menuSections", "menuItemsBySection"]),
         sortedAdminMenuSections: function () {
             if (this.menuSections) {
                 let copy = Object.values(
@@ -94,14 +77,6 @@ export default {
                 return copy;
             }
             return [];
-        },
-    },
-    watch: {
-        menuItems: {
-            handler: function () {
-                this.divideAdminMenuItems();
-            },
-            deep: true,
         },
     },
 };

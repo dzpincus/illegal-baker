@@ -64,7 +64,11 @@
                     <font-awesome-icon icon="pencil"></font-awesome-icon>
                 </a>
                 <br />
-                <span>${{ menuItem.price }}</span>
+                <span
+                    >${{ menuItem.price
+                    }}<template v-if="hasPriceOption">+</template>
+                </span>
+
                 <a
                     class="float-right isClickable"
                     v-b-tooltip.hover
@@ -89,6 +93,14 @@ export default {
     },
     computed: {
         ...mapGetters(["allImages"]),
+        hasPriceOption: function () {
+            for (const option in this.menuItem.options) {
+                if (option.priceModel != "none") {
+                    return true;
+                }
+            }
+            return false;
+        },
         image: function () {
             return this.allImages[this.menuItem.image];
         },

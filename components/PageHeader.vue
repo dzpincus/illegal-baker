@@ -28,6 +28,16 @@
                     :to="page.path"
                     ><h3>{{ page.title }}</h3>
                 </b-nav-item>
+                <b-nav-item
+                    class="ml-3"
+                    to="/cart"
+                    :active="$nuxt.$route.path === 'cart'"
+                >
+                    <font-awesome-icon
+                        size="2x"
+                        icon="bag-shopping"
+                    ></font-awesome-icon>
+                </b-nav-item>
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>

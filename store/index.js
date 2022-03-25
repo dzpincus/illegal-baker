@@ -21,6 +21,7 @@ export const mutations = {
       Vue.set(state.menuSections[payload.id], key, value)
     }
   },
+  removeAdminMenuSection: (state, menuSectionId) => Vue.delete(state.menuSections, menuSectionId),
   setAdminMenuItems: (state, menuItems) =>
     (state.menuItems = menuItems),
   setAdminMenuItem: (state, menuItem) =>
@@ -38,6 +39,29 @@ export const getters = {
   allImages: (state) => state.allImages,
   menuSections: (state) => state.menuSections,
   menuItems: (state) => state.menuItems,
+  menuItemsBySection: (state) => {
+    let sections = {};
+    let allIdsFound = new Set();
+    if (state.menuItems) {
+      // Add ordered elements to list
+      for (const menuSection of Object.values(state.menuSections)) {
+        sections[menuSection.id] = []
+        menuSection.order.forEach((orderId) => {
+          if (orderId in state.menuItems) {
+            sections[menuSection.id].push(state.menuItems[orderId]);
+            allIdsFound.add(orderId);
+          }
+        })
+      }
+      // Add any unordered (newly added) elements to end of list
+      for (const menuItem of Object.values(state.menuItems)) {
+        if (!allIdsFound.has(menuItem.id)) {
+          sections[menuItem.menuSection].push(menuItem);
+        }
+      }
+      return sections;
+    }
+  },
   homepage: (state) => state.homepage,
   isAuthenticated(state) {
     return state.auth.loggedIn;
@@ -163,7 +187,12 @@ export const actions = {
       commit("setAdminMenuSection", makeAdminMenuSection(res.data.data));
     })
   },
-
+  async removeAdminMenuSection({
+    commit
+  }, menuSection) {
+    await this.$axios.delete(`/menu-sections/${menuSection.id}`);
+    commit("removeAdminMenuSection", menuSection.id);
+  },
   async getAdminMenuItems({
     commit
   }) {
@@ -224,10 +253,17 @@ export const actions = {
       attributes.images.data.forEach(image => {
         images.push(image.id);
       })
-      commit("setHomepage", {announcement: attributes.announcement, mainImage: attributes.main_image.data.id, images: images, colors: attributes.colors})
+      commit("setHomepage", {
+        announcement: attributes.announcement,
+        mainImage: attributes.main_image.data.id,
+        images: images,
+        colors: attributes.colors
+      })
     })
   },
-  async setHomepage({commit}, data) {
+  async setHomepage({
+    commit
+  }, data) {
     let convertedData = {}
     for (const attribute in data) {
       convertedData[camelToSnake(attribute)] = data[attribute]
@@ -282,7 +318,7 @@ function makeAdminMenuItem(data) {
   let menuItem = {
     id: data.id
   }
-  let attributes = ["name", "price", "vegan", "vegetarian", "glutenFree", "visible", "options", "order"];
+  let attributes = ["name", "description", "price", "vegan", "vegetarian", "glutenFree", "visible", "options", "order"];
   attributes.forEach((attribute) => {
     if (data.attributes[attribute]) {
       menuItem[attribute] = data.attributes[attribute];
@@ -331,10 +367,10 @@ function snakeToCamel(snakeString) {
 function camelToSnake(camelString) {
   return camelString.split('').map((character) => {
       if (character == character.toUpperCase()) {
-          return '_' + character.toLowerCase();
+        return '_' + character.toLowerCase();
       } else {
-          return character;
+        return character;
       }
-  })
-  .join('');
+    })
+    .join('');
 }

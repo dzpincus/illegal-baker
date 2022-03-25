@@ -4,6 +4,7 @@
             <b-form-input
                 class="col-6 col-md-3 pl-2"
                 v-model="value.name"
+                required
                 placeholder="Option Name"
             ></b-form-input>
             <a
@@ -72,6 +73,7 @@
                     <b-form-input
                         class="col-3 ml-3 pl-2"
                         size="sm"
+                        :id="`option-${index}-name`"
                         v-model="choice.name"
                         placeholder="Choice Name"
                         required
@@ -80,6 +82,7 @@
                         v-if="value.priceModel != 'none'"
                         class="col-3 ml-3"
                         size="sm"
+                        :id="`option-${index}-price`"
                         v-model="choice.price"
                         placeholder="Choice Price"
                         type="number"

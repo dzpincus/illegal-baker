@@ -88,7 +88,7 @@ export default {
   },
   fontawesome: {
     icons: {
-      solid: ['faFloppyDisk', 'faPencil', 'faUpload', 'faTrash', 'faPlus', 'faLeaf', 'faSeedling', 'faCamera', 'faCircle', 'faBreadSlice', 'faSlash', "faCircleInfo", "faEye", "faEyeSlash", "faX"],
+      solid: ['faFloppyDisk', 'faPencil', 'faUpload', 'faTrash', 'faPlus', 'faLeaf', 'faSeedling', 'faCamera', 'faCircle', 'faBreadSlice', 'faSlash', "faCircleInfo", "faEye", "faEyeSlash", "faX", "faBagShopping"],
     }
   },
   googleFonts: {

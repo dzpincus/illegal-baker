@@ -61,6 +61,15 @@
                         ></font-awesome-icon>
                     </span>
                     <span
+                        v-if="!menuItems || menuItems.length == 0"
+                        class="isClickable mr-2"
+                        v-b-tooltip.hover
+                        title="Remove section"
+                        @click.stop="removeSection"
+                    >
+                        <font-awesome-icon icon="trash"></font-awesome-icon>
+                    </span>
+                    <span
                         v-if="!editing"
                         @click.stop="edit"
                         class="isClickable"
@@ -113,27 +122,7 @@ export default {
     computed: {
         sortedAdminMenuItems: {
             get: function () {
-                if (this.menuItems) {
-                    let orderedAdminMenuItems = [];
-                    // Add ordered elements to list
-                    this.menuSection.order.forEach((orderId) => {
-                        if (orderId in this.menuItems) {
-                            orderedAdminMenuItems.push(this.menuItems[orderId]);
-                        }
-                    });
-                    // Add any unordered (newly added) elements to end of list
-                    if (orderedAdminMenuItems.length != this.menuItems.length) {
-                        Object.values(this.menuItems).forEach((item) => {
-                            if (
-                                this.menuSection.order.indexOf(item.id) === -1
-                            ) {
-                                orderedAdminMenuItems.push(item);
-                            }
-                        });
-                    }
-                    return orderedAdminMenuItems;
-                }
-                return [];
+                return this.menuItems;
             },
             set: function (newOrderObjects) {
                 let newOrder = newOrderObjects.map((item) => item.id);
@@ -185,7 +174,11 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["updateAdminMenuSection", "removeAdminMenuItem"]),
+        ...mapActions([
+            "updateAdminMenuSection",
+            "removeAdminMenuItem",
+            "removeAdminMenuSection",
+        ]),
         edit() {
             this.editing = true;
             this.$nextTick(() => {
@@ -202,6 +195,13 @@ export default {
             }
 
             this.editing = false;
+        },
+        async removeSection() {
+            if (confirm("Are you sure you want to delete this menu section?")) {
+                document.body.style.cursor = "wait";
+                await this.removeAdminMenuSection(this.menuSection);
+                document.body.style.cursor = "default";
+            }
         },
         async toggleVisibility() {
             let newValue = !this.menuSection.visible;

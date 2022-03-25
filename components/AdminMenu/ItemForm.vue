@@ -235,7 +235,10 @@ export default {
                     this.formData.options[this.optionSetIndex].choices;
                 if (choices) {
                     choices.forEach((choice) => {
-                        if (!minPrice || choice.price < minPrice) {
+                        if (
+                            choice.price &&
+                            (!minPrice || choice.price < minPrice)
+                        ) {
                             minPrice = choice.price;
                         }
                     });
