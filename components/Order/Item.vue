@@ -43,9 +43,9 @@ export default {
         return { hovered: false };
     },
     computed: {
-        ...mapGetters(["allImages"]),
+        ...mapGetters({ images: "image/all" }),
         image: function () {
-            return this.allImages[this.menuItem.image];
+            return this.images[this.menuItem.image];
         },
         hasPriceOption: function () {
             for (const option in this.menuItem.options) {

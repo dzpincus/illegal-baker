@@ -58,11 +58,5 @@ export default {
             tabs: ["Menu", "Photo Gallery", "Homepage Content"],
         };
     },
-    async fetch() {
-        await this.$store.dispatch("getImages");
-        await this.$store.dispatch("getHomepage");
-        await this.$store.dispatch("getAdminMenuSections");
-        await this.$store.dispatch("getAdminMenuItems");
-    },
 };
 </script>

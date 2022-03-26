@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 export default {
     props: ["image"],
     data: function () {
@@ -59,17 +58,19 @@ export default {
         this.newName = this.image.name;
     },
     methods: {
-        ...mapActions(["removeImage", "updateImage"]),
         async save() {
             if (this.newName != this.image.name) {
                 document.body.style.cursor = "wait";
                 let data = { name: this.newName };
-                await this.updateImage({ id: this.image.id, data: data }).then(
-                    () => {
+                await this.$store
+                    .dispatch("image/update", {
+                        id: this.image.id,
+                        data: data,
+                    })
+                    .then(() => {
                         document.body.style.cursor = "default";
                         this.editing = false;
-                    }
-                );
+                    });
             } else {
                 this.editing = false;
             }
@@ -77,7 +78,7 @@ export default {
         async deleteImage() {
             if (confirm("Are you sure you want to delete this image?")) {
                 document.body.style.cursor = "wait";
-                await this.removeImage(this.image);
+                await this.$store.dispatch("image/remove", this.image);
                 document.body.style.cursor = "default";
             }
         },

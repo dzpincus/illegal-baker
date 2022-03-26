@@ -174,11 +174,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions([
-            "updateAdminMenuSection",
-            "removeAdminMenuItem",
-            "removeAdminMenuSection",
-        ]),
+        ...mapActions(["updateAdminMenuSection", "removeAdminMenuSection"]),
         edit() {
             this.editing = true;
             this.$nextTick(() => {
@@ -188,7 +184,7 @@ export default {
         async saveSectionName() {
             if (this.newSectionName != this.menuSection.name) {
                 let data = { name: this.newSectionName };
-                await this.updateAdminMenuSection({
+                await this.$store.dispatch("menu-section/update", {
                     id: this.menuSection.id,
                     data: data,
                 });
@@ -199,14 +195,17 @@ export default {
         async removeSection() {
             if (confirm("Are you sure you want to delete this menu section?")) {
                 document.body.style.cursor = "wait";
-                await this.removeAdminMenuSection(this.menuSection);
+                await this.$store.dispatch(
+                    "menu-section/remove",
+                    this.menuSection
+                );
                 document.body.style.cursor = "default";
             }
         },
         async toggleVisibility() {
             let newValue = !this.menuSection.visible;
             let data = { visible: newValue };
-            await this.updateAdminMenuSection({
+            await this.$store.dispatch("menu-section/update", {
                 id: this.menuSection.id,
                 data: data,
             });
@@ -214,7 +213,7 @@ export default {
         async setOrder(newOrder) {
             let data = { order: newOrder };
 
-            await this.updateAdminMenuSection({
+            await this.$store.dispatch("menu-section/update", {
                 id: this.menuSection.id,
                 data: data,
             });
@@ -236,7 +235,7 @@ export default {
         async deleteAdminMenuItem(menuItem) {
             if (confirm("Are you sure you want to delete this menu item?")) {
                 document.body.style.cursor = "wait";
-                await this.removeAdminMenuItem(menuItem);
+                await this.$store.dispatch("menu-item/remove", menuItem);
                 document.body.style.cursor = "default";
             }
         },

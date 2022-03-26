@@ -58,12 +58,6 @@ export default {
             menuItemToAdd: null,
         };
     },
-    async fetch() {
-        await this.$store.dispatch("getImages");
-        await this.$store.dispatch("getHomepage");
-        await this.$store.dispatch("getAdminMenuSections");
-        await this.$store.dispatch("getAdminMenuItems");
-    },
     methods: {
         addItem: function (menuItem) {
             this.menuItemToAdd = menuItem;
@@ -71,7 +65,11 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(["menuItems", "menuSections", "menuItemsBySection"]),
+        ...mapGetters({
+            menuItems: "menu-item/all",
+            menuItemsBySection: "menu-item/bySection",
+            menuSections: "menu-section/all",
+        }),
         displayMenuSections() {
             return Object.values(this.menuSections).filter(
                 (section) => section.visible

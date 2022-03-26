@@ -10,10 +10,10 @@
 <script>
 export default {
     async fetch() {
-        await this.$store.dispatch("getImages");
-        await this.$store.dispatch("getHomepage");
-        await this.$store.dispatch("getAdminMenuSections");
-        await this.$store.dispatch("getAdminMenuItems");
+        await this.$store.dispatch("image/get");
+        await this.$store.dispatch("homepage/get");
+        await this.$store.dispatch("menu-section/get");
+        await this.$store.dispatch("menu-item/get");
     },
 };
 </script>

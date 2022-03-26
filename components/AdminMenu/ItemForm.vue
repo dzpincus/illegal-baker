@@ -170,7 +170,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import Vue from "vue";
 export default {
     props: ["menuSection", "tags", "menuItem"],
@@ -193,7 +193,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["allImages"]),
+        ...mapGetters({ images: "image/all" }),
         formTitle: function () {
             if (this.menuItem) {
                 return "Edit menu item";
@@ -219,8 +219,7 @@ export default {
                         JSON.parse(JSON.stringify(this.menuItem))
                     );
                     if (this.formData.image) {
-                        this.formData.image =
-                            this.allImages[this.formData.image];
+                        this.formData.image = this.images[this.formData.image];
                     }
                 } else {
                     this.resetFormData();
@@ -251,7 +250,6 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["addAdminMenuItem", "updateAdminMenuItem"]),
         toggleTag(tag) {
             Vue.set(
                 this.formData,
@@ -305,22 +303,21 @@ export default {
                     data["image"] = parseInt(this.formData.image.id);
                 }
                 data["options"] = this.formData.options;
-                let action = Boolean(this.menuItem)
-                    ? "updateAdminMenuItem"
-                    : "addAdminMenuItem";
                 if (this.menuItem) {
-                    await this.updateAdminMenuItem({
-                        id: this.menuItem.id,
-                        data: data,
-                    }).finally(() => {
-                        document.body.style.cursor = "default";
-                        this.$root.$emit(
-                            "bv::hide::modal",
-                            `add-item-modal-${this.menuSection.id}`
-                        );
-                    });
+                    await this.$store
+                        .dispatch("menu-item/update", {
+                            id: this.menuItem.id,
+                            data: data,
+                        })
+                        .finally(() => {
+                            document.body.style.cursor = "default";
+                            this.$root.$emit(
+                                "bv::hide::modal",
+                                `add-item-modal-${this.menuSection.id}`
+                            );
+                        });
                 } else {
-                    await this.addAdminMenuItem(data).finally(() => {
+                    await this.$store("menu-item/add", data).finally(() => {
                         document.body.style.cursor = "default";
                         this.$root.$emit(
                             "bv::hide::modal",

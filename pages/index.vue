@@ -12,7 +12,12 @@
                 <div
                     v-if="announcement && !hideAnnouncement"
                     class="text-dark flex-center rounded"
-                    style="max-width: 50%; max-height: 50%; opacity: 0.9"
+                    style="
+                        max-width: 50%;
+                        max-height: 50%;
+                        min-width: 50%;
+                        opacity: 0.9;
+                    "
                     v-b-hover="announcementHover"
                     :style="{
                         height: this.halfHeight,
@@ -188,7 +193,7 @@ export default {
         setImages() {
             this.announcement = this.homepage?.announcement;
             if (this.homepage?.mainImage) {
-                this.mainImage = this.allImages[this.homepage.mainImage];
+                this.mainImage = this.images[this.homepage.mainImage];
                 this.mainImageUrl =
                     this.mainImage?.medium ||
                     this.mainImage?.small ||
@@ -200,9 +205,9 @@ export default {
                 this.images2 = [];
                 this.homepage.images.forEach((imageId, index) => {
                     if (index % 2 == 0) {
-                        this.images1.push(this.allImages[imageId]);
+                        this.images1.push(this.images[imageId]);
                     } else {
-                        this.images2.push(this.allImages[imageId]);
+                        this.images2.push(this.images[imageId]);
                     }
                 });
             }
@@ -245,7 +250,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(["homepage", "allImages"]),
+        ...mapGetters({ homepage: "homepage/data", images: "image/all" }),
         halfHeight: function () {
             if (process.browser) {
                 let navHeight =

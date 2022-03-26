@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
     props: ["menuItem", "tags"],
@@ -92,7 +92,7 @@ export default {
         return { isHovered: false };
     },
     computed: {
-        ...mapGetters(["allImages"]),
+        ...mapGetters({ images: "image/all" }),
         hasPriceOption: function () {
             for (const option in this.menuItem.options) {
                 if (option.priceModel != "none") {
@@ -102,7 +102,7 @@ export default {
             return false;
         },
         image: function () {
-            return this.allImages[this.menuItem.image];
+            return this.images[this.menuItem.image];
         },
         visibleTooltipData: function () {
             let v = this.menuItem.visible ? "Visible" : "Not Visible";
@@ -112,7 +112,6 @@ export default {
         },
     },
     methods: {
-        ...mapActions["updateAdminMenuItem"],
         hoverHandler(isHovered) {
             this.isHovered = isHovered;
         },
@@ -120,7 +119,7 @@ export default {
             document.body.style.cursor = "wait";
             let data = { visible: !this.menuItem.visible };
             await this.$store
-                .dispatch("updateAdminMenuItem", {
+                .dispatch("menu-item/update", {
                     id: this.menuItem.id,
                     data: data,
                 })

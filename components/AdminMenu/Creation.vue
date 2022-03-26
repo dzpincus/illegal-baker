@@ -36,7 +36,7 @@
 
         <div class="accordion pt-3" role="tablist">
             <AdminMenuSection
-                v-for="menuSection in sortedAdminMenuSections"
+                v-for="menuSection in sortedMenuSections"
                 :menu-section="menuSection"
                 :key="menuSection.id"
                 :menu-items="menuItemsBySection[menuSection.id]"
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
     data: function () {
@@ -55,20 +55,18 @@ export default {
         };
     },
     methods: {
-        ...mapActions[
-            ("getAdminMenuSections", "addAdminMenuSection", "getAdminMenuItems")
-        ],
         async handleSubmitNewSection() {
-            await this.$store.dispatch(
-                "addAdminMenuSection",
-                this.newSectionName
-            );
+            await this.$store.dispatch("menu-section/add", this.newSectionName);
             this.newSectionName = "";
         },
     },
     computed: {
-        ...mapGetters(["menuItems", "menuSections", "menuItemsBySection"]),
-        sortedAdminMenuSections: function () {
+        ...mapGetters({
+            menuItems: "menu-item/all",
+            menuItemsBySection: "menu-item/bySection",
+            menuSections: "menu-section/all",
+        }),
+        sortedMenuSections: function () {
             if (this.menuSections) {
                 let copy = Object.values(
                     JSON.parse(JSON.stringify(this.menuSections))

@@ -48,7 +48,7 @@
                 <ImageCard
                     @clicked="selectImage(image)"
                     :key="image.id"
-                    v-for="image in Object.values(allImages)"
+                    v-for="image in Object.values(images)"
                     :class="{
                         isClickable: Boolean(selecting),
                         selected: isSelected(image),
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
     props: ["selecting", "value"],
@@ -85,10 +85,9 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["allImages"]),
+        ...mapGetters({ images: "image/all" }),
     },
     methods: {
-        ...mapActions(["addImage", "getImages"]),
         selectImage: function (image) {
             if (this.selecting === "single") {
                 this.selected = image;
@@ -130,20 +129,23 @@ export default {
                 JSON.stringify({ name: this.fileForm.newImageName })
             );
 
-            await this.addImage(this.fileForm).then((res) => {
-                if (res) {
-                    document.body.style.cursor = "default";
+            await this.$store
+                .dispatch("image/add", this.fileForm)
+                .then((res) => {
+                    if (res) {
+                        document.body.style.cursor = "default";
 
-                    this.fileForm = {
-                        newImage: null,
-                        newImageName: "",
-                        message: "File uploaded successfully",
-                    };
-                } else {
-                    this.fileForm.message = "Error uploading file, try again";
-                    document.body.style.cursor = "default";
-                }
-            });
+                        this.fileForm = {
+                            newImage: null,
+                            newImageName: "",
+                            message: "File uploaded successfully",
+                        };
+                    } else {
+                        this.fileForm.message =
+                            "Error uploading file, try again";
+                        document.body.style.cursor = "default";
+                    }
+                });
         },
     },
 };

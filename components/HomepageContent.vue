@@ -28,7 +28,7 @@
             <div class="row mt-3">
                 <CloudinaryImage
                     class="col col-md-3"
-                    v-for="i in images"
+                    v-for="i in subImages"
                     :key="`homepage-${i.id}`"
                     :image="i"
                     :thumbnail-only="true"
@@ -51,16 +51,16 @@
             </template>
         </b-modal>
         <b-modal id="sub-photo-gallery-modal" size="xl">
-            <PhotoGallery selecting="multiple" v-model="images" />
+            <PhotoGallery selecting="multiple" v-model="subImages" />
 
             <template #modal-footer="{ close, ok }">
                 <b-button variant="light" @click="close()">Cancel</b-button>
                 <b-button
-                    :disabled="!images"
+                    :disabled="!subImages"
                     type="submit"
                     @click.stop.prevent="ok"
                     variant="primary"
-                    >Select {{ images.length }}
+                    >Select {{ subImages.length }}
                 </b-button>
             </template>
         </b-modal>
@@ -75,11 +75,11 @@ export default {
         return {
             announcement: null,
             mainImage: null,
-            images: [],
+            subImages: [],
         };
     },
     computed: {
-        ...mapGetters(["allImages", "homepage"]),
+        ...mapGetters({ images: "image/all", homepage: "homepage/data" }),
     },
     watch: {
         homepage: {
@@ -87,14 +87,14 @@ export default {
             handler: function () {
                 this.announcement = this.homepage?.announcement;
                 if (this.homepage?.mainImage) {
-                    this.mainImage = this.allImages[this.homepage.mainImage];
+                    this.mainImage = this.images[this.homepage.mainImage];
                 }
                 this.image = this.homepage?.image;
                 if (this.homepage?.images) {
-                    this.images = [];
+                    this.subImages = [];
                     this.homepage.images.forEach((imageId) => {
-                        if (this.allImages[imageId]) {
-                            this.images.push(this.allImages[imageId]);
+                        if (this.images[imageId]) {
+                            this.subImages.push(this.images[imageId]);
                         }
                     });
                 }
@@ -102,7 +102,6 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["setHomepage"]),
         async submit() {
             document.body.style.cursor = "wait";
             var colors = {};
@@ -119,10 +118,10 @@ export default {
             let data = {
                 announcement: this.announcement,
                 mainImage: this.mainImage?.id,
-                images: this.images.map((i) => i.id),
+                images: this.subImages.map((i) => i.id),
                 colors: colors,
             };
-            await this.setHomepage(data).finally(() => {
+            await this.$store.dispatch("homepage/set", data).finally(() => {
                 document.body.style.cursor = "default";
             });
         },
