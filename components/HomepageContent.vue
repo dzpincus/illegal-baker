@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import * as Vibrant from "node-vibrant";
 export default {
     data: function () {

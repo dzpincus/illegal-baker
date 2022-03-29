@@ -31,6 +31,8 @@ export default {
                     ? this.choiceValue(this.option.choices[0]).value
                     : null
                 : [];
+        this.$emit("input", selectedStarterValue);
+
         return {
             selected: selectedStarterValue,
         };

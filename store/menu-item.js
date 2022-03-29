@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import { snakeToCamel } from '../utils/case-conversion' 
+
 export const state = () => ({
   all: {},
 })
@@ -124,17 +126,3 @@ function makeMenuItem(data) {
   return menuItem;
 }
 
-function snakeToCamel(snakeString) {
-  let split = snakeString.split('_');
-  if (split.length > 1) {
-    let camel = split[0]
-    for (var i = 1; i < split.length; i++) {
-      let word = split[i];
-      word = word[0].toUpperCase() + word.substring(1);
-      camel += word;
-    }
-    return camel;
-  } else {
-    return snakeString;
-  }
-}

@@ -2,7 +2,7 @@ require("dotenv").config();
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
-  // mode: 'spa',
+  mode: 'spa',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -50,9 +50,9 @@ export default {
     '@nuxtjs/google-fonts'
   ],
 
-  plugins: ['~/plugins/vuedraggable.js', '~/plugins/vue-stripe-elements-plus.js', { src: '~/plugins/vue-resize-text.js', mode: 'client' }, ],
+  plugins: ['~/plugins/vuedraggable.js', '~/plugins/vue-stripe-elements-plus.js', { src: '~/plugins/vue-resize-text.js', mode: 'client' }],
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome', ],
+  modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome'],
   auth: {
     strategies: {
       local: {

@@ -33,10 +33,14 @@
                     to="/cart"
                     :active="$nuxt.$route.path === 'cart'"
                 >
-                    <font-awesome-icon
-                        size="2x"
-                        icon="bag-shopping"
-                    ></font-awesome-icon>
+                    <font-awesome-layers full-width class="fa-2x">
+                        <font-awesome-icon icon="bag-shopping" />
+                        <font-awesome-layers-text
+                            class="text-light"
+                            transform="down-4 shrink-8"
+                            :value="cartSize"
+                        />
+                    </font-awesome-layers>
                 </b-nav-item>
             </b-navbar-nav>
         </b-collapse>
@@ -50,9 +54,16 @@
 </style>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
     name: "pageHeader",
-
+    computed: {
+        ...mapGetters({ items: "cart/items" }),
+        cartSize: function () {
+            return this.items.length > 0 ? this.items?.length : "";
+        },
+    },
     data: function () {
         let pages = [
             { title: "Home", path: "/" },

@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import { camelToSnake } from '../utils/case-conversion' 
+
 
 export const state = () => ({
   data: {}
@@ -50,13 +52,3 @@ export const actions = {
   }
 }
 
-function camelToSnake(camelString) {
-  return camelString.split('').map((character) => {
-      if (character == character.toUpperCase()) {
-        return '_' + character.toLowerCase();
-      } else {
-        return character;
-      }
-    })
-    .join('');
-}

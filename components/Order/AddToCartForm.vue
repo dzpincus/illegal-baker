@@ -11,7 +11,10 @@
                 <CloudinaryImage :image="image" />
             </div>
             <div class="col-12 col-md-7 pl-md-4">
-                <b-form class="d-flex flex-column w-75">
+                <b-form
+                    @submit.prevent="submit"
+                    class="d-flex flex-column w-75"
+                >
                     <h3>{{ menuItem.name }}</h3>
                     <h4>${{ price }}</h4>
                     <p>{{ menuItem.description }}</p>
@@ -20,13 +23,13 @@
                         <b-input
                             class="w-25"
                             id="quantity"
-                            v-model="formData.quantity"
+                            v-model="quantity"
                             min="1"
                             type="number"
                         ></b-input>
                     </b-form-group>
                     <OrderOptionInput
-                        v-model="formData.options[option.name]"
+                        v-model="selectedOptions[option.name]"
                         v-for="(option, index) in menuItem.options"
                         :key="`menuItem-${menuItem.name}-${index}`"
                         :option="option"
@@ -49,10 +52,8 @@ export default {
     data: function () {
         return {
             price: this.menuItem?.price,
-            formData: {
-                quantity: 1,
-                options: {},
-            },
+            selectedOptions: {},
+            quantity: 1,
         };
     },
     watch: {
@@ -66,20 +67,20 @@ export default {
                         return opt;
                     });
                     if (options.length) {
-                        this.formData.options = Object.assign(...options);
+                        this.selectedOptions = Object.assign(...options);
                     }
                 }
                 this.price = this.menuItem.price;
             },
         },
-        formData: {
+        selectedOptions: {
             deep: true,
             handler: function () {
-                if (this.formData.options) {
+                if (this.selectedOptions) {
                     let basePrice = this.price;
                     let adds = 0;
                     this.menuItem.options.forEach((option) => {
-                        let optionValue = this.formData.options[option.name];
+                        let optionValue = this.selectedOptions[option.name];
                         if (optionValue && option.priceModel != "none") {
                             if (option.priceModel == "set") {
                                 basePrice = parseFloat(optionValue.price);
@@ -101,6 +102,17 @@ export default {
         ...mapGetters({ images: "image/all" }),
         image: function () {
             return this.images[this.menuItem.image];
+        },
+    },
+    methods: {
+        submit() {
+            let data = {
+                menuItem: this.menuItem.id,
+                quantity: this.quantity,
+                options: JSON.parse(JSON.stringify(this.selectedOptions)),
+            };
+            this.$store.dispatch("cart/add", data);
+            this.$root.$emit("bv::hide::modal", "add-to-cart-form");
         },
     },
 };
