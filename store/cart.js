@@ -19,7 +19,10 @@ export const mutations = {
 export const getters = {
   items: (state) => state.items,
   size: (state) => {
-    
+    let size = state.items.reduce((acc, item) => {
+      return acc + item.quantity;
+    }, 0);
+    return size > 0 ? size : "";
   }
 }
 

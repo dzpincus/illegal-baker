@@ -109,6 +109,7 @@ export default {
             let data = {
                 menuItem: this.menuItem.id,
                 quantity: this.quantity,
+                price: this.price,
                 options: JSON.parse(JSON.stringify(this.selectedOptions)),
             };
             this.$store.dispatch("cart/add", data);

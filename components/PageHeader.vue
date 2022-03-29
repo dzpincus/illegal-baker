@@ -59,10 +59,7 @@ import { mapGetters } from "vuex";
 export default {
     name: "pageHeader",
     computed: {
-        ...mapGetters({ items: "cart/items" }),
-        cartSize: function () {
-            return this.items.length > 0 ? this.items?.length : "";
-        },
+        ...mapGetters({ cartSize: "cart/size" }),
     },
     data: function () {
         let pages = [
