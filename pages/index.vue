@@ -30,7 +30,8 @@
                         class="text-center px-3"
                         v-resize-text="{
                             ratio: 1.3,
-                            maxFontSize: '25px',
+                            minFontSize: '30px',
+                            maxFontSize: '40px',
                             delay: 200,
                         }"
                     >

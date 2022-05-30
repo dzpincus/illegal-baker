@@ -2,11 +2,11 @@ require("dotenv").config();
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
-  mode: 'spa',
+  // mode: 'spa',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'illegal-baker',
+    title: 'Illegal Baker',
     htmlAttrs: {
       lang: 'en'
     },
@@ -32,9 +32,6 @@ export default {
       type: 'image/x-icon',
       href: '/favicon.ico'
     }],
-    script: [
-      { src: 'https://js.stripe.com/v3' },
-    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -50,7 +47,7 @@ export default {
     '@nuxtjs/google-fonts'
   ],
 
-  plugins: ['~/plugins/vuedraggable.js', '~/plugins/vue-stripe-elements-plus.js', { src: '~/plugins/vue-resize-text.js', mode: 'client' }],
+  plugins: ['~/plugins/vuedraggable.js', { src: '~/plugins/vue-resize-text.js', mode: 'client' }],
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome'],
   auth: {
@@ -88,7 +85,7 @@ export default {
   },
   fontawesome: {
     icons: {
-      solid: ['faFloppyDisk', 'faPencil', 'faUpload', 'faTrash', 'faPlus', 'faLeaf', 'faSeedling', 'faCamera', 'faCircle', 'faBreadSlice', 'faSlash', "faCircleInfo", "faEye", "faEyeSlash", "faX", "faBagShopping"],
+      solid: ['faFloppyDisk', 'faPencil', 'faUpload', 'faTrash', 'faPlus', 'faMinus', 'faLeaf', 'faSeedling', 'faCamera', 'faCircle', 'faBreadSlice', 'faSlash', "faCircleInfo", "faEye", "faEyeSlash", "faX", "faBagShopping"],
     }
   },
   googleFonts: {
@@ -114,7 +111,9 @@ export default {
 
   env: {
     baseUrl: process.env.API_AUTH_URL,
-    strapiAppToken: process.env.STRAPI_APP_TOKEN
+    strapiAppToken: process.env.STRAPI_APP_TOKEN,
+    googlePlacesKey: process.env.GOOGLE_MAPS_KEY,
+    stripeKey: process.env.STRIPE_KEY
   },
   publicRuntimeConfig: {
     baseUrl: process.env.API_AUTH_URL

@@ -17,13 +17,11 @@ export const actions = {
   }, {
     req
   }) {
-    let user = null
-    let cart = []
+    let cart = {};
     if (req && req.headers && req.headers.cookie) {
       const parsed = cookieparser.parse(req.headers.cookie)
-      cart = (parsed.cart && JSON.parse(parsed.cart)) || []
+      cart = (parsed.cart && JSON.parse(parsed.cart)) || {}
     }
-
-    commit('cart/set', cart)
+    commit('cart/setAll', cart)
   }
 }

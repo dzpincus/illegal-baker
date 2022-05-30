@@ -30,14 +30,14 @@
                 </b-nav-item>
                 <b-nav-item
                     class="ml-3"
-                    to="/cart"
+                    v-b-toggle.sidebar-cart
                     :active="$nuxt.$route.path === 'cart'"
                 >
                     <font-awesome-layers full-width class="fa-2x">
                         <font-awesome-icon icon="bag-shopping" />
                         <font-awesome-layers-text
                             class="text-light"
-                            transform="down-4 shrink-8"
+                            transform="down-3 shrink-8"
                             :value="cartSize"
                         />
                     </font-awesome-layers>
@@ -60,6 +60,10 @@ export default {
     name: "pageHeader",
     computed: {
         ...mapGetters({ cartSize: "cart/size" }),
+    },
+    mounted() {
+        let height = this.$refs.navbar.$el.clientHeight;
+        this.$emit("height", height);
     },
     data: function () {
         let pages = [

@@ -4,14 +4,14 @@
             id="announcement-input-group"
             label="Announcement"
             label-for="announcement"
-            description="Announcement displayed over on main homepage image"
+            description="Announcement displayed over main homepage image"
         >
             <b-textarea id="announcement" rows="3" v-model="announcement">
             </b-textarea>
         </b-form-group>
         <b-button variant="dark" v-b-modal="'main-photo-gallery-modal'"
             >{{ Boolean(mainImage) ? "Replace" : "Choose" }} Main
-            Photos</b-button
+            Photo</b-button
         >
         <div class="mb-3">
             <CloudinaryImage

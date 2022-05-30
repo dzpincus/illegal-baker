@@ -31,11 +31,26 @@
             <b-tab title-link-class="text-light px-5" title="Menu" active>
                 <AdminMenuCreation />
             </b-tab>
-            <b-tab title-link-class="text-light px-5" title="Photo Gallery">
+            <b-tab
+                title-link-class="text-light px-5"
+                title="Photo Gallery"
+                lazy
+            >
                 <PhotoGallery />
             </b-tab>
-            <b-tab title-link-class="text-light px-5" title="Homepage Content">
-                <HomepageContent />
+            <b-tab
+                title-link-class="text-light px-5"
+                title="Homepage Content"
+                lazy
+            >
+                <AdminHomepageContent />
+            </b-tab>
+            <b-tab
+                title-link-class="text-light px-5"
+                title="Order Settings"
+                lazy
+            >
+                <AdminOrderSettings />
             </b-tab>
         </b-tabs>
     </b-card>
@@ -55,7 +70,12 @@ export default {
     data: function () {
         return {
             tabIndex: 0,
-            tabs: ["Menu", "Photo Gallery", "Homepage Content"],
+            tabs: [
+                "Menu",
+                "Photo Gallery",
+                "Homepage Content",
+                "Order Settings",
+            ],
         };
     },
 };

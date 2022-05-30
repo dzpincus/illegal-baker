@@ -317,13 +317,16 @@ export default {
                             );
                         });
                 } else {
-                    await this.$store("menu-item/add", data).finally(() => {
-                        document.body.style.cursor = "default";
-                        this.$root.$emit(
-                            "bv::hide::modal",
-                            `add-item-modal-${this.menuSection.id}`
-                        );
-                    });
+                    let x = this;
+                    await this.$store
+                        .dispatch("menu-item/add", data)
+                        .finally(() => {
+                            document.body.style.cursor = "default";
+                            this.$root.$emit(
+                                "bv::hide::modal",
+                                `add-item-modal-${this.menuSection.id}`
+                            );
+                        });
                 }
             }
         },

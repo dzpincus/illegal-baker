@@ -7,7 +7,7 @@
             isClickable
             d-flex
             flex-column
-            align-items-start
+            align-items-md-start align-items-center
             justify-content-center
         "
     >
@@ -16,12 +16,22 @@
             :image="image"
             :thumbnail-only="true"
         ></CloudinaryImage>
-        <div class="mt-2 w-100 d-flex flex-column h5 itemDescription">
+        <div
+            class="
+                mt-2
+                w-100
+                d-flex
+                align-items-center
+                flex-column
+                h5
+                itemDescription
+            "
+        >
             <span>{{ menuItem.name }}</span>
-            <span
-                >${{ menuItem.price
-                }}<template v-if="hasPriceOption">+</template>
-            </span>
+            <small>
+                <template v-if="hasPriceOption">from</template>
+                ${{ menuItem.price }}
+            </small>
         </div>
     </div>
 </template>

@@ -1,16 +1,16 @@
 <template>
-    <div class="mh-100">
+    <div class="mh-100" :style="{ width: width }">
         <NuxtImg
             v-if="!thumbnailOnly && image"
             provider="cloudinary"
             :src="image.medium || image.small || image.thumbnail"
             class="img-fluid h-100 d-none d-md-block"
-            width="450"
+            :width="width || 450"
         />
         <div
             v-else-if="!thumbnailOnly"
             class="d-none d-md-block h-100"
-            width="450"
+            :width="width || 450"
         >
             <font-awesome-icon icon="camera" size="4x" class="w-100" />
         </div>
@@ -20,8 +20,8 @@
             :src="image.thumbnail"
             :class="[thumbnailOnly ? '' : 'd-md-none']"
             class="img-fluid h-100 d-block"
-            width="200"
-            height="200"
+            :width="width || 200"
+            :height="height || 200"
         />
         <div v-else :class="[thumbnailOnly ? '' : 'd-md-none']" class="d-block">
             <font-awesome-layers
@@ -45,6 +45,14 @@ export default {
         thumbnailOnly: {
             type: Boolean,
             default: false,
+        },
+        height: {
+            type: String,
+            default: "",
+        },
+        width: {
+            type: String,
+            default: "",
         },
     },
 };

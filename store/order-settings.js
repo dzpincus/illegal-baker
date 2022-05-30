@@ -1,13 +1,12 @@
 import Vue from 'vue'
-import { camelToSnake } from '../utils/case-conversion' 
-
+import { camelToSnake, } from '../utils/case-conversion' 
 
 export const state = () => ({
   data: {}
 })
 
 export const mutations = {
-  set: (state, homepage) => Vue.set(state, "data", homepage),
+  set: (state, order_settings) => Vue.set(state, "data", order_settings),
 }
 
 export const getters = {
@@ -18,17 +17,11 @@ export const actions = {
   async get({
     commit
   }) {
-    await this.$axios.get('/homepage?populate=%2A').then((res) => {
+    await this.$axios.get('/order-settings?populate=%2A').then((res) => {
       let attributes = res.data.data.attributes;
-      let images = [];
-      attributes.images.data.forEach(image => {
-        images.push(image.id);
-      })
       commit("set", {
-        announcement: attributes.announcement,
-        mainImage: attributes.main_image.data.id,
-        images: images,
-        colors: attributes.colors
+        deliveryLocations: attributes.delivery_locations || [],
+        pickupLocations: attributes.pickup_locations || [],
       })
     })
   },
@@ -36,17 +29,17 @@ export const actions = {
     commit
   }, data) {
     let convertedData = {}
+    debugger;
     for (const attribute in data) {
       convertedData[camelToSnake(attribute)] = data[attribute]
     }
     const formData = new FormData();
     formData.append("data", JSON.stringify(convertedData));
 
-    await this.$axios.put('/homepage', formData).then(() => {
+    await this.$axios.put('/order-settings', formData).then(() => {
       commit("set", {});
 
       commit("set", data);
     })
   }
 }
-

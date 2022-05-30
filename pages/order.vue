@@ -2,12 +2,29 @@
     <b-card class="h-100 mh-100 container px-0 bg-info shadow" no-body>
         <b-tabs
             class="w-100 h-100"
-            nav-wrapper-class="text-dark h4 pt-0 px-0"
+            nav-class="d-none d-md-flex"
+            nav-wrapper-class="text-dark h4 pt-0 px-0 d-none d-md-block"
             content-class="pt-0 h-100 pb-5"
             active-nav-item-class="bg-info active-border"
             card
             justified
+            v-model="tabIndex"
         >
+            <div class="d-md-none d-flex justify-content-center">
+                <b-dropdown
+                    right
+                    :text="displayMenuSections[tabIndex].name"
+                    variant="dark"
+                    class="d-md-none align-middle mt-2"
+                >
+                    <b-dropdown-item
+                        v-for="(menuSection, index) in displayMenuSections"
+                        :key="`order-dropdown-${menuSection.name}`"
+                        @click.prevent="tabIndex = index"
+                        >{{ menuSection.name }}
+                    </b-dropdown-item>
+                </b-dropdown>
+            </div>
             <b-tab
                 class="p-0"
                 v-for="(menuSection, index) in displayMenuSections"
@@ -29,14 +46,14 @@
                         @addItem="addItem(menuItem)"
                         v-for="menuItem in menuItemsBySection[menuSection.id]"
                         :key="menuItem.id"
-                        class="col-3 mt-4 pr-2 pl-5"
+                        class="col-md-3 col-12 mt-4 pr-2 pl-md-5"
                         :menu-item="menuItem"
                     >
                     </OrderItem>
                 </div>
             </b-tab>
         </b-tabs>
-        <OrderAddToCartForm :menu-item="menuItemToAdd" />
+        <OrderAddToCartForm id="add-to-cart-form" :menu-item="menuItemToAdd" />
     </b-card>
 </template>
 
@@ -56,6 +73,7 @@ export default {
     data: function () {
         return {
             menuItemToAdd: null,
+            tabIndex: 0,
         };
     },
     methods: {
