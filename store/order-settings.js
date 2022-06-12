@@ -29,7 +29,6 @@ export const actions = {
     commit
   }, data) {
     let convertedData = {}
-    debugger;
     for (const attribute in data) {
       convertedData[camelToSnake(attribute)] = data[attribute]
     }

@@ -35,14 +35,17 @@ import { loadStripe } from "@stripe/stripe-js";
 export default {
     props: ["value", "active"],
     computed: {
-        ...mapGetters({ total: "cart/total" }),
+        ...mapGetters({ total: "cart/total", cartItems: "cart/items" }),
     },
     methods: {
         async submit() {
+            document.body.style.cursor = "wait";
+            let data = {orderData: this.value, orderItems: Object.values(this.cartItems)};
             await this.$store
-                .dispatch("order/set", this.value)
-                .then(() =>
+                .dispatch("order/set", data)
+                .then(() => {
                     this.$parent.$parent.$refs.CheckoutPaymentComponent[0].confirm()
+                }
                 );
         },
     },

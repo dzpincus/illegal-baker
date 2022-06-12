@@ -288,13 +288,19 @@ export default {
                 this.validated = true;
             } else {
                 document.body.style.cursor = "wait";
+                let menuSections = null;
+                if (this.menuItem) {
+                    menuSections = this.menuItem.menuSections;
+                } else {
+                    menuSections = parseInt(this.menuSection.id);
+                }
 
                 let data = {
                     name: this.formData.name,
                     price: this.formData.price,
                     description: this.formData.description,
                     visible: this.formData.visible,
-                    menu_section: parseInt(this.menuSection.id),
+                    menu_sections: menuSections,
                     vegan: this.formData.vegan,
                     vegetarian: this.formData.vegetarian,
                     glutenFree: this.formData.glutenFree,

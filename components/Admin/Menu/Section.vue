@@ -99,6 +99,7 @@
                     <AdminMenuItem
                         v-b-hover="itemHoverHandler"
                         @edit="editAdminMenuItem(menuItem)"
+                        @move="$emit('moveItem', menuItem)"
                         @delete="deleteAdminMenuItem(menuItem)"
                         v-for="menuItem in sortedAdminMenuItems"
                         class="mt-3 mt-md-0"

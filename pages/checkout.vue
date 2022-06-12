@@ -22,7 +22,7 @@
                             block
                             variant="link"
                             class="text-left text-dark"
-                            :class="{ isClickable: section.canContinue }"
+                            :class="{ isClickable: canOpenSection(section) }"
                             @click="clickSection(section)"
                         >
                             <h3>{{ section.title }}</h3>
@@ -102,16 +102,18 @@ export default {
         };
     },
     methods: {
+        canOpenSection(section) {
+            let index = this.sections.indexOf(section);
+            let previousSection = this.sections[index - 1];
+            return (index == 0 && section.canContinue) ||
+                (previousSection && previousSection.canContinue);
+            return false;
+        },
         showSection(section) {
             section.visible = true;
         },
         clickSection(section) {
-            let index = this.sections.indexOf(section);
-            let previousSection = this.sections[(index = 1)];
-            if (
-                (index == 0 && section.canContinue) ||
-                previousSection.canContinue
-            ) {
+            if (this.canOpenSection(section)) {
                 section.visible = !section.visible;
             }
         },

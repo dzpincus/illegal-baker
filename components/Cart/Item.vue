@@ -40,9 +40,19 @@
                     v-for="(option, index) in Object.keys(item.options)"
                     :key="`${item.name}-option-${index}`"
                 >
-                    {{ option }} : {{ item.options[option].name }} (${{
-                        item.options[option].price
-                    }})
+                    <template v-if="isArray(item.options[option])">
+                        {{ option }}
+                        <ul>
+                            <li v-for="(subOption, subIndex) in item.options[option]" :key="`${subOption}-option-${subIndex}`">
+                                {{ subOption.name }} <template v-if="subOption.price">: (${{ subOption.price }})</template>
+                            </li>
+                        </ul>
+                    </template>
+                    <template v-else>
+                        {{ option }} : {{ item.options[option].name }} (${{
+                            item.options[option].price
+                        }})
+                    </template>
                 </div>
                 <span v-if="hovered">
                     <span v-b-tooltip.hover title="Edit">
@@ -116,6 +126,9 @@ export default {
         },
     },
     methods: {
+        isArray(option) {
+            return option instanceof Array
+        },
         hoverHandler(isHovered) {
             this.hovered = isHovered;
         },

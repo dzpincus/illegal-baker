@@ -18,10 +18,13 @@ export const actions = {
     req
   }) {
     let cart = {};
+    let order = {};
     if (req && req.headers && req.headers.cookie) {
       const parsed = cookieparser.parse(req.headers.cookie)
       cart = (parsed.cart && JSON.parse(parsed.cart)) || {}
+      order = (parsed.order && JSON.parse(parsed.order)) || {}
     }
     commit('cart/setAll', cart)
+    commit('order/setAll', order)
   }
 }

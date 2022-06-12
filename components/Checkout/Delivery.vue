@@ -9,10 +9,20 @@
         ></b-form-radio-group>
         <div v-if="formData.orderType == 'delivery'">
             <b-form-group
-                label="Delivery Address"
-                label-for="address-field"
                 class="pt-2"
             >
+                <slot name="label">
+                    <label for="address-field">Delivery Address</label>
+                    <span
+                        v-b-tooltip.hover
+                        title="Your address is within our delivery range!">
+                    <font-awesome-icon
+                            v-if="deliveryValid"
+                            icon="circle-check"
+                            class="text-primary"
+                        ></font-awesome-icon>
+                    </span>
+                </slot>
                 <b-input
                     id="address-field"
                     v-model="formData.deliveryAddress"

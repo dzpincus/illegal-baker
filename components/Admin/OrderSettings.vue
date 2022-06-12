@@ -1,5 +1,8 @@
 <template>
     <b-form @submit.prevent="submit" class="w-100 w-md-50">
+        <client-only>
+            <FlashMessage position="right bottom"></FlashMessage>
+        </client-only>
         <b-form-group
             label="Addresses to deliver from (used to validate delivery orders)"
             class="pt-2"
@@ -169,7 +172,7 @@ export default {
             Vue.nextTick(function () {
                 let ref = `${type}-${id}`;
                 let inputs = this.$refs[ref];
-                if (inputs) {
+                if (inputs && (typeof google !== 'undefined')) {
                     let input = this.$refs[ref][0];
                     let autocomplete = new google.maps.places.Autocomplete(
                         input.$el,
@@ -212,6 +215,7 @@ export default {
             this.isHovered = isHovered;
         },
         submit() {
+            document.body.style.cursor = "wait";
             let data = {
                 pickupLocations: this.pickupLocations.map((location) => {
                     return {
@@ -230,8 +234,29 @@ export default {
                     };
                 }),
             };
-            this.$store.dispatch("order-settings/set", data);
+            this.$store.dispatch("order-settings/set", data).then(() => {
+                this.flashMessage.show({
+                    status: 'success',
+                    message: 'Settings saved',
+                    blockClass: 'flashClass bg-success',
+                })
+            }).catch((e) => {
+                this.flashMessage.show({
+                    status: 'error',
+                    message: e,
+                    blockClass: 'flashClass bg-success',
+                })
+            });
         },
     },
 };
 </script>
+
+<style>
+
+.flashClass {
+    width: 150px;
+}
+
+
+</style>

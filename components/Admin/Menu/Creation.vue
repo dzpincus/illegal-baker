@@ -1,5 +1,6 @@
 <template>
     <div>
+        <AdminMenuMoveItemForm ref="move_item_form" :menuSections="sortedMenuSections"/>
         <h2>Menu Sections</h2>
         <b-button variant="dark" v-b-modal.add-section-modal>
             Add New Section
@@ -40,6 +41,7 @@
                 :menu-section="menuSection"
                 :key="menuSection.id"
                 :menu-items="menuItemsBySection[menuSection.id]"
+                @moveItem="moveItem"
             />
         </div>
     </div>
@@ -59,6 +61,9 @@ export default {
             await this.$store.dispatch("menu-section/add", this.newSectionName);
             this.newSectionName = "";
         },
+        moveItem(item) {
+            this.$refs.move_item_form.show(item);
+        }
     },
     computed: {
         ...mapGetters({

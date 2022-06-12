@@ -41,6 +41,11 @@ export const getters = {
 }
 
 export const actions = {
+  setAll({
+    commit
+  }, items) {
+    commit("setAll", items);
+  },
   add({
     commit
   }, item) {

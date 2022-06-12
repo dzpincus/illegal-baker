@@ -47,7 +47,7 @@ export default {
     '@nuxtjs/google-fonts'
   ],
 
-  plugins: ['~/plugins/vuedraggable.js', { src: '~/plugins/vue-resize-text.js', mode: 'client' }],
+  plugins: ['~/plugins/vuedraggable.js', { src: '~/plugins/vue-resize-text.js', mode: 'client' }, {src: '~/plugins/vue-flash-message', mode: 'client'}],
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome'],
   auth: {
@@ -85,7 +85,12 @@ export default {
   },
   fontawesome: {
     icons: {
-      solid: ['faFloppyDisk', 'faPencil', 'faUpload', 'faTrash', 'faPlus', 'faMinus', 'faLeaf', 'faSeedling', 'faCamera', 'faCircle', 'faBreadSlice', 'faSlash', "faCircleInfo", "faEye", "faEyeSlash", "faX", "faBagShopping"],
+      solid: ['faFloppyDisk', 'faPencil', 'faUpload', 
+              'faTrash', 'faPlus', 'faMinus', 'faLeaf', 
+              'faSeedling', 'faCamera', 'faCircle', 
+              'faBreadSlice', 'faSlash', "faCircleInfo", 
+              "faEye", "faEyeSlash", "faX", 
+              "faBagShopping", "faUpDown", "faCircleCheck"],
     }
   },
   googleFonts: {

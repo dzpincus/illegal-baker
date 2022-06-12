@@ -1703,6 +1703,11 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
+"@smartweb/vue-flash-message@^0.6.10":
+  version "0.6.10"
+  resolved "https://registry.yarnpkg.com/@smartweb/vue-flash-message/-/vue-flash-message-0.6.10.tgz#b091d74adf55e1e67ea0debcbe14a92f9440b7a6"
+  integrity sha512-ceDUUzXI6FDscev36kZQvc2BO+MayOt6uJ2HSh9zoOkfa0PVIhmaoB56InlTTsK7MmlSIvPJpRB+Habdx3MtNw==
+
 "@stripe/stripe-js@^1.26.0":
   version "1.26.0"
   resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.26.0.tgz#45670924753c01e18d0544ea1f1067b474aaa96f"

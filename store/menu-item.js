@@ -1,6 +1,6 @@
 import Vue from 'vue'
+import { camelToSnake, } from '../utils/case-conversion' 
 
-import { snakeToCamel } from '../utils/case-conversion' 
 
 export const state = () => ({
   all: {},
@@ -24,25 +24,29 @@ export const getters = {
   bySection: (state, _, rootState) => {
     let sections = {};
     let allIdsFound = new Set();
-    if (state.all) {
-      // Add ordered elements to list
-      for (const menuSection of Object.values(rootState['menu-section'].all)) {
-        sections[menuSection.id] = []
-        menuSection.order.forEach((orderId) => {
-          if (orderId in state.all) {
+    // Add ordered elements to list
+    for (const menuSection of Object.values(rootState['menu-section'].all)) {
+      sections[menuSection.id] = []
+      menuSection.order.forEach((orderId) => {
+        if (orderId in state.all) {
+          let menuItem = state.all[orderId];
+          if (menuItem.menuSections && menuItem.menuSections.indexOf(menuSection.id) > -1) {
             sections[menuSection.id].push(state.all[orderId]);
             allIdsFound.add(orderId);
           }
-        })
-      }
-      // Add any unordered (newly added) elements to end of list
-      for (const menuItem of Object.values(state.all)) {
-        if (!allIdsFound.has(menuItem.id)) {
-          sections[menuItem.menuSection].push(menuItem);
+        }
+      })
+    }
+    // Add any unordered (newly added) elements to end of list
+    for (const menuItem of Object.values(state.all)) {
+      if (menuItem && menuItem.menuSections && !allIdsFound.has(menuItem.id)) {
+        for (var i = 0; i < menuItem.menuSections.length; i++) {
+          let menuItemSectionId = menuItem.menuSections[i];
+          sections[menuItemSectionId].push(menuItem);
         }
       }
-      return sections;
     }
+    return sections;
   },
 }
 
@@ -84,8 +88,14 @@ export const actions = {
     id,
     data
   }) {
+    
+    let convertedData = {}
+
+    for (const attribute in data) {
+      convertedData[camelToSnake(attribute)] = data[attribute]
+    }
     const formData = new FormData();
-    formData.append("data", JSON.stringify(data));
+    formData.append("data", JSON.stringify(convertedData));
     await this.$axios.put(`/menu-items/${id}`, formData).then((res) => {
       commit("updateData", {
         id,
@@ -107,22 +117,24 @@ function makeMenuItem(data) {
   }
   let attributes = ["name", "description", "price", "vegan", "vegetarian", "glutenFree", "visible", "options", "order"];
   attributes.forEach((attribute) => {
-    if (data.attributes[attribute]) {
-      menuItem[attribute] = data.attributes[attribute];
-    }
+    menuItem[attribute] = data.attributes[attribute] || null;
   });
 
   if (!menuItem["order"]) {
     menuItem["order"] = Number.MAX_SAFE_INTEGER;
   }
 
-  let relationships = ["image", "menu_section"];
-  relationships.forEach((relationship) => {
-    let rel = data.attributes[relationship];
-    if (rel && rel.data) {
-      menuItem[snakeToCamel(relationship)] = rel.data.id
-    }
-  });
+  let image = data.attributes["image"]
+  if (image && image.data) {
+    menuItem["image"] = image.data.id;
+  }
+
+  let menuSections = data.attributes["menu_sections"];
+  if (menuSections && menuSections.data.length > 0) {
+    menuItem["menuSections"] = menuSections.data.map((x) => x.id)
+  } else {
+    menuItem["menuSections"] = [];
+  }
+
   return menuItem;
 }
-

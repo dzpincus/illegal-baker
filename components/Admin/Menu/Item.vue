@@ -16,16 +16,29 @@
                     v-b-tooltip.hover.html="visibleTooltipData"
                     @click="toggleVisibility"
                 >
-                    <font-awesome-icon
-                        v-if="menuItem.visible"
-                        size="2x"
-                        icon="eye"
-                    ></font-awesome-icon>
-                    <font-awesome-icon
-                        v-else
-                        size="2x"
-                        icon="eye-slash"
-                    ></font-awesome-icon>
+                    <span>
+                    <font-awesome-layers
+                                class="fa-2x ml-2"
+                                full-width
+                        >
+                            <font-awesome-icon icon="circle" />
+                            <font-awesome-icon
+                                v-if="menuItem.visible"
+                                class="text-white"
+                                transform="shrink-6"
+                                icon="eye"
+                                style="left: -3px"
+                            ></font-awesome-icon>
+                            <font-awesome-icon
+                                v-else
+                                class="text-white"
+                                transform="shrink-6"
+                                icon="eye-slash"
+                                style="left: -3px"
+                            ></font-awesome-icon>
+                    </font-awesome-layers>
+                    </span>
+                    
                 </span>
                 <div>
                     <template v-for="tag in tags">
@@ -62,6 +75,15 @@
                     @click="$emit('edit')"
                 >
                     <font-awesome-icon icon="pencil"></font-awesome-icon>
+                </a>
+                <a
+                    class="float-right isClickable mr-3"
+                    v-b-tooltip.hover
+                    title="Change Section"
+                    v-if="isHovered"
+                    @click="$emit('move')"
+                >
+                    <font-awesome-icon icon="up-down"></font-awesome-icon>
                 </a>
                 <br />
                 <span

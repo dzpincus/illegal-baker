@@ -52,7 +52,7 @@ export default {
     methods: {
         choiceValue: function (choice) {
             let price = " ";
-            if (this.option.priceModel) {
+            if (this.option.priceModel !== "none") {
                 price += "(";
                 if (this.option.optionType === "multiple") {
                     price += "+";

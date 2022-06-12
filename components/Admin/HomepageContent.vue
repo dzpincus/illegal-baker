@@ -1,5 +1,8 @@
 <template>
     <b-form @submit.prevent="submit" class="w-100 w-md-50">
+        <client-only>
+            <FlashMessage position="right bottom"></FlashMessage>
+        </client-only>
         <b-form-group
             id="announcement-input-group"
             label="Announcement"
@@ -105,6 +108,7 @@ export default {
         async submit() {
             document.body.style.cursor = "wait";
             var colors = {};
+            
             await Vibrant.from(this.mainImage.thumbnail).getPalette(
                 (err, palette) => {
                     if (palette) {
@@ -123,8 +127,21 @@ export default {
             };
             await this.$store.dispatch("homepage/set", data).finally(() => {
                 document.body.style.cursor = "default";
+                this.flashMessage.show({
+                    status: 'success',
+                    message: 'Settings saved',
+                    blockClass: 'flashClass bg-success',
+                });
             });
         },
     },
 };
 </script>
+
+<style>
+
+.flashClass {
+    width: 150px;
+}
+
+</style>

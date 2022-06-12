@@ -103,7 +103,7 @@ export default {
         selectedOptions: {
             deep: true,
             handler: function () {
-                if (this.selectedOptions) {
+                if (Object.values(this.selectedOptions).length > 0) {
                     let basePrice = this.price;
                     let adds = 0;
                     this.currentMenuItem.options.forEach((option) => {
@@ -131,6 +131,7 @@ export default {
             return this.images[this.currentMenuItem.image];
         },
         currentMenuItem: function () {
+            this.selectedOptions = {};
             if (this.editItem) {
                 return this.menuItems[this.editItem.menuItem];
             } else {

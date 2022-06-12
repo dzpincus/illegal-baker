@@ -10,8 +10,9 @@
             justified
             v-model="tabIndex"
         >
-            <div class="d-md-none d-flex justify-content-center">
+            <div v-if="Object.keys(displayMenuSections).length > 0" class="d-md-none d-flex justify-content-center">
                 <b-dropdown
+                    v-if="displayMenuSections[tabIndex]"
                     right
                     :text="displayMenuSections[tabIndex].name"
                     variant="dark"
@@ -44,7 +45,7 @@
                 >
                     <OrderItem
                         @addItem="addItem(menuItem)"
-                        v-for="menuItem in menuItemsBySection[menuSection.id]"
+                        v-for="menuItem in visibleMenuItemsBySection[menuSection.id]"
                         :key="menuItem.id"
                         class="col-md-3 col-12 mt-4 pr-2 pl-md-5"
                         :menu-item="menuItem"
@@ -88,9 +89,20 @@ export default {
             menuItemsBySection: "menu-item/bySection",
             menuSections: "menu-section/all",
         }),
+        visibleMenuItemsBySection() {
+            let visible = {}
+            for (let [id, items] of Object.entries(this.menuItemsBySection)) {
+                visible[id] = items.filter((item) => item.visible)
+            }
+            return visible
+
+        },
         displayMenuSections() {
             return Object.values(this.menuSections).filter(
-                (section) => section.visible
+                (section) => {
+                    let x = this.menuItemsBySection;
+                    return section.visible && this.menuItemsBySection[section.id].length > 0
+                }
             );
         },
     },

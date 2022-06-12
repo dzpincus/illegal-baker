@@ -59,6 +59,9 @@ export default {
                     .then((response) => {
                         self.clientSecret = response.data.clientSecret;
                         let clientSecret = self.clientSecret;
+                        let data = this.value;
+                        data["payment"] = {"clientSecret": clientSecret};
+                        this.$emit("input", data);
                         const appearance = {
                             theme: "stripe",
                         };
