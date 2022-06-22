@@ -42,14 +42,10 @@ export default {
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    '@nuxtjs/google-fonts'
-  ],
 
   plugins: ['~/plugins/vuedraggable.js', { src: '~/plugins/vue-resize-text.js', mode: 'client' }, {src: '~/plugins/vue-flash-message', mode: 'client'}],
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome'],
+  modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome', '@nuxtjs/google-fonts'],
   auth: {
     strategies: {
       local: {
