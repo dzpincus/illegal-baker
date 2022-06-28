@@ -1,5 +1,6 @@
 <template>
-    <h1>success</h1>
+    <div class="h-100 mh-100 container px-0 bg-info shadow">
+    </div>
 </template>
 
 <script>

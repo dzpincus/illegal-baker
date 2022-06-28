@@ -6671,6 +6671,11 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
+nuxt-google-maps-module@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/nuxt-google-maps-module/-/nuxt-google-maps-module-1.6.0.tgz#491231f1427257d2463e8c48813348d9e811abe2"
+  integrity sha512-bVYAy74pK1cwDnZVeHU5AdtXujaXZ/mAZKyIzhRnFKkR7HMPNgKzXjtfdstyZb7k0BaYeCKOKXYFvN4goo+7Ng==
+
 nuxt@^2.15.8:
   version "2.15.8"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.15.8.tgz#946cba46bdaaf0e3918aa27fd9ea0fed8ed303b0"

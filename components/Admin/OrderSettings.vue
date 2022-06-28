@@ -78,18 +78,8 @@
 import { mapGetters } from "vuex";
 import { v4 as uuidv } from "uuid";
 import Vue from "vue";
-const googlePlacesKey = process.env.googlePlacesKey;
 export default {
     layout: "main",
-    head() {
-        return {
-            script: [
-                {
-                    src: `https://maps.googleapis.com/maps/api/js?key=${googlePlacesKey}&libraries=places`,
-                },
-            ],
-        };
-    },
     computed: {
         ...mapGetters({ orderSettings: "order-settings/data" }),
     },
@@ -174,7 +164,7 @@ export default {
                 let inputs = this.$refs[ref];
                 if (inputs && (typeof google !== 'undefined')) {
                     let input = this.$refs[ref][0];
-                    let autocomplete = new google.maps.places.Autocomplete(
+                    let autocomplete = new this.$google.maps.places.Autocomplete(
                         input.$el,
                         {
                             fields: [

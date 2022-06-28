@@ -1,8 +1,8 @@
 require("dotenv").config();
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'server',
-  // mode: 'spa',
+  target: 'static',
+  mode: 'spa',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -45,7 +45,7 @@ export default {
 
   plugins: ['~/plugins/vuedraggable.js', { src: '~/plugins/vue-resize-text.js', mode: 'client' }, {src: '~/plugins/vue-flash-message', mode: 'client'}],
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome', '@nuxtjs/google-fonts'],
+  modules: ['bootstrap-vue/nuxt', '@nuxtjs/axios', '@nuxt/image', '@nuxtjs/auth-next', '@nuxtjs/fontawesome', '@nuxtjs/google-fonts', 'nuxt-google-maps-module'],
   auth: {
     strategies: {
       local: {
@@ -88,6 +88,9 @@ export default {
               "faEye", "faEyeSlash", "faX", 
               "faBagShopping", "faUpDown", "faCircleCheck"],
     }
+  },
+  maps: {
+    key: process.env.GOOGLE_MAPS_KEY
   },
   googleFonts: {
     families: {

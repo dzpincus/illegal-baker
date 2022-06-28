@@ -1,5 +1,5 @@
 <template>
-    <b-card class="col-12 col-md-auto h-100 p-0 mr-3" body-class="p-0">
+    <b-card v-if="menuItem && menuItem.image" class="col-12 col-md-auto h-100 p-0 mr-3" body-class="p-0">
         <div>
             <CloudinaryImage
                 class="text-center"
@@ -115,16 +115,21 @@ export default {
     },
     computed: {
         ...mapGetters({ images: "image/all" }),
+        image: function () {
+            if (this.menuItem && this.menuItem.hasAttribute('image')) {
+                return this.images[this.menuItem.image];
+
+            }
+        },
         hasPriceOption: function () {
-            for (const option in this.menuItem.options) {
-                if (option.priceModel != "none") {
-                    return true;
+            if (this.menuItem) {
+                for (const option in this.menuItem.options) {
+                    if (option.priceModel != "none") {
+                        return true;
+                    }
                 }
             }
             return false;
-        },
-        image: function () {
-            return this.images[this.menuItem.image];
         },
         visibleTooltipData: function () {
             let v = this.menuItem.visible ? "Visible" : "Not Visible";

@@ -35,6 +35,8 @@ export const actions = {
     formData.append("data", JSON.stringify(convertedData));
     return await this.$axios.post("/orders", formData)
     .then((res) => {
+      let id = res.data.data.id;
+      data["id"] = id;
       commit("set", data);
     })
 

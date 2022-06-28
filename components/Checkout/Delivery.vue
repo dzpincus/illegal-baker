@@ -74,7 +74,7 @@ export default {
     mounted: function () {
         var input = this.$refs.addressField;
         if (input) {
-            this.addressAutocomplete = new google.maps.places.Autocomplete(
+            this.addressAutocomplete = new this.$google.maps.places.Autocomplete(
                 input.$el,
                 {
                     fields: [
@@ -151,18 +151,18 @@ export default {
             let origins = [];
             this.orderSettings.deliveryLocations.forEach((location) => {
                 origins.push(
-                    new google.maps.LatLng(
+                    new this.$google.maps.LatLng(
                         location.latitude,
                         location.longitude
                     )
                 );
             });
             let destinationPlace = this.addressAutocomplete.getPlace();
-            let destination = new google.maps.LatLng(
+            let destination = new this.$google.maps.LatLng(
                 destinationPlace.geometry.location.lat(),
                 destinationPlace.geometry.location.lng()
             );
-            var service = new google.maps.DistanceMatrixService();
+            var service = new this.$google.maps.DistanceMatrixService();
             var self = this;
             service.getDistanceMatrix(
                 {

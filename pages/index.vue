@@ -2,7 +2,7 @@
     <div class="row h-100 no-gutters" ref="container">
         <div
             class="col-12 col-md-6 flex-center p-md-3 p-0 h-100"
-            :style="{ backgroundColor: homepage.colors['LightVibrant'] }"
+            :style="{ backgroundColor: '#ce997f' }"
         >
             <div
                 class="flex-center h-100 w-100"
@@ -22,7 +22,7 @@
                     :style="{
                         height: this.halfHeight,
                         backgroundImage: gradient(
-                            homepage.colors['LightVibrant']
+                            '#ce997f'
                         ),
                     }"
                 >
@@ -50,7 +50,7 @@
                         class="col-6 flex-center"
                         :style="{
                             height: halfHeight,
-                            backgroundImage: gradient(homepage.colors['Muted']),
+                            backgroundImage: gradient('9b6850'),
                         }"
                     >
                         <img
@@ -62,7 +62,7 @@
                     <div class="col-6" :style="{ height: halfHeight }">
                         <b-carousel
                             id="carousel-1"
-                            :interval="images1.length > 1 ? 6000 : 0"
+                            :interval="6000"
                             img-width="100%"
                             :img-height="halfHeight"
                             :style="{ height: halfHeight }"
@@ -121,7 +121,7 @@
                         :style="{
                             height: halfHeight,
                             backgroundImage: gradient(
-                                homepage.colors['DarkMuted']
+                                '#583a2e'
                             ),
                         }"
                     >

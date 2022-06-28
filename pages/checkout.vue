@@ -91,16 +91,6 @@
 import { mapGetters } from "vuex";
 export default {
     layout: "main",
-    head() {
-        return {
-            script: [
-                {
-                    src: `https://maps.googleapis.com/maps/api/js?key=${process.env.googlePlacesKey}&libraries=places`,
-                },
-                { src: "https://js.stripe.com/v3" },
-            ],
-        };
-    },
     methods: {
         canOpenSection(section) {
             let index = this.sections.indexOf(section);

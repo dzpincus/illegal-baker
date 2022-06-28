@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
     head() {
         let routeName = "";
@@ -17,6 +18,16 @@ export default {
             routeName = routeName[0].toUpperCase() + routeName.slice(1) + " | ";
         }
         return { title: `${routeName}Illegal Baker` };
+    },
+    mounted() {
+        let cart = Cookies.get('cart')
+        let order = Cookies.get('order')
+        if (cart) {
+            this.$store.dispatch('cart/setAll', JSON.parse(cart))
+        }
+        if (order) {
+            this.$store.dispatch('order/setAll', JSON.parse(order))
+        }
     },
     data: function () {
         return { height: null };
