@@ -9,6 +9,7 @@
             w-100
         "
         v-b-hover="hoverHandler"
+        v-if="menuItem"
     >
         <div class="d-flex">
             <CloudinaryImage
@@ -122,7 +123,9 @@ export default {
             return this.menuItems[this.item.menuItem];
         },
         image() {
-            return this.images[this.menuItem.image];
+            if (this.menuItem) {
+                return this.images[this.menuItem.image];
+            }
         },
     },
     methods: {
