@@ -36,7 +36,8 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/assets/style.scss'
+    '~/assets/style.scss',
+    '@fortawesome/fontawesome/styles.css',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
