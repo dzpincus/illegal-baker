@@ -52,6 +52,13 @@
             >
                 <AdminOrderSettings />
             </b-tab>
+            <b-tab
+                title-link-class="text-light px-5"
+                title="Orders"
+                lazy
+            >
+                <AdminOrders />
+            </b-tab>
         </b-tabs>
     </b-card>
 </template>
@@ -75,6 +82,7 @@ export default {
                 "Photo Gallery",
                 "Homepage Content",
                 "Order Settings",
+                "Orders"
             ],
         };
     },

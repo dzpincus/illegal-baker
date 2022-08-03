@@ -42,7 +42,10 @@ export default {
         await this.$store.dispatch("homepage/get");
         await this.$store.dispatch("menu-section/get");
         await this.$store.dispatch("menu-item/get");
-        await this.$store.dispatch("order-settings/get");
+        if (this.$store.state.auth.loggedIn && this.$nuxt.$route.name != "confirm") {
+            await this.$store.dispatch("order-settings/get");
+            await this.$store.dispatch("order/get");
+        }
     },
 };
 </script>

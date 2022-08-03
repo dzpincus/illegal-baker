@@ -21,7 +21,11 @@ export const mutations = {
     Cookies.set("cart", JSON.stringify(state.items));
 
   },
-  remove: (state, itemId) => Vue.delete(state.items, itemId)
+  remove: (state, itemId) => Vue.delete(state.items, itemId),
+  clear: (state) => {
+    Cookies.remove("cart")
+    state.items = {}
+  }
 }
 
 export const getters = {
@@ -60,6 +64,11 @@ export const actions = {
     commit
   }, itemId) {
     commit("remove", itemId);
+  },
+  clear({
+    commit
+  }) {
+    commit("clear");
   }
 
 }

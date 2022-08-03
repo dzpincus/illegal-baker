@@ -144,6 +144,7 @@ export default {
             let id = this.editItem ? this.editItem.id : uuidv();
             let data = {
                 id: id,
+                name: this.currentMenuItem.name,
                 menuItem: this.currentMenuItem.id,
                 quantity: parseInt(this.quantity),
                 price: this.price,

@@ -116,7 +116,7 @@ export default {
     computed: {
         ...mapGetters({ images: "image/all" }),
         image: function () {
-            if (this.menuItem && this.menuItem.hasAttribute('image')) {
+            if (this.menuItem) {
                 return this.images[this.menuItem.image];
 
             }

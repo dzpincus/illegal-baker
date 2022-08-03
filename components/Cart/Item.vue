@@ -42,12 +42,14 @@
                     :key="`${item.name}-option-${index}`"
                 >
                     <template v-if="isArray(item.options[option])">
-                        {{ option }}
-                        <ul>
-                            <li v-for="(subOption, subIndex) in item.options[option]" :key="`${subOption}-option-${subIndex}`">
-                                {{ subOption.name }} <template v-if="subOption.price">: (${{ subOption.price }})</template>
-                            </li>
-                        </ul>
+                        <template v-if="item.options[option].length > 0">
+                            {{ option }}
+                            <ul>
+                                <li v-for="(subOption, subIndex) in item.options[option]" :key="`${subOption}-option-${subIndex}`">
+                                    {{ subOption.name }} <template v-if="subOption.price">: (${{ subOption.price }})</template>
+                                </li>
+                            </ul>
+                        </template>
                     </template>
                     <template v-else>
                         {{ option }} : {{ item.options[option].name }} (${{

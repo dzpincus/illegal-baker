@@ -16,6 +16,11 @@ export const mutations = {
       Vue.set(state.data, key, value)
     }
     Cookies.set("order", JSON.stringify(state.data));
+  },
+  updateData: (state, payload) => {
+    for (const [key, value] of Object.entries(payload.data)) {
+      Vue.set(state.data[payload.id], key, value)
+    }
   }
 }
 
@@ -24,6 +29,24 @@ export const getters = {
 }
 
 export const actions = {
+  async get({
+    commit
+  }) {
+    await this.$axios.get("orders?populate=%2A").then((res) => {
+      let data = {}
+      res.data.data.forEach((order) => {
+        order['attributes']['createdAt'] = new Date(order['attributes']['createdAt'])
+        data[order['id']] = order['attributes']
+        data[order['id']]['id'] = order['id']
+      })
+      commit ("setAll", data)
+    })
+  },
+  setAll({
+    commit
+  }, items) {
+    commit("setAll", items);
+  },
   async set({
     commit
   }, data) {
@@ -31,6 +54,7 @@ export const actions = {
     for (const attribute in data) {
       convertedData[camelToSnake(attribute)] = data[attribute]
     }
+    convertedData['status'] = 'new'
     const formData = new FormData();
     formData.append("data", JSON.stringify(convertedData));
     return await this.$axios.post("/orders", formData)
@@ -40,5 +64,18 @@ export const actions = {
       commit("set", data);
     })
 
-  }
+  },
+  async update({
+    commit
+  }, {id, data}) {
+    let convertedData = {}
+    for (const attribute in data) {
+      convertedData[camelToSnake(attribute)] = data[attribute]
+    }
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(convertedData));
+    await this.$axios.put(`/orders/${id}`, formData).then((res) => {
+      commit("updateData", {id, data})
+    })
+  },
 }
