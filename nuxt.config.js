@@ -37,7 +37,6 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/style.scss',
-    '@fortawesome/fontawesome/styles.css',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -81,6 +80,7 @@ export default {
     bootstrapVueCSS: false
   },
   fontawesome: {
+    addCss: true,
     icons: {
       solid: ['faFloppyDisk', 'faPencil', 'faUpload', 
               'faTrash', 'faPlus', 'faMinus', 'faLeaf', 
