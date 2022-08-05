@@ -28,8 +28,13 @@ export const actions = {
       .then((res) => {
         let data = {};
         res.data.data.forEach((element) => {
-          let image = makeImage(element);
-          data[image.id] = image
+          try {
+            let image = makeImage(element);
+            data[image.id] = image
+          } catch (error) {
+            console.log(error)
+          }
+          
         });
         commit("setAll", data);
       });

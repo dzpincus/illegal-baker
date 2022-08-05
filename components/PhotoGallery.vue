@@ -35,6 +35,7 @@
                 </div>
             </b-form-group>
         </b-form>
+        <b-form-input v-model="searchText" class="w-25" placeholder="Search"></b-form-input>
         <div class="d-flex flex-column align-items-center">
             <b-pagination
                 v-if="totalCount > pageSize"
@@ -48,7 +49,7 @@
                 <ImageCard
                     @clicked="selectImage(image)"
                     :key="image.id"
-                    v-for="image in Object.values(images)"
+                    v-for="image in Object.values(shownImages)"
                     :class="{
                         isClickable: Boolean(selecting),
                         selected: isSelected(image),
@@ -82,10 +83,25 @@ export default {
             totalCount: 0,
             currentPage: 1,
             selected: this.value,
+            searchText: '',
         };
     },
     computed: {
         ...mapGetters({ images: "image/all" }),
+        shownImages() {
+            if (this.searchText) {
+                let images = {}
+                var regex = new RegExp(this.searchText, 'i')
+                for (const [key, value] of Object.entries(this.images)) {
+                    let match = value.name.match(regex)
+                    if (match && match.length) {
+                        images[key] = value;
+                    }
+                }
+                return images
+            }
+            return this.images
+        }
     },
     methods: {
         selectImage: function (image) {
@@ -116,6 +132,12 @@ export default {
             }
         },
         async submitFile() {
+            if (this.fileForm.newImage.size >= 10485760) {
+                this.fileForm.message = "Image is too large"
+                return;
+            }
+            this.imageSizeError = false;
+
             document.body.style.cursor = "wait";
 
             const formData = new FormData();
