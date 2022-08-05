@@ -65,7 +65,7 @@
                     <font-awesome-icon
                         icon="trash"
                         class="pr-2 isClickable"
-                        @click="removePickupLocation(location.id)"
+                        @click="removeDeliveryLocation(location.id)"
                     />
                 </div>
             </div>
