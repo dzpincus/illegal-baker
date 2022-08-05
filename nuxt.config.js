@@ -80,6 +80,7 @@ export default {
     bootstrapVueCSS: false
   },
   fontawesome: {
+    suffix: true,
     addCss: true,
     icons: {
       solid: ['faFloppyDisk', 'faPencil', 'faUpload', 
@@ -87,7 +88,8 @@ export default {
               'faSeedling', 'faCamera', 'faCircle', 
               'faBreadSlice', 'faSlash', "faCircleInfo", 
               "faEye", "faEyeSlash", "faX", 
-              "faBagShopping", "faUpDown", "faCircleCheck"],
+              "faBagShopping", "faUpDown", "faCircleCheck", "faPhone", "faEnvelope"],
+      brands: ["faInstagram"]
     }
   },
   maps: {

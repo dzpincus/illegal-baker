@@ -5,6 +5,7 @@
         <transition name="fade">
             <Nuxt class="border-0 overflow-hidden" />
         </transition>
+        <Footer v-if="this.$nuxt.$route.name != 'index'"/>
     </div>
 </template>
 
