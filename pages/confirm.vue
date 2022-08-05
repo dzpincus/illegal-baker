@@ -31,6 +31,7 @@
             <div class="d-flex justify-content-between">
                 <span>Payment</span>
                 <span v-if="orderData.orderData && orderData.orderData.payment.type === 'cash'">Cash on order {{ orderData.orderData.delivery.type }}</span>
+                <span v-else>Paid in full</span>
             </div>
             <hr class="my-3"/>
             <div class="d-flex justify-content-between">
@@ -94,14 +95,6 @@ export default {
         }
     },
     methods: {
-        async getPaymentIntent() {
-            let stripe = await loadStripe(process.env.stripeKey);
-            let clientSecret = this.orderData.orderData.payment.clientSecret;
-            const paymentIntent = await stripe.retrievePaymentIntent(
-                clientSecret
-            );
-            this.success = paymentIntent.paymentIntent.status === "succeeded";
-        },
         isArray(option) {
             return option instanceof Array
         },
