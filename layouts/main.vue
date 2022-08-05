@@ -43,8 +43,8 @@ export default {
         promises.push(this.$store.dispatch("homepage/get"));
         promises.push(this.$store.dispatch("menu-section/get"));
         promises.push(this.$store.dispatch("menu-item/get"));
+        promises.push(this.$store.dispatch("order-settings/get"));
         if (this.$store.state.auth.loggedIn && this.$nuxt.$route.name != "confirm") {
-            promises.push(this.$store.dispatch("order-settings/get"));
             promises.push(this.$store.dispatch("order/get"));
         }
         Promise.allSettled(promises).then((results) => {
