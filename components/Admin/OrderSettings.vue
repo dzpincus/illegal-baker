@@ -236,6 +236,9 @@ export default {
                     message: e,
                     blockClass: 'flashClass bg-success',
                 })
+            }).finally(() => {
+                document.body.style.cursor = "default";
+
             });
         },
     },
