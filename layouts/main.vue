@@ -38,14 +38,19 @@ export default {
         },
     },
     async fetch() {
-        await this.$store.dispatch("image/get");
-        await this.$store.dispatch("homepage/get");
-        await this.$store.dispatch("menu-section/get");
-        await this.$store.dispatch("menu-item/get");
+        let promises = []
+        promises.push(this.$store.dispatch("image/get"));
+        promises.push(this.$store.dispatch("homepage/get"));
+        promises.push(this.$store.dispatch("menu-section/get"));
+        promises.push(this.$store.dispatch("menu-item/get"));
         if (this.$store.state.auth.loggedIn && this.$nuxt.$route.name != "confirm") {
-            await this.$store.dispatch("order-settings/get");
-            await this.$store.dispatch("order/get");
+            promises.push(this.$store.dispatch("order-settings/get"));
+            promises.push(this.$store.dispatch("order/get"));
         }
+        Promise.allSettled(promises).then((results) => {
+            results.forEach((result) => console.log(result.status))
+        });
+
     },
 };
 </script>
