@@ -150,6 +150,7 @@ export default {
             window.addEventListener("resize", this.resizeHandler);
             this.resizeHandler();
         }
+        console.log()
         this.setImages();
     },
     destroyed() {
@@ -252,6 +253,12 @@ export default {
             },
             immediate: true,
         },
+        images: {
+            immediate: true,
+            handler(value) {
+                console.log(value)
+            }
+        }
     },
     computed: {
         ...mapGetters({ homepage: "homepage/data", images: "image/all" }),
