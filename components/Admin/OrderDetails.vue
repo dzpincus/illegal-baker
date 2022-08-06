@@ -33,13 +33,16 @@
         <span>Requested Delivery Date</span>
         <span>{{ deliveryDate }}</span>
       </div>
+      <hr class="my-3" />
       <div class="d-flex justify-content-between">
         <span>Delivery Location</span>
-        <span class="text-right w-50">{{ orderData.orderData.delivery.selectedPickupLocation }}</span>
-        <br>
-        <span v-if="orderData.orderData.delivery.deliveryInstructions" class="text-right w-50">
-            {{ orderData.orderData.delivery.deliveryInstructions }}
-        </span>
+        <div>
+          <span class="text-right">{{ order.order_data.delivery.deliveryAddress }}</span>
+          <br>
+          <span v-if="order.order_data.delivery.deliveryInstructions" class="text-right w-50">
+              {{ order.order_data.delivery.deliveryInstructions }}
+          </span>
+        </div>
       </div>
     </template>
     <hr class="my-3" />
@@ -129,7 +132,7 @@ export default {
       return new Date(this.order.order_data.delivery.pickupDate).toDateString()
     },
     deliveryDate() {
-      return new Date(this.orderData.orderData.delivery.deliveryDate).toDateString()
+      return new Date(this.order.order_data.delivery.deliveryDate).toDateString()
 
     },
     orderStatus: {

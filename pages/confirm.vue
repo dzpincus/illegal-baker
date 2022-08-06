@@ -23,13 +23,16 @@
             </template>
             <template v-else>
                 <div class="d-flex justify-content-between">
-                    <span>Requested Delivery Date</span>
-                    <small>We will be in contact with you shortly to confirm your delivery</small>
+                    <div>
+                        <span>Requested Delivery Date</span>
+                        <br>
+                    </div>
                     <span>{{ deliveryDate }}</span>
                 </div>
+                <hr class="my-3"/>
                 <div class="d-flex justify-content-between">
                     <span>Delivery Location</span>
-                    <span class="text-right w-50">{{ orderData.orderData.delivery.deliveryAddress }}</span>
+                    <span class="text-right float-right">{{ orderData.orderData.delivery.deliveryAddress }}</span>
                     <br>
                     <span v-if="orderData.orderData.delivery.deliveryInstructions" class="text-right w-50">
                         {{ orderData.orderData.delivery.deliveryInstructions }}
