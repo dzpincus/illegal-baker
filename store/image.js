@@ -31,12 +31,14 @@ export const actions = {
           try {
             let image = makeImage(element);
             data[image.id] = image
+            console.log(image)
           } catch (error) {
             console.log(error)
           }
           
         });
         commit("setAll", data);
+        console.log(this.all)
       });
   },
   async add({

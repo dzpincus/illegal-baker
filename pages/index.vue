@@ -193,9 +193,7 @@ export default {
         },
         setImages() {
             this.announcement = this.homepage?.announcement;
-            console.log(this.homepage?.mainImage)
             if (this.homepage?.mainImage) {
-                console.log(this.images)
                 this.mainImage = this.images[this.homepage.mainImage];
                 this.mainImageUrl =
                     this.mainImage?.medium ||
