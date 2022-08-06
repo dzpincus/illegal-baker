@@ -119,7 +119,7 @@
                         </b-form-checkbox>
 
                         <b-button
-                            @click="formData.options.push({})"
+                            @click="formData.options.push({optionType: 'one', priceModel: 'set'})"
                             variant="light"
                             class="mt-3"
                         >
