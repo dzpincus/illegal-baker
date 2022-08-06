@@ -158,7 +158,6 @@ export default {
         }
     },
     updated() {
-        this.$fetch();
         this.resizeHandler();
     },
     data: function () {

@@ -6,7 +6,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setAll: (state, images) => (state.all = images),
+  setAll: (state, images) => Vue.set(state, "all", images),
   set: (state, image) => Vue.set(state.all, image.id, image),
   updateData: (state, image) => Object.assign(state.all[image.id], image),
   remove: (state, imageId) => Vue.delete(state.all, imageId),
