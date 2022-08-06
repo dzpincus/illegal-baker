@@ -69,6 +69,7 @@ export default {
         let pages = [
             { title: "Home", path: "/" },
             { title: "About", path: "/about" },
+            { title: "Upcoming Events", path: "/events" },
             { title: "Order Online", path: "/order" },
         ];
         if (this.$store.state.auth.loggedIn) {
