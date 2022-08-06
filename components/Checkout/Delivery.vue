@@ -196,6 +196,7 @@ export default {
                         }
                     }
                     self.deliveryValid = valid;
+                    debugger;
                 }
             );
         },
