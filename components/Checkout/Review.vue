@@ -9,13 +9,18 @@
             <strong>Order Type: </strong>{{ value.delivery.type }}
         </h5>
         <template v-if="value.delivery.type == 'delivery'">
-            <h5>
+            <h5 class="text-capitalize">
                 <strong>Delivery Address: </strong
                 >{{ value.delivery.deliveryAddress }}
             </h5>
             <h5 v-if="value.delivery.deliveryInstructions">
                 <strong>Delivery Instructions: </strong
                 >{{ value.delivery.deliveryInstructions }}
+            </h5>
+            <h5>
+                <strong>Requested Delivery Date: </strong>{{ value.delivery.deliveryDate }}
+                <br>
+                <small>We will reach out to you shortly to confirm your delivery date and time</small>
             </h5>
         </template>
         <template v-else>
