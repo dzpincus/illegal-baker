@@ -23,8 +23,17 @@
             </template>
             <template v-else>
                 <div class="d-flex justify-content-between">
-                    <span>Delivery Date</span>
-                    <span>{{ pickupDate }}</span>
+                    <span>Requested Delivery Date</span>
+                    <small>We will be in contact with you shortly to confirm your delivery</small>
+                    <span>{{ deliveryDate }}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Delivery Location</span>
+                    <span class="text-right w-50">{{ orderData.orderData.delivery.deliveryAddress }}</span>
+                    <br>
+                    <span v-if="orderData.orderData.delivery.deliveryInstructions" class="text-right w-50">
+                        {{ orderData.orderData.delivery.deliveryInstructions }}
+                    </span>
                 </div>
             </template>
             <hr class="my-3"/>
@@ -92,6 +101,9 @@ export default {
         ...mapGetters({ orderData: "order/data" }),
         pickupDate() {
             return new Date(this.orderData.orderData.delivery.pickupDate).toDateString()
+        },
+        deliveryDate() {
+            return new Date(this.orderData.orderData.delivery.deliveryDate).toDateString()
         }
     },
     methods: {

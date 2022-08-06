@@ -36,6 +36,14 @@
                 rows="2"
                 max-rows="6"
             ></b-form-textarea>
+            <label class="pt-2" for="delivery-date-field">Requested Delivery Date</label>
+            <b-form-datepicker
+                dropup
+                id="delivery-date-field"
+                :min="minDate"
+                v-model="formData.deliveryDate"
+                class="mb-2"
+            ></b-form-datepicker>
             <div v-if="formData.deliveryAddress && !deliveryValid">
                 Your address is outside our delivery radius. If you would like
                 to arrange a special delivery, please contact us at
@@ -120,7 +128,8 @@ export default {
                     deliveryInstructions: this.formData.deliveryInstructions,
                     pickupDate: this.formData.pickupDate,
                     selectedPickupLocation:
-                        this.formData.selectedPickupLocation,
+                    this.formData.selectedPickupLocation,
+                    deliveryDate: this.formData.deliveryDate
                 };
                 this.$emit("input", data);
             },
@@ -141,6 +150,7 @@ export default {
                 deliveryInstructions: "",
                 pickupDate: null,
                 selectedPickupLocation: null,
+                deliveryDate: null
             },
             deliveryValid: false,
             minDate: minDate,
