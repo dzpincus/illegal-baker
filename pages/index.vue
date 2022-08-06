@@ -158,6 +158,7 @@ export default {
         }
     },
     updated() {
+        this.$fetch();
         this.resizeHandler();
     },
     data: function () {
@@ -191,8 +192,11 @@ export default {
                 this.windowHeight = window.innerHeight;
             }
         },
-        setImages() {
+        async setImages() {
             this.announcement = this.homepage?.announcement;
+            if (!this.images || this.images.length === 0) {
+                await this.$store.dispatch("image/get")
+            }
             if (this.homepage?.mainImage) {
                 this.mainImage = this.images[this.homepage.mainImage];
                 this.mainImageUrl =
