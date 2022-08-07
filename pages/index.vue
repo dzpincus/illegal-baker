@@ -1,32 +1,7 @@
 <template>
-    <div class="row h-100 no-gutters" ref="container">
-        <div class="d-md-none col-12 h-100">
-            <b-carousel
-                id="mobile"
-                :interval="6000"
-                img-width="100%"
-                img-height="100%"
-                @sliding-end="onSlideEnd"
-                :no-hover-pause="true"
-                class="m-0 w-100 h-100"
-            >
-                <b-carousel-slide
-                    class="h-100"
-                    v-for="image in allImages"
-                    :key="`homepage-mobile-${image.id}`"
-                >
-                    <template #img>
-                        <CloudinaryImage
-                            :image="image"
-                            class="h-100"
-                            style="position: relative"
-                        />
-                    </template>
-                </b-carousel-slide>
-            </b-carousel>
-        </div>
+    <div class="row h-100 no-gutters" ref="container" style="overflow-y: scroll !important">
         <div
-            class="col-12 col-md-6 flex-center p-md-3 p-0 h-100 d-md-block d-none"
+            class="col-12 col-md-6 flex-center p-md-3 p-0 h-100 d-md-block"
             :style="{ backgroundColor: '#ce997f' }"
         >
             <div
@@ -65,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 d-md-block d-none h-100">
+        <div class="col-12 col-md-6 h-100">
             <div class="d-flex flex-column w-100 h-100">
                 <div
                     class="flex-fill row no-gutters"
