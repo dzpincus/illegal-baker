@@ -15,7 +15,7 @@
                     v-for="image in allImages"
                     :key="`homepage-mobile-${image.id}`"
                 >
-                    <template v-if="image" #img>
+                    <template #img>
                         <CloudinaryImage
                             :image="image"
                             class="h-100"
@@ -229,14 +229,18 @@ export default {
                     this.mainImage?.medium ||
                     this.mainImage?.small ||
                     this.mainImage?.thumbnail;
-                this.allImages.push(this.mainImage)
+                if (this.mainImage && this.mainImage.id) {
+                    this.allImages.push(this.mainImage)
+                }
             }
             this.image = this.homepage?.image;
             if (this.homepage?.images) {
                 this.images1 = [];
                 this.images2 = [];
                 this.homepage.images.forEach((imageId, index) => {
-                    this.allImages.push(this.images[imageId]);
+                    if (this.images[imageId]) {
+                        this.allImages.push(this.images[imageId]);
+                    }
                     if (index % 2 == 0) {
                         this.images1.push(this.images[imageId]);
                     } else {
