@@ -25,6 +25,10 @@ export default {
       {
         name: 'format-detection',
         content: 'telephone=no'
+      },
+      {
+        name: 'author',
+        content: 'Dylan Pincus <dpincus95@gmail.com>'
       }
     ],
     link: [{
