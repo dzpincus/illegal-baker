@@ -27,7 +27,7 @@ export const getters = {
     // Add ordered elements to list
     for (const menuSection of Object.values(rootState['menu-section'].all)) {
       sections[menuSection.id] = []
-      menuSection.itemsOrder.forEach((orderId) => {
+      menuSection.order.forEach((orderId) => {
         if (orderId in state.all) {
           let menuItem = state.all[orderId];
           if (menuItem.menuSections && menuItem.menuSections.indexOf(menuSection.id) > -1) {

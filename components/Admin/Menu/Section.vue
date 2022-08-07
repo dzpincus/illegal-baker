@@ -212,7 +212,7 @@ export default {
             });
         },
         async setOrder(newOrder) {
-            let data = { itemsOrder: newOrder };
+            let data = { order: newOrder };
 
             await this.$store.dispatch("menu-section/update", {
                 id: this.menuSection.id,

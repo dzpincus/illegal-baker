@@ -79,7 +79,7 @@ export default {
                     let copy = Object.values(
                         JSON.parse(JSON.stringify(this.menuSections))
                     );
-                    copy.sort((a, b) => (a.order > b.order ? 1 : -1));
+                    copy.sort((a, b) => (a.selfOrder > b.selfOrder ? 1 : -1));
                     return copy;
                 }
                 return [];
@@ -90,7 +90,7 @@ export default {
                     promises.push(
                         this.$store.dispatch("menu-section/update", {
                             id: menuSection.id,
-                            data: {order: index},
+                            data: {selfOrder: index},
                         })
                     )
                 })

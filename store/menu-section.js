@@ -87,7 +87,7 @@ function makeMenuSection(data) {
     id: data.id,
     name: data.attributes.name,
     visible: data.attributes.visible,
-    itemsOrder: data.attributes.itemsOrder ?? [],
-    order: data.attributes.order
+    order: data.attributes.order ?? [],
+    selfOrder: data.attributes.selfOrder
   }
 }
