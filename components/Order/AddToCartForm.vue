@@ -104,7 +104,7 @@ export default {
             deep: true,
             handler: function () {
                 if (Object.values(this.selectedOptions).length > 0) {
-                    let basePrice = this.price;
+                    let basePrice = this.currentMenuItem?.price;
                     let adds = 0;
                     this.currentMenuItem.options.forEach((option) => {
                         let optionValue = this.selectedOptions[option.name];

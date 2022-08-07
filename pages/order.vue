@@ -68,6 +68,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import Vue from "vue"
 
 export default {
     layout: "main",
@@ -80,7 +81,9 @@ export default {
     methods: {
         addItem: function (menuItem) {
             this.menuItemToAdd = menuItem;
-            this.$bvModal.show("add-to-cart-form");
+            Vue.nextTick(() => {
+                this.$bvModal.show("add-to-cart-form");
+            })
         },
     },
     computed: {

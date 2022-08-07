@@ -27,7 +27,7 @@ export default {
     data: function () {
         let selectedStarterValue =
             this.option.optionType === "one"
-                ? this.option.priceModel === "set"
+                ? ["set", "add"].includes(this.option.priceModel)
                     ? this.choiceValue(this.option.choices[0]).value
                     : null
                 : [];
