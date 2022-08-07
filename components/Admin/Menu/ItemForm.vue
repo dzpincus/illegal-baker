@@ -66,6 +66,7 @@
                                 id="price-input"
                                 v-model="formData.price"
                                 type="number"
+                                step="0.01"
                                 required
                             ></b-form-input>
                         </b-form-group>
