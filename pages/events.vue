@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100 mg-100 pt-4 container px-5 bg-info shadow">
+  <div class="h-100 mg-100 pt-4 container px-0 px-md-5 bg-info shadow">
     <div class="overflow-auto h-100 w-100 d-flex flex-column align-items-center">
       <h1 class="pb-4">Come meet us at some local events near you!</h1>
       <div class="row w-75 border border-dark border-bottom-0 py-3">

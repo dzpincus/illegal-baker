@@ -1,7 +1,32 @@
 <template>
     <div class="row h-100 no-gutters" ref="container">
+        <div class="d-md-none col-12 h-100">
+            <b-carousel
+                id="mobile"
+                :interval="6000"
+                img-width="100%"
+                img-height="100%"
+                @sliding-end="onSlideEnd"
+                :no-hover-pause="true"
+                class="m-0 w-100 h-100"
+            >
+                <b-carousel-slide
+                    class="h-100"
+                    v-for="image in allImages"
+                    :key="`homepage-mobile-${image.id}`"
+                >
+                    <template #img>
+                        <CloudinaryImage
+                            :image="image"
+                            class="h-100"
+                            style="position: relative"
+                        />
+                    </template>
+                </b-carousel-slide>
+            </b-carousel>
+        </div>
         <div
-            class="col-12 col-md-6 flex-center p-md-3 p-0 h-100"
+            class="col-12 col-md-6 flex-center p-md-3 p-0 h-100 d-md-block d-none"
             :style="{ backgroundColor: '#ce997f' }"
         >
             <div
@@ -145,6 +170,7 @@ import { mapGetters } from "vuex";
 export default {
     name: "IndexPage",
     layout: "main",
+    auth: 'guest',
     mounted() {
         if (process.browser) {
             window.addEventListener("resize", this.resizeHandler);
@@ -166,6 +192,7 @@ export default {
             mainImage: null,
             images1: [],
             images2: [],
+            allImages: [],
             windowHeight: 0,
             mainImageUrl: "",
             carousel2Interval: 0,
@@ -202,12 +229,14 @@ export default {
                     this.mainImage?.medium ||
                     this.mainImage?.small ||
                     this.mainImage?.thumbnail;
+                this.allImages.push(this.mainImage)
             }
             this.image = this.homepage?.image;
             if (this.homepage?.images) {
                 this.images1 = [];
                 this.images2 = [];
                 this.homepage.images.forEach((imageId, index) => {
+                    this.allImages.push(this.images[imageId]);
                     if (index % 2 == 0) {
                         this.images1.push(this.images[imageId]);
                     } else {

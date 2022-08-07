@@ -1,6 +1,6 @@
 <template>
-<div class="h-100 mg-100 pt-4 container px-5 bg-info shadow d-flex justify-content-around">
-  <div class="w-50">
+<div class="h-100 mg-100 pt-4 container px-5 bg-info shadow d-flex flex-column flex-md-row justify-content-md-around" style="overflow-y: scroll !important">
+  <div class="w-md-50 w-100">
     <h1>Baking From The Heart</h1>
     <div class="h4 pt-4 mr-5">
       <p>
