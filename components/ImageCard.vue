@@ -18,8 +18,11 @@
         <a v-b-tooltip.hover title="Edit" class="isClickable pr-2" @click="editing = true">
           <font-awesome-icon icon="pencil" />
         </a>
-        <a v-b-tooltip.hover title="Rotate" class="isClickable" @click="rotate">
+        <a v-b-tooltip.hover title="Rotate" class="isClickable pr-2" @click="rotate">
           <font-awesome-icon icon="arrow-rotate-right" />
+        </a>
+        <a v-b-tooltip.hover :title="image.gallery ? 'Hide from gallery' : 'Show in gallery'" class="isClickable" @click="toggleGallery">
+          <font-awesome-icon :icon="image.gallery ? 'eye' : 'eye-slash'" />
         </a>
       </div>
     </div>
@@ -71,6 +74,17 @@ export default {
         id: this.image.id,
         data: {
           rotate: (this.image.rotate + 90) % 360
+        }
+      }).finally(() => {
+        document.body.style.cursor = "default";
+      })
+    },
+    async toggleGallery() {
+      document.body.style.cursor = "wait";
+      await this.$store.dispatch("image/update", {
+        id: this.image.id,
+        data: {
+          gallery: !this.image.gallery
         }
       }).finally(() => {
         document.body.style.cursor = "default";

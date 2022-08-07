@@ -25,7 +25,7 @@
             :width="width || 200"
             :height="height || 200"
             :modifiers="{ rotate: image.rotate }"
-            :fit="!viewOnly ? 'contain' : 'outside'"
+            fit="outside"
         />
         <div v-else :class="[thumbnailOnly ? '' : 'd-md-none']" class="d-block">
             <font-awesome-layers

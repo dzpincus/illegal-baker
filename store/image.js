@@ -113,6 +113,7 @@ function makeImage(data) {
     }
   }
   image["rotate"] = data.attributes.rotate || 0;
+  image["gallery"] = Boolean(data.attributes.gallery);
   Object.assign(image, urls);
   return image;
 }

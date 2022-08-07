@@ -100,6 +100,14 @@ export default {
                     }
                 }
                 return images
+            } else if (this.viewOnly) {
+                let images = {}
+                for (const [key, value] of Object.entries(this.images)) {
+                    if (value.gallery) {
+                        images[key] = value;
+                    }
+                }
+                return images;
             }
             return this.images
         }
