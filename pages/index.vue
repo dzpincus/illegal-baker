@@ -15,7 +15,7 @@
                     v-for="image in allImages"
                     :key="`homepage-mobile-${image.id}`"
                 >
-                    <template #img>
+                    <template v-if="image" #img>
                         <CloudinaryImage
                             :image="image"
                             class="h-100"
