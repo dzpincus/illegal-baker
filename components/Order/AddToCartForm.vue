@@ -17,7 +17,7 @@
                 >
                     <h3>{{ currentMenuItem.name }}</h3>
                     <h4>${{ price }}</h4>
-                    <p>{{ currentMenuItem.description }}</p>
+                    <pre class="h5" style="white-space: pre-wrap; word-wrap: break-word; font-family: 'Brygada+1918'">{{ currentMenuItem.description }}</pre>
 
                     <b-form-group label="Quantity" label-for="quantity">
                         <b-input
