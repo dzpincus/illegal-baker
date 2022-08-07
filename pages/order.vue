@@ -30,7 +30,7 @@
                 class="p-0"
                 v-for="(menuSection, index) in displayMenuSections"
                 :key="'menuSection-' + menuSection.id"
-                title-link-class="text-dark px-5"
+                title-link-class="text-dark px-5 h-100 flex-center"
                 :title="menuSection.name"
                 :active="Boolean(index === 0)"
             >
