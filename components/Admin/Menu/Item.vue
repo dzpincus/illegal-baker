@@ -1,5 +1,5 @@
 <template>
-    <b-card v-if="menuItem && menuItem.image" class="col-12 col-md-auto h-100 p-0 mr-3" body-class="p-0">
+    <b-card v-if="menuItem" class="col-12 col-md-auto h-100 p-0 mr-3" body-class="p-0">
         <div>
             <CloudinaryImage
                 class="text-center"
