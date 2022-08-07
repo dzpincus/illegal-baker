@@ -98,12 +98,13 @@ export default {
 
         },
         displayMenuSections() {
-            return Object.values(this.menuSections).filter(
+            let sections = Object.values(this.menuSections).filter(
                 (section) => {
                     let x = this.menuItemsBySection;
                     return section.visible && this.menuItemsBySection[section.id].length > 0
                 }
             );
+            return sections.sort((a, b) => (a.order > b.order ? 1 : -1));
         },
     },
 };

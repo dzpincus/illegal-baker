@@ -36,13 +36,15 @@
         </b-modal>
 
         <div class="accordion pt-3" role="tablist">
-            <AdminMenuSection
-                v-for="menuSection in sortedMenuSections"
-                :menu-section="menuSection"
-                :key="menuSection.id"
-                :menu-items="menuItemsBySection[menuSection.id]"
-                @moveItem="moveItem"
-            />
+            <v-draggable class="column" v-model="sortedMenuSections">
+                <AdminMenuSection
+                    v-for="menuSection in sortedMenuSections"
+                    :menu-section="menuSection"
+                    :key="menuSection.id"
+                    :menu-items="menuItemsBySection[menuSection.id]"
+                    @moveItem="moveItem"
+                />
+            </v-draggable>
         </div>
     </div>
 </template>
@@ -71,15 +73,31 @@ export default {
             menuItemsBySection: "menu-item/bySection",
             menuSections: "menu-section/all",
         }),
-        sortedMenuSections: function () {
-            if (this.menuSections) {
-                let copy = Object.values(
-                    JSON.parse(JSON.stringify(this.menuSections))
-                );
-                copy.sort((a, b) => (a.name > b.name ? 1 : -1));
-                return copy;
+        sortedMenuSections: {
+            get() {
+                if (this.menuSections) {
+                    let copy = Object.values(
+                        JSON.parse(JSON.stringify(this.menuSections))
+                    );
+                    copy.sort((a, b) => (a.order > b.order ? 1 : -1));
+                    return copy;
+                }
+                return [];
+            },
+            set(newOrderObjects) {
+                let promises = []
+                newOrderObjects.forEach((menuSection, index) => {
+                    promises.push(
+                        this.$store.dispatch("menu-section/update", {
+                            id: menuSection.id,
+                            data: {order: index},
+                        })
+                    )
+                })
+                Promise.allSettled(promises)
+
+                
             }
-            return [];
         },
     },
 };

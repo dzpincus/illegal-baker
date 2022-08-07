@@ -27,7 +27,7 @@ export const getters = {
     // Add ordered elements to list
     for (const menuSection of Object.values(rootState['menu-section'].all)) {
       sections[menuSection.id] = []
-      menuSection.order.forEach((orderId) => {
+      menuSection.itemsOrder.forEach((orderId) => {
         if (orderId in state.all) {
           let menuItem = state.all[orderId];
           if (menuItem.menuSections && menuItem.menuSections.indexOf(menuSection.id) > -1) {
@@ -115,13 +115,13 @@ function makeMenuItem(data) {
   let menuItem = {
     id: data.id
   }
-  let attributes = ["name", "description", "price", "vegan", "vegetarian", "glutenFree", "visible", "options", "order"];
+  let attributes = ["name", "description", "price", "vegan", "vegetarian", "glutenFree", "visible", "options", "itemsOrder"];
   attributes.forEach((attribute) => {
     menuItem[attribute] = data.attributes[attribute] || null;
   });
 
-  if (!menuItem["order"]) {
-    menuItem["order"] = Number.MAX_SAFE_INTEGER;
+  if (!menuItem["itemsOrder"]) {
+    menuItem["itemsOrder"] = Number.MAX_SAFE_INTEGER;
   }
 
   let image = data.attributes["image"]
