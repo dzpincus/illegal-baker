@@ -171,10 +171,9 @@ $directions: ('bottom', 'top', 'left', 'right');
   border-left: none !important;
 }
 
-// .nav-tabs {
-//   .nav-link {
-//     @include hover-focus() {
-//       border-color: $primary
-//     }
-//   }
-// }
+.card-columns {
+  column-count: 1;
+  @include media-breakpoint-up(sm) {
+      column-count: 4;
+  }
+}

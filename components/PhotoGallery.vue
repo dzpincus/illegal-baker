@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <b-form @submit.prevent="submitFile" class="w-100 w-md-25 pt-md-0 pt-5">
+    <div class="h-100" style="overflow-y: scroll">
+        <b-form v-if="!viewOnly" @submit.prevent="submitFile" class="w-100 w-md-25 pt-md-0 pt-5">
             <b-form-file
                 class="mb-3"
                 accept=".jpg, .png, .jpeg"
@@ -35,7 +35,7 @@
                 </div>
             </b-form-group>
         </b-form>
-        <b-form-input v-model="searchText" class="w-25" placeholder="Search"></b-form-input>
+        <b-form-input v-if="!viewOnly" v-model="searchText" class="w-25" placeholder="Search"></b-form-input>
         <div class="d-flex flex-column align-items-center">
             <b-pagination
                 v-if="totalCount > pageSize"
@@ -47,6 +47,7 @@
             </b-pagination>
             <b-card-group columns>
                 <ImageCard
+                    :view-only="viewOnly"
                     @clicked="selectImage(image)"
                     :key="image.id"
                     v-for="image in Object.values(shownImages)"
@@ -71,7 +72,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-    props: ["selecting", "value"],
+    props: ["selecting", "value", "viewOnly"],
     data: function () {
         return {
             fileForm: {
