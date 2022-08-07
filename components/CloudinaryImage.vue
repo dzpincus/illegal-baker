@@ -6,6 +6,8 @@
             :src="image.medium || image.small || image.thumbnail"
             class="img-fluid h-100 d-none d-md-block"
             :width="width || 450"
+            :modifiers="{ rotate: image.rotate }"
+
         />
         <div
             v-else-if="!thumbnailOnly"
@@ -22,6 +24,7 @@
             class="img-fluid h-100 d-block"
             :width="width || 200"
             :height="height || 200"
+            :modifiers="{ rotate: image.rotate }"
             fit="outside"
         />
         <div v-else :class="[thumbnailOnly ? '' : 'd-md-none']" class="d-block">

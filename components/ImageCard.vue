@@ -28,10 +28,18 @@
                     <a
                         v-b-tooltip.hover
                         title="Edit"
-                        class="isClickable"
+                        class="isClickable pr-2"
                         @click="editing = true"
                     >
                         <font-awesome-icon icon="pencil" />
+                    </a>
+                    <a
+                        v-b-tooltip.hover
+                        title="Rotate"
+                        class="isClickable"
+                        @click="rotate"
+                    >
+                        <font-awesome-icon icon="arrow-rotate-right" />
                     </a>
                 </div>
             </div>
@@ -74,6 +82,15 @@ export default {
             } else {
                 this.editing = false;
             }
+        },
+        async rotate() {
+                document.body.style.cursor = "wait";
+            await this.$store.dispatch("image/update", {
+                id: this.image.id,
+                data: { rotate: (this.image.rotate + 90) % 360}
+            }).finally(() => {
+                document.body.style.cursor = "default";
+            })
         },
         async deleteImage() {
             if (confirm("Are you sure you want to delete this image?")) {

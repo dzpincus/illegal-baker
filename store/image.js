@@ -112,6 +112,7 @@ function makeImage(data) {
       }
     }
   }
+  image["rotate"] = data.attributes.rotate || 0;
   Object.assign(image, urls);
   return image;
 }

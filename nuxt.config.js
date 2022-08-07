@@ -88,7 +88,7 @@ export default {
               'faSeedling', 'faCamera', 'faCircle', 
               'faBreadSlice', 'faSlash', "faCircleInfo", 
               "faEye", "faEyeSlash", "faX", 
-              "faBagShopping", "faUpDown", "faCircleCheck", "faPhone", "faEnvelope"],
+              "faBagShopping", "faUpDown", "faCircleCheck", "faPhone", "faEnvelope", "faArrowRotateRight"],
       brands: ["faInstagram"]
     }
   },
