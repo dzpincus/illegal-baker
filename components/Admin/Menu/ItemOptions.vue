@@ -86,6 +86,7 @@
                         v-model="choice.price"
                         placeholder="Choice Price"
                         type="number"
+                        step="0.01"
                         required
                     ></b-form-input>
                     <a
