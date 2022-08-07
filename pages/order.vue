@@ -104,7 +104,7 @@ export default {
                     return section.visible && this.menuItemsBySection[section.id].length > 0
                 }
             );
-            return sections.sort((a, b) => (a.order > b.order ? 1 : -1));
+            return sections.sort((a, b) => (a.selfOrder > b.selfOrder ? 1 : -1));
         },
     },
 };
