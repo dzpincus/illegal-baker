@@ -12,7 +12,6 @@
         "
     >
         <CloudinaryImage
-            class="itemImage"
             :image="image"
             :thumbnail-only="true"
         ></CloudinaryImage>
