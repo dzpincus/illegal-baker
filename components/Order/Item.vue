@@ -37,9 +37,6 @@
 </template>
 
 <style scoped>
-.hovered > .itemImage {
-    opacity: 50%;
-}
 .hovered .itemDescription {
     text-decoration: underline;
 }
