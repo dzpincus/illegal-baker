@@ -35,7 +35,11 @@
                 </div>
             </b-form-group>
         </b-form>
-        <b-form-input v-if="!viewOnly" v-model="searchText" class="w-25" placeholder="Search"></b-form-input>
+        <div v-if="!viewOnly" class="flex-center w-50">
+            <b-form-input v-model="searchText" class="w-50" placeholder="Search"></b-form-input>
+            <b-form-checkbox v-model="galleryOnly" class="w-50 ml-2">Show only public gallery photos</b-form-checkbox>
+        </div>
+
         <div class="d-flex flex-column align-items-center">
             <b-pagination
                 v-if="totalCount > pageSize"
@@ -85,31 +89,36 @@ export default {
             currentPage: 1,
             selected: this.value,
             searchText: '',
+            galleryOnly: false
         };
     },
     computed: {
         ...mapGetters({ images: "image/all" }),
         shownImages() {
+            let images = JSON.parse(JSON.stringify(this.images));
+            console.log(Object.keys(images).length)
             if (this.searchText) {
-                let images = {}
                 var regex = new RegExp(this.searchText, 'i')
-                for (const [key, value] of Object.entries(this.images)) {
+                for (const [key, value] of Object.entries(images)) {
                     let match = value.name.match(regex)
                     if (match && match.length) {
                         images[key] = value;
+                    } else {
+                        delete images[key]
                     }
                 }
                 return images
-            } else if (this.viewOnly) {
-                let images = {}
-                for (const [key, value] of Object.entries(this.images)) {
+            } else if (this.viewOnly || this.galleryOnly) {
+                for (const [key, value] of Object.entries(images)) {
                     if (value.gallery) {
                         images[key] = value;
+                    } else {
+                        delete images[key]
                     }
                 }
                 return images;
             }
-            return this.images
+            return images
         }
     },
     methods: {
