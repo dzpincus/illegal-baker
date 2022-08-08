@@ -65,18 +65,20 @@ export default {
         let height = this.$refs.navbar.$el.clientHeight;
         this.$emit("height", height);
     },
-    data: function () {
-        let pages = [
-            { title: "Home", path: "/" },
-            { title: "About", path: "/about" },
-            { title: "Gallery", path: "/gallery" },
-            { title: "Upcoming Events", path: "/events" },
-            { title: "Order Online", path: "/order" },
-        ];
-        if (this.$store.state.auth.loggedIn) {
-            pages.push({ title: "Admin", path: "/admin" });
+    computed: {
+        pages() {
+            let pages = [
+                { title: "Home", path: "/" },
+                { title: "About", path: "/about" },
+                { title: "Gallery", path: "/gallery" },
+                { title: "Upcoming Events", path: "/events" },
+                { title: "Order Online", path: "/order" },
+            ];
+            if (this.$store.state.auth.loggedIn) {
+                pages.push({ title: "Admin", path: "/admin" });
+            }
+            return pages
         }
-        return { pages: pages };
-    },
+    }
 };
 </script>
