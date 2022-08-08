@@ -263,7 +263,6 @@ export default {
         images: {
             immediate: true,
             handler(value) {
-                console.log(value)
                 this.setImages();
             }
         }

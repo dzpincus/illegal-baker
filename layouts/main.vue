@@ -11,6 +11,7 @@
 
 <script>
 import Cookies from 'js-cookie'
+import { mapGetters } from "vuex";
 export default {
     head() {
         let routeName = "";
@@ -30,28 +31,42 @@ export default {
             this.$store.dispatch('order/setAll', JSON.parse(order))
         }
     },
+    async updated() {
+        if (!this.$store.state.auth.loggedIn && (localStorage.getItem('auth._token.local') !== 'false')) {
+            localStorage.clear()
+            await this.$auth.logout()
+            Cookies.remove('auth._token.local')
+        }
+        if (!this.images || Object.keys(this.images).length === 0) {
+            this.fetchAll();
+        }
+    },
     data: function () {
         return { height: null };
+    },
+    computed: {
+        ...mapGetters({ images: "image/all" }),
     },
     methods: {
         setHeight(h) {
             this.height = h;
         },
+        async fetchAll() {
+            let promises = []   
+            promises.push(this.$store.dispatch("image/get"));
+            promises.push(this.$store.dispatch("homepage/get"));
+            promises.push(this.$store.dispatch("menu-section/get"));
+            promises.push(this.$store.dispatch("menu-item/get"));
+            promises.push(this.$store.dispatch("order-settings/get"));
+            if (this.$store.state.auth.loggedIn && this.$nuxt.$route.name != "confirm") {
+                promises.push(this.$store.dispatch("order/get"));
+            }
+            let self = this;
+            await Promise.allSettled(promises)
+        }
     },
     async fetch() {
-        let promises = []
-        promises.push(this.$store.dispatch("image/get"));
-        promises.push(this.$store.dispatch("homepage/get"));
-        promises.push(this.$store.dispatch("menu-section/get"));
-        promises.push(this.$store.dispatch("menu-item/get"));
-        promises.push(this.$store.dispatch("order-settings/get"));
-        if (this.$store.state.auth.loggedIn && this.$nuxt.$route.name != "confirm") {
-            promises.push(this.$store.dispatch("order/get"));
-        }
-        Promise.allSettled(promises).then((results) => {
-            results.forEach((result) => console.log(result.status))
-        });
-
+        this.fetchAll()
     },
 };
 </script>
