@@ -1,38 +1,10 @@
 <template>
   <div class="h-100 mg-100 pt-4 container px-0 px-md-5 bg-info shadow">
     <div class="overflow-auto h-100 w-100 d-flex flex-column align-items-center">
-      <h1 class="pb-4">Come meet us at some local events near you!</h1>
-      <div class="row w-75 border border-dark border-bottom-0 py-3">
-        <h2 class="col-6">August 27th, 12pm-5pm</h2>
-        <h2 class="col-6 text-right">Jamesport Brewery</h2>
-      </div>
-      <div class="row w-75 border border-dark border-bottom-0 py-3">
-          <h2 class="col-6">September 17th</h2>
-          <h2 class="col-6 text-right">Riverhead Cider House</h2>
-      </div>
-      <div class="row w-75 border border-dark border-bottom-0 py-3">
-          <h2 class="col-6">September 24th</h2>
-          <h2 class="col-6 text-right">Riverhead Cider House</h2>
-      </div>
-      <div class="row w-75 border border-dark border-bottom-0 py-3">
-          <h2 class="col-6">September 24th</h2>
-          <h2 class="col-6 text-right">Jamesport Brewery</h2>
-      </div>
-      <div class="row w-75 border border-dark border-bottom-0 py-3">
-          <h2 class="col-6">October 1st</h2>
-          <h2 class="col-6 text-right">Riverhead Cider House</h2>
-      </div>
-      <div class="row w-75 border border-dark border-bottom-0 py-3">
-          <h2 class="col-6">October 7th-9th</h2>
-          <h2 class="col-6 text-right">Huntington Fall Festival in Heckscher Park</h2>
-      </div>
-      <div class="row w-75 border border-dark border-bottom-0 py-3">
-          <h2 class="col-6">October 15th</h2>
-          <h2 class="col-6 text-right">Riverhead Cider House</h2>
-      </div>
-      <div class="row w-75 border border-dark py-3">
-          <h2 class="col-6">November 5th</h2>
-          <h2 class="col-6 text-right">Riverhead Cider House</h2>
+      <h1 class="pb-4 text-center">Come meet us at some local events near you!</h1>
+      <div v-for="(event, index) in events" :key="`event-${index}`" class="row w-75 border border-dark border-bottom-0 py-3 text-center text-md-left">
+        <h2 class="col-12 col-md-6 font-weight-bold">{{ event.date }}</h2>
+        <h2 class="col-12 col-md-6 text-md-right">{{ event.location }}</h2>
       </div>
     </div>
   </div>
@@ -44,6 +16,40 @@ export default({
 
     name: "EventsPage",
     layout: "main",
+    data() {
+      return {
+          'events': [
+            {
+              date: 'September 17th',
+              location: 'Riverhead Cider House'
+            },
+            {
+              date: 'September 24th',
+              location: 'Riverhead Cider House'
+            },
+            {
+              date: 'September 24th',
+              location: 'Jamesport Brewery'
+            },
+            {
+              date: 'October 1st',
+              location: 'Riverhead Cider House'
+            },
+            {
+              date: 'October 7th-9th',
+              location: 'Huntington Fall Festival in Heckscher Park'
+            },
+            {
+              date: 'October 15th',
+              location: 'Riverhead Cider House'
+            },
+            {
+              date: 'November 5th',
+              location: 'Riverhead Cider House'
+            },
+          ]
+      }
+    }
 })
 
 </script>
