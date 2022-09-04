@@ -44,6 +44,10 @@ export default({
               location: 'Riverhead Cider House'
             },
             {
+              date: 'October 16th',
+              location: 'Taste of Huntington at Appliance World'
+            },
+            {
               date: 'November 5th',
               location: 'Riverhead Cider House'
             },
