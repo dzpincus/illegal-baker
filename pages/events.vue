@@ -44,7 +44,7 @@ export default({
               location: 'Riverhead Cider House'
             },
             {
-              date: 'October 16th',
+              date: 'October 26th',
               location: 'Taste of Huntington at Appliance World'
             },
             {
