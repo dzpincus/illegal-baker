@@ -56,7 +56,7 @@ export default {
       let data = JSON.parse(JSON.stringify(this.menuItem));
       data.menuSections = this.updatedSections
       document.body.style.cursor = "wait";
-      
+      console.log(data)
       await this.$store.dispatch("menu-item/update", {
         id: this.menuItem.id,
         data: data,

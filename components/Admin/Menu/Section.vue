@@ -103,7 +103,7 @@
                         @delete="deleteAdminMenuItem(menuItem)"
                         v-for="menuItem in sortedAdminMenuItems"
                         class="mt-3 mt-md-0"
-                        :key="menuItem.id"
+                        :key="`${menuSection.id}-${menuItem.id}`"
                         :menu-item="menuItem"
                         :tags="tags"
                     />

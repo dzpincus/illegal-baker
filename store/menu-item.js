@@ -23,26 +23,38 @@ export const getters = {
   all: (state) => state.all,
   bySection: (state, _, rootState) => {
     let sections = {};
-    let allIdsFound = new Set();
     // Add ordered elements to list
-    for (const menuSection of Object.values(rootState['menu-section'].all)) {
-      sections[menuSection.id] = []
+    for (const menuSection of Object.values(rootState["menu-section"].all)) {
+      let allIdsFound = new Set();
+      sections[menuSection.id] = [];
+
       menuSection.order.forEach((orderId) => {
         if (orderId in state.all) {
           let menuItem = state.all[orderId];
-          if (menuItem.menuSections && menuItem.menuSections.indexOf(menuSection.id) > -1) {
+          if (
+            menuItem.menuSections &&
+            menuItem.menuSections.indexOf(menuSection.id) > -1
+          ) {
             sections[menuSection.id].push(state.all[orderId]);
             allIdsFound.add(orderId);
           }
         }
-      })
-    }
-    // Add any unordered (newly added) elements to end of list
-    for (const menuItem of Object.values(state.all)) {
-      if (menuItem && menuItem.menuSections && !allIdsFound.has(menuItem.id)) {
-        for (var i = 0; i < menuItem.menuSections.length; i++) {
-          let menuItemSectionId = menuItem.menuSections[i];
-          sections[menuItemSectionId].push(menuItem);
+      });
+      // Add any unordered (newly added) elements to end of list
+      for (const menuItem of Object.values(state.all)) {
+        if (menuItem && menuItem.menuSections) {
+          for (var i = 0; i < menuItem.menuSections.length; i++) {
+            if (menuItem.id == 28) {
+              debugger;
+            }
+            let menuItemSectionId = menuItem.menuSections[i];
+            if (!sections[menuItemSectionId]) {
+              sections[menuItemSectionId] = [];
+            } else if (!sections[menuItemSectionId].find((x) => x.id === menuItem.id)) {
+              sections[menuItemSectionId].push(menuItem);
+              allIdsFound.add(menuItem.id);
+            }
+          }
         }
       }
     }
