@@ -2,21 +2,21 @@
     <b-card class="h-100 mh-100 container px-0 bg-info shadow" no-body>
         <b-tabs
             class="w-100 h-100"
-            nav-class="d-none d-md-flex"
-            nav-wrapper-class="text-dark h4 pt-0 px-0 d-none d-md-block"
+            nav-class="d-none d-sm-flex"
+            nav-wrapper-class="text-dark h6 pt-0 px-0 d-none d-sm-block"
             content-class="pt-0 h-100 pb-5"
             active-nav-item-class="bg-info active-border"
             card
-            justified
+            vertical
             v-model="tabIndex"
         >
-            <div v-if="Object.keys(displayMenuSections).length > 0" class="d-md-none d-flex justify-content-center">
+            <div v-if="Object.keys(displayMenuSections).length > 0" class="d-sm-none d-flex justify-content-center">
                 <b-dropdown
                     v-if="displayMenuSections[tabIndex]"
                     right
                     :text="displayMenuSections[tabIndex].name"
                     variant="dark"
-                    class="d-md-none align-middle mt-2"
+                    class="d-sm-none align-middle mt-2"
                 >
                     <b-dropdown-item
                         v-for="(menuSection, index) in displayMenuSections"
@@ -30,7 +30,7 @@
                 class="p-0"
                 v-for="(menuSection, index) in displayMenuSections"
                 :key="'menuSection-' + menuSection.id"
-                title-link-class="text-dark px-5 h-100 flex-center"
+                title-link-class="text-dark h-100 flex-center"
                 :title="menuSection.name"
                 :active="Boolean(index === 0)"
             >
@@ -40,14 +40,14 @@
                         row
                         no-gutters
                         px-2
-                        justify-content-md-start justify-content-center
+                        justify-content-sm-start justify-content-center
                     "
                 >
                     <OrderItem
                         @addItem="addItem(menuItem)"
                         v-for="menuItem in visibleMenuItemsBySection[menuSection.id]"
                         :key="menuItem.id"
-                        class="col-md-3 col-12 mt-4 pr-2 pl-md-5"
+                        class="col-sm-3 col-12 mt-4 pr-2 pl-sm-5"
                         :menu-item="menuItem"
                     >
                     </OrderItem>

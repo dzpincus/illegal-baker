@@ -26,7 +26,7 @@
                 itemDescription
             "
         >
-            <span>{{ menuItem.name }}</span>
+            <span class="text-center">{{ menuItem.name }}</span>
             <small>
                 <template v-if="hasPriceOption">from</template>
                 ${{ menuItem.price }}
