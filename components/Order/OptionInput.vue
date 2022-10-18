@@ -2,7 +2,7 @@
     <div>
         <b-form-group :label="option.name" v-slot="{ ariaDescribedby }">
             <b-form-select
-                class="w-50"
+                class=""
                 v-if="option.optionType == 'one'"
                 :required="option.priceModel == 'set'"
                 v-model="selected"

@@ -237,9 +237,9 @@ export default {
                     choices.forEach((choice) => {
                         if (
                             choice.price &&
-                            (!minPrice || choice.price < minPrice)
+                            (!minPrice || +choice.price < minPrice)
                         ) {
-                            minPrice = choice.price;
+                            minPrice = +choice.price;
                         }
                     });
                 }

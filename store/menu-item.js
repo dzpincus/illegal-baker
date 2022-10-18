@@ -44,9 +44,6 @@ export const getters = {
       for (const menuItem of Object.values(state.all)) {
         if (menuItem && menuItem.menuSections) {
           for (var i = 0; i < menuItem.menuSections.length; i++) {
-            if (menuItem.id == 28) {
-              debugger;
-            }
             let menuItemSectionId = menuItem.menuSections[i];
             if (!sections[menuItemSectionId]) {
               sections[menuItemSectionId] = [];
