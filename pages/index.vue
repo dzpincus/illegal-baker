@@ -50,7 +50,7 @@
                         class="col-6 flex-center"
                         :style="{
                             height: halfHeight,
-                            backgroundImage: gradient('9b6850'),
+                            backgroundImage: gradient('9c6313'),
                         }"
                     >
                         <img
@@ -121,7 +121,7 @@
                         :style="{
                             height: halfHeight,
                             backgroundImage: gradient(
-                                '#583a2e'
+                                '9c6313'
                             ),
                         }"
                     >
@@ -197,31 +197,35 @@ export default {
             this.announcement = this.homepage?.announcement;
             if (!this.images || this.images.length === 0) {
                 await this.$store.dispatch("image/get")
-            }
-            if (this.homepage?.mainImage) {
-                this.mainImage = this.images[this.homepage.mainImage];
-                this.mainImageUrl =
-                    this.mainImage?.medium ||
-                    this.mainImage?.small ||
-                    this.mainImage?.thumbnail;
-                if (this.mainImage && this.mainImage.id) {
-                    this.allImages.push(this.mainImage)
+            } else if (this.images) {
+                if (this.homepage?.mainImage) {
+                    this.mainImage = this.images[this.homepage.mainImage];
+                    this.mainImageUrl =
+                        this.mainImage?.medium ||
+                        this.mainImage?.small ||
+                        this.mainImage?.thumbnail;
+                    if (this.mainImage && this.mainImage.id) {
+                        this.allImages.push(this.mainImage)
+                    }
                 }
-            }
-            this.image = this.homepage?.image;
-            if (this.homepage?.images) {
-                this.images1 = [];
-                this.images2 = [];
-                this.homepage.images.forEach((imageId, index) => {
-                    if (this.images[imageId]) {
-                        this.allImages.push(this.images[imageId]);
-                    }
-                    if (index % 2 == 0) {
-                        this.images1.push(this.images[imageId]);
-                    } else {
-                        this.images2.push(this.images[imageId]);
-                    }
-                });
+                this.image = this.homepage?.image;
+                if (this.homepage?.images) {
+                    this.images1 = [];
+                    this.images2 = [];
+                    this.homepage.images.forEach((imageId, index) => {
+                        if (this.images[imageId]) {
+                            this.allImages.push(this.images[imageId]);
+                        }
+                        const currentImage = this.images[imageId]
+                        if (currentImage) {
+                            if (index % 2 == 0) {
+                                this.images1.push(currentImage);
+                            } else {
+                                this.images2.push(currentImage);
+                            }
+                        }
+                    });
+                }
             }
         },
         colorLuminance(hex, lum) {
