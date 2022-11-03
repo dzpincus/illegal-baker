@@ -50,7 +50,7 @@
                         class="col-6 flex-center"
                         :style="{
                             height: halfHeight,
-                            backgroundImage: gradient('9c6313'),
+                            backgroundImage: gradient(subColor),
                         }"
                     >
                         <img
@@ -121,11 +121,11 @@
                         :style="{
                             height: halfHeight,
                             backgroundImage: gradient(
-                                '9c6313'
+                                subColor
                             ),
                         }"
                     >
-                        <h2>Order Today!</h2>
+                        <h2 class="text-dark">Order Today!</h2>
                     </div>
                 </div>
             </div>
@@ -173,6 +173,7 @@ export default {
             carousel2Interval: 0,
             hideAnnouncement: false,
             showDismiss: false,
+            subColor: "#F66A11"
         };
     },
     methods: {
