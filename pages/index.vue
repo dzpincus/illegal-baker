@@ -36,10 +36,6 @@
                         }"
                     >
                         {{ announcement }}
-                        {{ announcement }}
-                        {{ announcement }}
-                        {{ announcement }}
-                        {{ announcement }}
                     </p>
                 </div>
             </div>
