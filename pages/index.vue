@@ -26,8 +26,8 @@
                         ),
                     }"
                 >
-                    <div
-                        class="text-center px-3"
+                    <p
+                        class="text-center px-3 py-2 mh-100 overflow-auto"
                         v-resize-text="{
                             ratio: 1.3,
                             minFontSize: '30px',
@@ -36,7 +36,11 @@
                         }"
                     >
                         {{ announcement }}
-                    </div>
+                        {{ announcement }}
+                        {{ announcement }}
+                        {{ announcement }}
+                        {{ announcement }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -50,7 +54,7 @@
                         class="col-6 flex-center"
                         :style="{
                             height: halfHeight,
-                            backgroundImage: gradient(subColor),
+                            backgroundImage: subColor,
                         }"
                     >
                         <img
@@ -120,9 +124,7 @@
                         class="col-6 text-light flex-center"
                         :style="{
                             height: halfHeight,
-                            backgroundImage: gradient(
-                                subColor
-                            ),
+                            backgroundImage: subColor,
                         }"
                     >
                         <h2 class="text-dark">Order Today!</h2>
@@ -173,7 +175,7 @@ export default {
             carousel2Interval: 0,
             hideAnnouncement: false,
             showDismiss: false,
-            subColor: "#F66A11"
+            subColor: "linear-gradient(141deg, rgba(241,255,98,0.5970763305322129) 0%, rgba(254,238,0,1) 35%, rgba(255,154,0,1) 100%)"
         };
     },
     methods: {
@@ -255,6 +257,7 @@ export default {
         gradient: function (color) {
             let firstGradient = this.colorLuminance(color, 0.8);
             let secondGradient = this.colorLuminance(color, -0.5);
+            
             return `linear-gradient(145deg, ${firstGradient}, ${secondGradient})`;
         },
     },
