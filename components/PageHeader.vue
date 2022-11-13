@@ -34,7 +34,7 @@
                     :active="$nuxt.$route.path === 'cart'"
                 >
                     <font-awesome-layers full-width class="fa-2x">
-                        <font-awesome-icon icon="bag-shopping" />
+                        <font-awesome-icon icon="cart-shopping" />
                         <font-awesome-layers-text
                             class="text-light"
                             transform="down-3 shrink-8"

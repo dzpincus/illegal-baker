@@ -15,7 +15,7 @@
             <div class="py-4 d-flex align-items-center text-light">
                 <font-awesome-icon
                     size="1x"
-                    icon="shopping-bag"
+                    icon="cart-shopping"
                 ></font-awesome-icon>
                 <h2 class="m-0 pl-2">Cart</h2>
             </div>
