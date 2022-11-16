@@ -27,7 +27,7 @@
                     }"
                 >
                     <p
-                        class="text-center px-3 py-2 mh-100 overflow-auto"
+                        class="text-center px-3 py-2 mt-3 mt-md-0 mh-100 overflow-auto"
                         v-resize-text="{
                             ratio: 1.3,
                             minFontSize: '30px',
@@ -51,6 +51,7 @@
                         :style="{
                             height: halfHeight,
                             backgroundImage: subColor,
+                            opacity: .85
                         }"
                     >
                         <img
@@ -121,6 +122,7 @@
                         :style="{
                             height: halfHeight,
                             backgroundImage: subColor,
+                            opacity: .85
                         }"
                     >
                         <h2 class="text-dark">Order Today!</h2>
