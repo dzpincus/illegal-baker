@@ -32,9 +32,11 @@
                 <strong>Pickup Date: </strong>{{ value.delivery.pickupDate }}
             </h5>
         </template>
-        <b-button @click.prevent="submit" class="mt-4" variant="primary" block
+        <b-button :key="buttonKey" @click.prevent.once="submit" class="mt-4" variant="primary" block
             >Submit Order</b-button
         >
+        <h6 class="w-100 text-center text-danger pt-3" v-if="error">Sorry, there was an error submitting your order. Please try again</h6>
+
     </div>
 </template>
 
@@ -43,6 +45,12 @@ import { mapGetters } from "vuex";
 import { loadStripe } from "@stripe/stripe-js";
 export default {
     props: ["value", "active"],
+    data() {
+        return {
+            buttonKey: 0,
+            error: false
+        }
+    },
     computed: {
         ...mapGetters({ total: "cart/total", cartItems: "cart/items" }),
         ccFee() {
@@ -57,6 +65,7 @@ export default {
     },
     methods: {
         async submit() {
+            this.error = false
             document.body.style.cursor = "wait";
             let data = {orderData: this.value, orderItems: Object.values(this.cartItems), total: this.feeTotal};
             await this.$store
@@ -71,7 +80,11 @@ export default {
                         }, 1000)
                     }
                 }
-                );
+                ).catch((error) => {
+                    document.body.style.cursor = "default";
+                    this.buttonKey += 1
+                    this.error = true
+                });
         },
     },
 };

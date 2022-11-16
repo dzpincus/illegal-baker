@@ -122,7 +122,14 @@ export default {
             cache: false,
         },
         menuItem() {
-            return this.menuItems[this.item.menuItem];
+            if (Object.keys(this.menuItems).length) {
+                const menuItem = this.menuItems[this.item.menuItem];
+                if (menuItem) {
+                    return menuItem
+                } else {
+                    this.$store.dispatch("cart/remove", this.item.id);
+                }
+            }
         },
         image() {
             if (this.menuItem) {

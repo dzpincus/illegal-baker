@@ -1,32 +1,35 @@
-import Vue from 'vue'
-import Cookies from 'js-cookie'
+import Vue from "vue";
+import Cookies from "js-cookie";
 
 export const state = () => ({
-  items: {}
-})
+  items: {},
+});
 
 export const mutations = {
   setAll: (state, items) => {
-    state.items = items || {};
+    Vue.set(state, "items", items || {})
+    // state.items = items || {};
   },
   set: (state, item) => {
-    Vue.set(state.items, item.id, item)
+    Vue.set(state.items, item.id, item);
     Cookies.set("cart", JSON.stringify(state.items));
   },
 
   updateData: (state, payload) => {
     for (const [key, value] of Object.entries(payload.data)) {
-      Vue.set(state.items[payload.id], key, value)
+      Vue.set(state.items[payload.id], key, value);
     }
     Cookies.set("cart", JSON.stringify(state.items));
-
   },
-  remove: (state, itemId) => Vue.delete(state.items, itemId),
+  remove: (state, itemId) => {
+    Vue.delete(state.items, itemId);
+    Cookies.set("cart", JSON.stringify(state.items));
+  },
   clear: (state) => {
-    Cookies.remove("cart")
-    state.items = {}
-  }
-}
+    Cookies.remove("cart");
+    state.items = {};
+  },
+};
 
 export const getters = {
   items: (state) => state.items,
@@ -38,37 +41,26 @@ export const getters = {
   },
   total: (state) => {
     let total = Object.values(state.items).reduce((acc, item) => {
-      return acc + (item.quantity * item.price);
+      return acc + item.quantity * item.price;
     }, 0);
-    return total
-  }
-}
+    return total;
+  },
+};
 
 export const actions = {
-  setAll({
-    commit
-  }, items) {
+  setAll({ commit }, items) {
     commit("setAll", items);
   },
-  add({
-    commit
-  }, item) {
+  add({ commit }, item) {
     commit("set", item);
   },
-  update({
-    commit
-  }, payload) {
+  update({ commit }, payload) {
     commit("updateData", payload);
   },
-  remove({
-    commit
-  }, itemId) {
+  remove({ commit }, itemId) {
     commit("remove", itemId);
   },
-  clear({
-    commit
-  }) {
+  clear({ commit }) {
     commit("clear");
-  }
-
-}
+  },
+};

@@ -24,11 +24,13 @@ export default {
     mounted() {
         let cart = Cookies.get('cart')
         let order = Cookies.get('order')
-        if (cart) {
-            this.$store.dispatch('cart/setAll', JSON.parse(cart))
+        cart = cart ? JSON.parse(cart) : null
+        order = order ? JSON.parse(order) : null
+        if (cart && Object.keys(cart).length) {
+            this.$store.dispatch('cart/setAll', cart)
         }
         if (order) {
-            this.$store.dispatch('order/setAll', JSON.parse(order))
+            this.$store.dispatch('order/setAll', order)
         }
     },
     async updated() {

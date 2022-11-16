@@ -49,7 +49,7 @@
             <div class="d-flex justify-content-between">
                 <div class="mr-5">Order Details:</div>
                 <div class="d-flex flex-column pb-4 text-right">
-                    <div v-for="item in orderData.orderItems" class="d-flex flex-column">
+                    <div v-for="(item, index) in orderData.orderItems" :key={index} class="d-flex flex-column">
                         <div>{{ item.name }} <span>x {{ item.quantity }}</span></div>
                         <div v-if="item.specialRequests" class="small">
                             <span class="italic">SPECIAL REQUEST: </span>{{ item.specialRequests }}

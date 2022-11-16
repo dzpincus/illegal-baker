@@ -37,7 +37,7 @@
                         <font-awesome-icon icon="cart-shopping" />
                         <font-awesome-layers-text
                             class="text-light"
-                            transform="down-3 shrink-8"
+                            transform="up-3 right-2 shrink-8"
                             :value="cartSize"
                         />
                     </font-awesome-layers>
@@ -58,20 +58,18 @@ import { mapGetters } from "vuex";
 
 export default {
     name: "pageHeader",
-    computed: {
-        ...mapGetters({ cartSize: "cart/size" }),
-    },
     mounted() {
         let height = this.$refs.navbar.$el.clientHeight;
         this.$emit("height", height);
     },
     computed: {
+        ...mapGetters({ cartSize: "cart/size", items: "cart/items" }),
         pages() {
             let pages = [
                 { title: "Home", path: "/" },
                 { title: "About", path: "/about" },
                 { title: "Gallery", path: "/gallery" },
-                { title: "Upcoming Events", path: "/events" },
+                // { title: "Upcoming Events", path: "/events" },
                 { title: "Order Online", path: "/order" },
             ];
             if (this.$store.state.auth.loggedIn) {
@@ -79,6 +77,6 @@ export default {
             }
             return pages
         }
-    }
+    },
 };
 </script>
