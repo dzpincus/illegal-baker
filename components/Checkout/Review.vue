@@ -81,6 +81,8 @@ export default {
                     }
                 }
                 ).catch((error) => {
+                    this.$bugsnag.notify(error)
+
                     document.body.style.cursor = "default";
                     this.buttonKey += 1
                     this.error = true
