@@ -64,6 +64,7 @@ export default {
                         password: this.password,
                     },
                 });
+                await this.$store.dispatch("order/get")
                 this.$router.push("/admin");
             } catch (e) {
                 this.error = "Error loggin in";
