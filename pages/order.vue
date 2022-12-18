@@ -1,6 +1,7 @@
 <template>
     <b-card class="h-100 mh-100 container px-0 bg-info shadow" no-body>
         <b-tabs
+            v-if="orderSettings.orderingEnabled"
             class="w-100 h-100"
             nav-class="d-none d-sm-flex"
             nav-wrapper-class="text-dark h6 pt-0 px-0 d-none d-sm-block"
@@ -54,6 +55,9 @@
                 </div>
             </b-tab>
         </b-tabs>
+        <h2 class="text-center pt-5" v-else>
+            {{ orderSettings.disabledOrderingMessage }}
+        </h2>
         <OrderAddToCartForm id="add-to-cart-form" :menu-item="menuItemToAdd" />
     </b-card>
 </template>
@@ -91,6 +95,7 @@ export default {
             menuItems: "menu-item/all",
             menuItemsBySection: "menu-item/bySection",
             menuSections: "menu-section/all",
+            orderSettings: "order-settings/data"
         }),
         visibleMenuItemsBySection() {
             let visible = {}

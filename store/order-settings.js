@@ -22,6 +22,8 @@ export const actions = {
       commit("set", {
         deliveryLocations: attributes.delivery_locations || [],
         pickupLocations: attributes.pickup_locations || [],
+        orderingEnabled: attributes.ordering_enabled,
+        disabledOrderingMessage: attributes.disabled_ordering_message
       })
     })
   },

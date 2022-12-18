@@ -1,0 +1,9 @@
+{
+  "include": [
+    "./components/**/*",
+    "./layouts/**/*",
+    "./pages/**/*",
+    "./store/**/*",
+    "./utils/**/*",
+  ]
+}

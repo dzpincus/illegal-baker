@@ -3,73 +3,90 @@
         <client-only>
             <FlashMessage position="right bottom"></FlashMessage>
         </client-only>
-        <b-form-group
-            label="Addresses to deliver from (used to validate delivery orders)"
-            class="pt-2"
-        >
-            <b-button @click="addPickupLocation()" variant="dark"
-                >Add Pickup Location</b-button
+        <toggle-button 
+            v-model="enabled" 
+            :width="130"
+            :font-size="12"
+            :labels="{checked: 'Orders Enabled', unchecked: 'Orders Disabled'}" 
+            color="#280004"/>
+        <template v-if="enabled">
+            <b-form-group
+                label="Addresses to deliver from (used to validate delivery orders)"
+                class="pt-2"
             >
-            <div
-                class="pt-3 d-flex justify-content-start"
-                v-for="location in pickupLocations"
-                :key="`pickup-${location.id}`"
-                v-b-hover="hoverHandler"
-            >
-                <b-form-group label="Pickup address">
-                    <b-input
-                        required
-                        v-b-tooltip.hover
-                        :title="location.address"
-                        placeholder="Enter an address"
-                        :ref="`pickup-${location.id}`"
-                        v-model="location.address"
-                    />
-                </b-form-group>
-                <div v-if="isHovered" class="align-self-center pt-3 ml-3">
-                    <font-awesome-icon
-                        icon="trash"
-                        class="pr-2 isClickable"
-                        @click="removePickupLocation(location.id)"
-                    />
+                <b-button @click="addPickupLocation()" variant="dark"
+                    >Add Pickup Location</b-button
+                >
+                <div
+                    class="pt-3 d-flex justify-content-start"
+                    v-for="location in pickupLocations"
+                    :key="`pickup-${location.id}`"
+                    v-b-hover="hoverHandler"
+                >
+                    <b-form-group label="Pickup address">
+                        <b-input
+                            required
+                            v-b-tooltip.hover
+                            :title="location.address"
+                            placeholder="Enter an address"
+                            :ref="`pickup-${location.id}`"
+                            v-model="location.address"
+                        />
+                    </b-form-group>
+                    <div v-if="isHovered" class="align-self-center pt-3 ml-3">
+                        <font-awesome-icon
+                            icon="trash"
+                            class="pr-2 isClickable"
+                            @click="removePickupLocation(location.id)"
+                        />
+                    </div>
                 </div>
-            </div>
-        </b-form-group>
-        <b-form-group
-            label="Addresses to deliver from (used to validate delivery orders)"
-            class="pt-2"
-        >
-            <b-button @click="addDeliveryLocation()" variant="dark"
-                >Add Delivery Location</b-button
+            </b-form-group>
+            <b-form-group
+                label="Addresses to deliver from (used to validate delivery orders)"
+                class="pt-2"
             >
-            <div
-                class="pt-3 d-flex justify-content-start"
-                v-for="location in deliveryLocations"
-                :key="`delivery-${location.id}`"
-                v-b-hover="hoverHandler"
-            >
-                <b-form-group label="Delivery starting point">
-                    <b-input
-                        required
-                        v-b-tooltip.hover
-                        :title="location.address"
-                        placeholder="Enter an address"
-                        :ref="`delivery-${location.id}`"
-                        v-model="location.address"
-                    />
-                </b-form-group>
-                <b-form-group label="Mile radius to deliver to" class="ml-3">
-                    <b-input required type="number" v-model="location.radius" />
-                </b-form-group>
-                <div v-if="isHovered" class="align-self-center pt-3 ml-3">
-                    <font-awesome-icon
-                        icon="trash"
-                        class="pr-2 isClickable"
-                        @click="removeDeliveryLocation(location.id)"
-                    />
+                <b-button @click="addDeliveryLocation()" variant="dark"
+                    >Add Delivery Location</b-button
+                >
+                <div
+                    class="pt-3 d-flex justify-content-start"
+                    v-for="location in deliveryLocations"
+                    :key="`delivery-${location.id}`"
+                    v-b-hover="hoverHandler"
+                >
+                    <b-form-group label="Delivery starting point">
+                        <b-input
+                            required
+                            v-b-tooltip.hover
+                            :title="location.address"
+                            placeholder="Enter an address"
+                            :ref="`delivery-${location.id}`"
+                            v-model="location.address"
+                        />
+                    </b-form-group>
+                    <b-form-group label="Mile radius to deliver to" class="ml-3">
+                        <b-input required type="number" v-model="location.radius" />
+                    </b-form-group>
+                    <div v-if="isHovered" class="align-self-center pt-3 ml-3">
+                        <font-awesome-icon
+                            icon="trash"
+                            class="pr-2 isClickable"
+                            @click="removeDeliveryLocation(location.id)"
+                        />
+                    </div>
                 </div>
-            </div>
-        </b-form-group>
+            </b-form-group>
+        </template>
+        <template v-else>
+            <b-form-group label="Order Page Message">
+                <b-input
+                    required
+                    placeholder="Enter a message to show while ordering is disabled"
+                    v-model="disabledMessage"
+                />
+            </b-form-group>
+        </template>
         <b-button variant="primary" type="submit">Save</b-button>
     </b-form>
 </template>
@@ -101,6 +118,8 @@ export default {
                             this.addPickupLocation(pickupLocation);
                         }
                     );
+                    this.enabled = this.orderSettings.orderingEnabled
+                    this.disabledMessage = this.orderSettings.disabledOrderingMessage
                 }
             },
         },
@@ -111,6 +130,8 @@ export default {
             addressAutocomplete: null,
             deliveryLocations: [],
             pickupLocations: [],
+            enabled: true,
+            disabledMessage: ""
         };
     },
     methods: {
@@ -223,6 +244,8 @@ export default {
                         radius: location.radius,
                     };
                 }),
+                orderingEnabled: this.enabled,
+                disabledOrderingMessage: this.disabledMessage
             };
             this.$store.dispatch("order-settings/set", data).then(() => {
                 this.flashMessage.show({

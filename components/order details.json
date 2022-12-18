@@ -1,0 +1,63 @@
+[
+  {
+    "id": "eaa9a1a4-4a5b-4bc4-aabc-74f8175836da",
+    "name": "Cocktail Rugulah (Savory)",
+    "price": 36,
+    "options": {
+      "Savory Flavors": [
+        {
+          "name": "Caramalized Onion & Cheese",
+          "price": "12"
+        },
+        {
+          "name": "Prosciutto, Mozzarella & Basil",
+          "price": "12"
+        },
+        {
+          "name": "Fig, Pistachio & Goat Cheese",
+          "price": "12"
+        }
+      ]
+    },
+    "menuItem": 32,
+    "quantity": 1,
+    "specialRequests": "Please add a few pieces of cheddar jalapeno and cranberry chutney"
+  },
+  {
+    "id": "9db59374-37a8-42b6-a966-59c8725b6b32",
+    "name": "Carrot Cake",
+    "price": 30,
+    "options": {
+      "Carrot Cake": [
+        {
+          "name": "8\" Round",
+          "price": "30"
+        }
+      ]
+    },
+    "menuItem": 35,
+    "quantity": 1,
+    "specialRequests": ""
+  }
+]
+
+
+{
+  "payment": {
+    "type": "stripe",
+    "clientSecret": "pi_3M4aHeCvo3RoxuBe1RCOduez_secret_14QYWX3KEwb9sBmJsSiqzWssA"
+  },
+  "delivery": {
+    "type": "pickup",
+    "pickupDate": "2022-11-23",
+    "deliveryDate": null,
+    "deliveryAddress": "",
+    "deliveryInstructions": "",
+    "selectedPickupLocation": "41 Highland Court, Huntington, NY 11743"
+  },
+  "contactInfo": {
+    "name": "Marie Vassallo",
+    "email": "amy@illegalbaker.com",
+    "phone": "5162726903"
+  }
+}

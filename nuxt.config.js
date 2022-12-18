@@ -52,6 +52,7 @@ export default {
     { src: "~/plugins/vue-resize-text.js", mode: "client" },
     { src: "~/plugins/vue-flash-message", mode: "client" },
     "~/plugins/bugsnag.js",
+    "~/plugins/vue-toggle-component.js",
   ],
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -144,6 +145,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend(config, ctx) {
+      config.devtool = 'source-map'
       config.node = {
         fs: "empty",
         child_process: "empty",
