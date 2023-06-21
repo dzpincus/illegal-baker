@@ -20,14 +20,19 @@
 
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="ml-auto">
-                <b-nav-item
-                    v-for="page in pages"
+                <template v-for="page in pages">
+                    <b-nav-item
+                    v-if="!page.external"
                     :key="page.path"
                     :active="$nuxt.$route.path === page.path"
                     class="ml-3"
                     :to="page.path"
                     ><h3>{{ page.title }}</h3>
-                </b-nav-item>
+                    </b-nav-item>
+                    <b-nav-item :key="page.path" :href="page.path" v-else class="ml-3">
+                        <h3>{{ page.title }}</h3>
+                    </b-nav-item>
+                </template>
                 <b-nav-item
                     class="ml-3"
                     v-b-toggle.sidebar-cart
@@ -69,7 +74,7 @@ export default {
                 { title: "Home", path: "/" },
                 { title: "About", path: "/about" },
                 { title: "Gallery", path: "/gallery" },
-                // { title: "Upcoming Events", path: "/events" },
+                {title: "Wholesale", path: "https://www.faire.com/user/sign-up?fdb=theillegalbakerllc", external: true},
                 { title: "Order Online", path: "/order" },
             ];
             if (this.$store.state.auth.loggedIn) {
