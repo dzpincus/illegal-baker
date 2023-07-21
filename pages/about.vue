@@ -8,7 +8,7 @@
       </p>
       <br>
       <p>
-      For years I was a praciting attorney, but, it is the art of bread and pastry that feed my soul.
+      For years I was a practicing attorney, but, it is the art of bread and pastry that feed my soul.
       </p>
       <p>Homemade baked goods, fresh baked breads, cookie assortments and more.</p>
     </div>
