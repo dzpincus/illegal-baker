@@ -45,10 +45,13 @@
                             max-rows="6"
                         ></b-form-textarea>
                     </b-form-group>
-                    <b-button variant="primary" type="submit">
+                    <b-button variant="primary" type="submit" v-if="orderSettings.orderingEnabled">
                         <span v-if="editItem">Update</span>
                         <span v-else>Add to cart</span>
                     </b-button>
+                    <div v-else>
+                        <h2 class="text-center pt-5">{{ orderSettings.disabledOrderingMessage }}</h2>
+                    </div>
                 </b-form>
             </div>
         </div>
@@ -126,7 +129,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters({ images: "image/all", menuItems: "menu-item/all" }),
+        ...mapGetters({ images: "image/all", menuItems: "menu-item/all", orderSettings: "order-settings/data" }),
         image: function () {
             return this.images[this.currentMenuItem.image];
         },

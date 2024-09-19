@@ -36,6 +36,7 @@
                 <b-nav-item
                     class="ml-3"
                     v-b-toggle.sidebar-cart
+                    v-if="orderSettings.orderingEnabled"
                     :active="$nuxt.$route.path === 'cart'"
                 >
                     <font-awesome-layers full-width class="fa-2x">
@@ -68,14 +69,14 @@ export default {
         this.$emit("height", height);
     },
     computed: {
-        ...mapGetters({ cartSize: "cart/size", items: "cart/items" }),
+        ...mapGetters({ cartSize: "cart/size", items: "cart/items", orderSettings: "order-settings/data" }),
         pages() {
             let pages = [
                 { title: "Home", path: "/" },
                 { title: "About", path: "/about" },
                 { title: "Gallery", path: "/gallery" },
                 {title: "Wholesale", path: "https://www.faire.com/user/sign-up?fdb=theillegalbakerllc", external: true},
-                { title: "Order Online", path: "/order" },
+                { title: "Menu", path: "/order" },
             ];
             if (this.$store.state.auth.loggedIn) {
                 pages.push({ title: "Admin", path: "/admin" });

@@ -1,7 +1,7 @@
 <template>
     <b-card class="h-100 mh-100 container px-0 bg-info shadow" no-body>
         <b-tabs
-            v-if="orderSettings.orderingEnabled"
+            v-if="true"
             class="w-100 h-100"
             nav-class="d-none d-sm-flex"
             nav-wrapper-class="text-dark h6 pt-0 px-0 d-none d-sm-block"

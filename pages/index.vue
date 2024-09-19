@@ -184,9 +184,11 @@ export default {
             if (this.images2.length > 1 && this.carousel2Interval == 0) {
                 this.carousel2Interval = 6000;
                 var self = this;
-                setTimeout(function () {
-                    self.$refs.carousel2.next();
-                }, 3000);
+                if (self.$refs.carousel2) {
+                    setTimeout(function () {
+                        self.$refs.carousel2.next();
+                    }, 3000);
+                }
             }
         },
         resizeHandler() {
